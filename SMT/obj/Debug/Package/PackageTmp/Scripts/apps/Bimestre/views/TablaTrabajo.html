@@ -1,0 +1,39 @@
+﻿<table data-tabla="trabajo" class="table table-fixed table-bordered table-hover table-striped text-center icono-vino" >
+    <thead>
+        <tr>
+            <th rowspan="2"><div class="w100">Trabajo</div></th>
+            <th rowspan="2"><div class="w100">Actividad</div></th>
+            <th rowspan="2"><div class="w150">Fecha</div></th>
+            {numerosHeaders}
+            <th rowspan="2"><div class="w100">Total</div></th>
+            <th rowspan="2"><div class="w100">Promedio</div></th>
+            <th rowspan="2"><div class="w200">Observaciones</div></th>
+        </tr>
+        <tr>
+            {nombresHeaders}
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr class="loading">
+            <td colspan="100" class="text-center">
+                <h3><span class="fa fa-spin fa-refresh"></span></h3>
+            </td>
+        </tr>        
+        <tr>
+            <th rowspan="3" colspan="2"><div style="width:217px">Entregados</div></th>
+            <th><div class="w150">No Entregados</div></th>
+            {rowInacisistencia}
+        </tr>
+        <tr>
+            <th><div class="w150">Entregados</div></th>
+            {rowAsistencia}
+        </tr>
+        <tr>
+            <th><div class="w150">&frac12</div></th>
+            {rowMedio}
+        </tr>
+    </tfoot>
+</table>

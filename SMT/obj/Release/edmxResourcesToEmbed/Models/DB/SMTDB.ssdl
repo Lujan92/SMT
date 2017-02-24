@@ -1,0 +1,1050 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SMTDevModel.Store" Provider="Npgsql" ProviderManifestToken="9.4.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Alumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+    </Key>
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="ApellidoMaterno" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Curp" Type="varchar" MaxLength="8000" />
+    <Property Name="Estado" Type="int4" Nullable="false" />
+    <Property Name="EsUSAER" Type="bool" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="NombreCompleto" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioBimestre1" Type="float8" />
+    <Property Name="PromedioBimestre2" Type="float8" />
+    <Property Name="PromedioBimestre3" Type="float8" />
+    <Property Name="PromedioBimestre4" Type="float8" />
+    <Property Name="PromedioBimestre5" Type="float8" />
+    <Property Name="PromedioTotal" Type="float8" />
+    <Property Name="ColorPromedio" Type="varchar" MaxLength="8000" />
+    <Property Name="Grupo" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AlumnoDesempenio">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDUsuario" />
+      <PropertyRef Name="Bimestre" />
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDUsuario" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Bimestre" Type="int8" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" Nullable="false" />
+    <Property Name="PromedioAsistencia" Type="float8" />
+    <Property Name="ColorAsistencia" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioTrabajo" Type="float8" />
+    <Property Name="ColorTrabajo" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioPortafolio" Type="float8" />
+    <Property Name="ColorPortafolio" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioExamen" Type="float8" />
+    <Property Name="ColorExamen" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioDiagnostico" Type="float8" />
+    <Property Name="ColorDiagnostico" Type="varchar" MaxLength="8000" />
+    <Property Name="PromedioPortafolioEsquemaMapa" Type="float8" />
+    <Property Name="PromedioPortafolioExposicion" Type="float8" />
+    <Property Name="PromedioPortafolioGuiaObservacion" Type="float8" />
+    <Property Name="PromedioPortafolioListaCotejo" Type="float8" />
+    <Property Name="PromedioPortafolioLineaTiempo" Type="float8" />
+    <Property Name="PromedioPortafolioMapaAprendisaje" Type="float8" />
+    <Property Name="PromedioPortafolioPortafolio" Type="float8" />
+    <Property Name="PromedioPortafolioProducciones" Type="float8" />
+    <Property Name="PromedioPortafolioProyecto" Type="float8" />
+    <Property Name="PromedioPortafolioRegistroAnecdotico" Type="float8" />
+    <Property Name="PromedioPortafolioRevisionCuadernos" Type="float8" />
+    <Property Name="PromedioPortafolioRubrica" Type="float8" />
+    <Property Name="PromedioExamenParcial" Type="float8" />
+    <Property Name="PromedioExamenBimestral" Type="float8" />
+    <Property Name="PromedioExamenRecuperacion" Type="float8" />
+    <Property Name="PromedioExamenDiagnostico" Type="float8" />
+    <Property Name="TotalAsistencias" Type="int4" />
+    <Property Name="TotalFaltas" Type="int4" />
+    <Property Name="TotalTrabajosCumplidos" Type="float8" />
+    <Property Name="TotalTrabajosNoCumplidos" Type="float8" />
+    <Property Name="PromedioHabilidadAutoevaluacion" Type="float8" />
+    <Property Name="PromedioHabilidadCoevaluacion" Type="float8" />
+    <Property Name="TotalTrabajosMedios" Type="int4" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AlumnoSesion">
+    <Key>
+      <PropertyRef Name="IDSesion" />
+      <PropertyRef Name="IDAlumno" />
+    </Key>
+    <Property Name="IDSesion" Type="uuid" Nullable="false" />
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
+    <Property Name="Estado" Type="int4" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bimestres">
+    <Key>
+      <PropertyRef Name="IDBimestre" />
+    </Key>
+    <Property Name="IDBimestre" Type="uuid" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" />
+    <Property Name="Bimestre" Type="int4" />
+  </EntityType>
+  <EntityType Name="Credencial">
+    <Key>
+      <PropertyRef Name="IDCredencial" />
+    </Key>
+    <Property Name="IDCredencial" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="FechaCreacion" Type="timestamp" Nullable="false" />
+    <Property Name="FechaVigencia" Type="timestamp" Nullable="false" />
+    <Property Name="IDUsuarioBeneficiario" Type="varchar" MaxLength="8000" />
+    <Property Name="IDUsuarioPaga" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Activo" Type="bool" Nullable="false" />
+    <Property Name="EsPrincipal" Type="bool" Nullable="false" />
+    <Property Name="Tipo" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaPagada" Type="timestamp" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCiclo">
+    <Key>
+      <PropertyRef Name="IDDiagnosticoCiclo" />
+    </Key>
+    <Property Name="IDDiagnosticoCiclo" Type="uuid" Nullable="false" />
+    <Property Name="IDBimestre" Type="uuid" Nullable="false" />
+    <Property Name="FechaRegistro" Type="timestamp" Nullable="false" />
+    <Property Name="FechaEntrega" Type="timestamp" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCicloAlumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDTema" Type="uuid" Nullable="false" />
+    <Property Name="Calificacion" Type="float8" />
+    <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCicloTema">
+    <Key>
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDTema" Type="uuid" Nullable="false" />
+    <Property Name="IDDiagnosticoCiclo" Type="uuid" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Reactivos" Type="int4" Nullable="false" />
+    <Property Name="Respuesta" Type="varchar" MaxLength="8000" />
+    <Property Name="TipoTema" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Archivo" Type="varchar" MaxLength="8000" />
+    <Property Name="Pregunta" Type="varchar" MaxLength="8000" />
+    <Property Name="Respuesta1" Type="varchar" MaxLength="8000" />
+    <Property Name="Respuesta2" Type="varchar" MaxLength="8000" />
+    <Property Name="Instrucciones" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiagnosticoPsicologico">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" Nullable="false" />
+    <Property Name="Edad" Type="int4" />
+    <Property Name="Sexo" Type="varchar" MaxLength="8000" />
+    <Property Name="Regular" Type="varchar" MaxLength="8000" />
+    <Property Name="NEE" Type="varchar" MaxLength="8000" />
+    <Property Name="Talentos" Type="varchar" MaxLength="8000" />
+    <Property Name="SituacionRiesgo" Type="varchar" MaxLength="8000" />
+    <Property Name="Necesidades" Type="varchar" MaxLength="8000" />
+    <Property Name="Linguistica" Type="varchar" MaxLength="8000" />
+    <Property Name="LogicoMatematica" Type="varchar" MaxLength="8000" />
+    <Property Name="VisualEspacial" Type="varchar" MaxLength="8000" />
+    <Property Name="KinestesicaCorporal" Type="varchar" MaxLength="8000" />
+    <Property Name="Musical" Type="varchar" MaxLength="8000" />
+    <Property Name="Intrapersonal" Type="varchar" MaxLength="8000" />
+    <Property Name="Interpersonal" Type="varchar" MaxLength="8000" />
+    <Property Name="MuestraIniciativa" Type="varchar" MaxLength="8000" />
+    <Property Name="RequiereApoyo" Type="varchar" MaxLength="8000" />
+    <Property Name="Motivado" Type="varchar" MaxLength="8000" />
+    <Property Name="Aburrimiento" Type="varchar" MaxLength="8000" />
+    <Property Name="Indiferencia" Type="varchar" MaxLength="8000" />
+    <Property Name="Temeroso" Type="varchar" MaxLength="8000" />
+    <Property Name="ConductaInadecuada" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="FamiliaCompleta" Type="varchar" MaxLength="8000" />
+    <Property Name="FamiliaMonoparental" Type="varchar" MaxLength="8000" />
+    <Property Name="ViveOtros" Type="varchar" MaxLength="8000" />
+    <Property Name="Hermanos" Type="int4" />
+    <Property Name="LugarFamilia" Type="varchar" MaxLength="8000" />
+    <Property Name="MuestraInteresHijo" Type="varchar" MaxLength="8000" />
+    <Property Name="ParticipaActividadesEscuela" Type="varchar" MaxLength="8000" />
+    <Property Name="ReconoceValia" Type="varchar" MaxLength="8000" />
+    <Property Name="ExpresaEmociones" Type="varchar" MaxLength="8000" />
+    <Property Name="RespetaAsiMismo" Type="varchar" MaxLength="8000" />
+    <Property Name="ResuelveConfilctos" Type="varchar" MaxLength="8000" />
+    <Property Name="RespetaReglas" Type="varchar" MaxLength="8000" />
+    <Property Name="CuentaConCasa" Type="varchar" MaxLength="8000" />
+    <Property Name="TieneComputadora" Type="varchar" MaxLength="8000" />
+    <Property Name="ComoSeTranslada" Type="varchar" MaxLength="8000" />
+    <Property Name="ServicioMedico" Type="varchar" MaxLength="8000" />
+    <Property Name="EscolaridadPadres" Type="varchar" MaxLength="8000" />
+    <Property Name="EtapaSesioromotora" Type="varchar" MaxLength="8000" />
+    <Property Name="EtapaPreconvencional" Type="varchar" MaxLength="8000" />
+    <Property Name="OperacionesContretas" Type="varchar" MaxLength="8000" />
+    <Property Name="OperacionesFormales" Type="varchar" MaxLength="8000" />
+    <Property Name="MoralidadPreconvencional" Type="varchar" MaxLength="8000" />
+    <Property Name="MoralidadConvencional" Type="varchar" MaxLength="8000" />
+    <Property Name="MoralidadPrincipiosAutonomos" Type="varchar" MaxLength="8000" />
+    <Property Name="ConfianzaDesconfianza" Type="varchar" MaxLength="8000" />
+    <Property Name="AutonomiaVerguenza" Type="varchar" MaxLength="8000" />
+    <Property Name="IniciativaCulpa" Type="varchar" MaxLength="8000" />
+    <Property Name="Laboriosidad" Type="varchar" MaxLength="8000" />
+    <Property Name="IdentidadConfusion" Type="varchar" MaxLength="8000" />
+    <Property Name="IntimidadAislamiento" Type="varchar" MaxLength="8000" />
+    <Property Name="Generabilidad" Type="varchar" MaxLength="8000" />
+    <Property Name="Integridad" Type="varchar" MaxLength="8000" />
+    <Property Name="EvaluacionBloque1" Type="varchar" MaxLength="8000" />
+    <Property Name="EvaluacionBloque2" Type="varchar" MaxLength="8000" />
+    <Property Name="EvaluacionBloque3" Type="varchar" MaxLength="8000" />
+    <Property Name="EvaluacionBloque4" Type="varchar" MaxLength="8000" />
+    <Property Name="EvaluacionBloque5" Type="varchar" MaxLength="8000" />
+    <Property Name="ProgramaBloque1" Type="varchar" MaxLength="8000" />
+    <Property Name="ProgramaBloque2" Type="varchar" MaxLength="8000" />
+    <Property Name="ProgramaBloque3" Type="varchar" MaxLength="8000" />
+    <Property Name="ProgramaBloque4" Type="varchar" MaxLength="8000" />
+    <Property Name="ProgramaBloque5" Type="varchar" MaxLength="8000" />
+    <Property Name="CTE10" Type="varchar" MaxLength="8000" />
+    <Property Name="CTE8" Type="varchar" MaxLength="8000" />
+    <Property Name="CTE5" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Entidad">
+    <Key>
+      <PropertyRef Name="Numero" />
+    </Key>
+    <Property Name="Numero" Type="int4" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Examen">
+    <Key>
+      <PropertyRef Name="IDExamen" />
+    </Key>
+    <Property Name="IDExamen" Type="uuid" Nullable="false" />
+    <Property Name="IDBimestre" Type="uuid" Nullable="false" />
+    <Property Name="FechaRegistro" Type="timestamp" Nullable="false" />
+    <Property Name="FechaEntrega" Type="timestamp" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Tipo" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamenAlumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDTema" Type="uuid" Nullable="false" />
+    <Property Name="Calificacion" Type="float8" />
+    <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamenTema">
+    <Key>
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDExamen" Type="uuid" Nullable="false" />
+    <Property Name="IDTema" Type="uuid" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Reactivos" Type="int4" Nullable="false" />
+    <Property Name="Respuesta" Type="varchar" MaxLength="8000" />
+    <Property Name="TipoTema" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Archivo" Type="varchar" MaxLength="8000" />
+    <Property Name="Pregunta" Type="varchar" MaxLength="8000" />
+    <Property Name="Respuesta1" Type="varchar" MaxLength="8000" />
+    <Property Name="Respuesta2" Type="varchar" MaxLength="8000" />
+    <Property Name="Instrucciones" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Grupos">
+    <Key>
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDGrupo" Type="uuid" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+    <Property Name="IDUsuario" Type="varchar" MaxLength="8000" />
+    <Property Name="Materia" Type="varchar" MaxLength="100" />
+    <Property Name="Grado" Type="varchar" MaxLength="50" />
+    <Property Name="Grupo" Type="varchar" MaxLength="50" />
+    <Property Name="Escuela" Type="varchar" MaxLength="150" />
+    <Property Name="RegistroFederalEscolar" Type="varchar" MaxLength="150" />
+    <Property Name="Turno" Type="varchar" MaxLength="50" />
+    <Property Name="Timestamp" Type="timestamp" />
+    <Property Name="Status" Type="int4" />
+    <Property Name="Color" Type="varchar" MaxLength="8000" />
+    <Property Name="Ciclo" Type="varchar" MaxLength="8000" />
+    <Property Name="EsTaller" Type="bool" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HabilidadesAlumno">
+    <Key>
+      <PropertyRef Name="IDHabilidadAlumno" />
+    </Key>
+    <Property Name="IDHabilidadAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDAlumno" Type="uuid" />
+    <Property Name="IDGrupo" Type="uuid" />
+    <Property Name="IDBimestre" Type="uuid" />
+    <Property Name="Autoevaluacion" Type="int4" />
+    <Property Name="Coevaluacion" Type="int4" />
+    <Property Name="Comprension" Type="varchar" MaxLength="8000" />
+    <Property Name="Conocimiento" Type="varchar" MaxLength="8000" />
+    <Property Name="Sintesis" Type="varchar" MaxLength="8000" />
+    <Property Name="Argumentacion" Type="varchar" MaxLength="8000" />
+    <Property Name="ApoyoLectura" Type="int4" />
+    <Property Name="ApoyoEscritura" Type="int4" />
+    <Property Name="ApoyoMatematicas" Type="int4" />
+    <Property Name="SeInvolucraClase" Type="bool" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Portafolio">
+    <Key>
+      <PropertyRef Name="IDPortafolio" />
+    </Key>
+    <Property Name="IDPortafolio" Type="uuid" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" />
+    <Property Name="IDBimestre" Type="uuid" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaEntrega" Type="timestamp" />
+    <Property Name="TipoTrabajo" Type="varchar" MaxLength="8000" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="Aspecto1" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio1" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto2" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio2" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto3" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio3" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto4" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio4" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto5" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio5" Type="varchar" MaxLength="8000" />
+    <Property Name="Activo1" Type="bool" Nullable="false" />
+    <Property Name="Activo2" Type="bool" Nullable="false" />
+    <Property Name="Activo3" Type="bool" Nullable="false" />
+    <Property Name="Activo4" Type="bool" Nullable="false" />
+    <Property Name="Activo5" Type="bool" Nullable="false" />
+    <Property Name="Observacion1" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion2" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion3" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion4" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
+    <Property Name="Tipo" Type="varchar" MaxLength="8000" />
+    <Property Name="IDTipoPortafolio" Type="uuid" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PortafolioAlumno">
+    <Key>
+      <PropertyRef Name="IDPortafolioAlumno" />
+    </Key>
+    <Property Name="IDPortafolioAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDPortafolio" Type="uuid" />
+    <Property Name="IDAlumno" Type="uuid" />
+    <Property Name="Estado" Type="int4" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="Aspecto1" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto2" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto3" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto4" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto5" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PortafolioDefecto">
+    <Key>
+      <PropertyRef Name="IDPortafolioDefecto" />
+    </Key>
+    <Property Name="IDPortafolioDefecto" Type="uuid" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" />
+    <Property Name="TipoTrabajo" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="Aspecto1" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio1" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto2" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio2" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto3" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio3" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto4" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio4" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto5" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio5" Type="varchar" MaxLength="8000" />
+    <Property Name="Activo1" Type="bool" Nullable="false" />
+    <Property Name="Activo2" Type="bool" Nullable="false" />
+    <Property Name="Activo3" Type="bool" Nullable="false" />
+    <Property Name="Activo4" Type="bool" Nullable="false" />
+    <Property Name="Activo5" Type="bool" Nullable="false" />
+    <Property Name="Observacion1" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion2" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion3" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion4" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
+    <Property Name="Tipo" Type="varchar" MaxLength="8000" />
+    <Property Name="IDUsuario" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sesion">
+    <Key>
+      <PropertyRef Name="IDSesion" />
+    </Key>
+    <Property Name="IDSesion" Type="uuid" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" Nullable="false" />
+    <Property Name="IDBimestre" Type="uuid" Nullable="false" />
+    <Property Name="Fecha" Type="timestamp" Nullable="false" />
+    <Property Name="FechaActualiacion" Type="timestamp" Nullable="false" />
+    <Property Name="Observacion" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoPortafolio">
+    <Key>
+      <PropertyRef Name="IDTipoPortafolio" />
+    </Key>
+    <Property Name="IDTipoPortafolio" Type="uuid" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto1" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio1" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto2" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio2" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto3" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio3" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto4" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio4" Type="varchar" MaxLength="8000" />
+    <Property Name="Aspecto5" Type="varchar" MaxLength="8000" />
+    <Property Name="Criterio5" Type="varchar" MaxLength="8000" />
+    <Property Name="Activo1" Type="bool" Nullable="false" />
+    <Property Name="Activo2" Type="bool" Nullable="false" />
+    <Property Name="Activo3" Type="bool" Nullable="false" />
+    <Property Name="Activo4" Type="bool" Nullable="false" />
+    <Property Name="Activo5" Type="bool" Nullable="false" />
+    <Property Name="Observacion1" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion2" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion3" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion4" Type="varchar" MaxLength="8000" />
+    <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
+    <Property Name="Orden" Type="int4" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Trabajo">
+    <Key>
+      <PropertyRef Name="IDTrabajo" />
+    </Key>
+    <Property Name="IDTrabajo" Type="uuid" Nullable="false" />
+    <Property Name="IDGrupo" Type="uuid" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" />
+    <Property Name="Fecha" Type="timestamp" />
+    <Property Name="IDBimestre" Type="uuid" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="8000" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="8000" />
+    <Property Name="Tipo" Type="varchar" MaxLength="8000" />
+    <Property Name="Actividad" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TrabajoAlumno">
+    <Key>
+      <PropertyRef Name="IDTrabajoAlumno" />
+    </Key>
+    <Property Name="IDTrabajoAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IDTrabajo" Type="uuid" />
+    <Property Name="IDAlumno" Type="uuid" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="8000" />
+    <Property Name="FechaActualizacion" Type="timestamp" />
+    <Property Name="Estado" Type="int4" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TutorAlumno">
+    <Key>
+      <PropertyRef Name="IdAlumno" />
+      <PropertyRef Name="IdTutor" />
+    </Key>
+    <Property Name="IdAlumno" Type="uuid" Nullable="false" />
+    <Property Name="IdTutor" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_AlmHab">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HabilidadesAlumno" Type="Self.HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Alumno_TutorAlumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TutorAlumno" Type="Self.TutorAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="TutorAlumno">
+        <PropertyRef Name="IdAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlumnoDesempenio">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AlumnoDesempenio" Type="Self.AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ALumnoTema">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ExamenAlumno" Type="Self.ExamenAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="ExamenAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ALumnoTemaCiclico">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DiagnosticoCicloAlumno" Type="Self.DiagnosticoCicloAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_alumnoTrabajo">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TrabajoAlumno" Type="Self.TrabajoAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="TrabajoAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bimestre">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BimHab">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HabilidadesAlumno" Type="Self.HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_bimport">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Portafolio" Type="Self.Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BimTrab">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Trabajo" Type="Self.Trabajo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Trabajo">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DesGrupo">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AlumnoDesempenio" Type="Self.AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoAlumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+    <End Role="DiagnosticoPsicologico" Type="Self.DiagnosticoPsicologico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="DiagnosticoPsicologico">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoCiclicoBimestre">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DiagnosticoCiclo" Type="Self.DiagnosticoCiclo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="DiagnosticoCiclo">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoGrupo">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DiagnosticoPsicologico" Type="Self.DiagnosticoPsicologico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="DiagnosticoPsicologico">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamenBimestre">
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Examen" Type="Self.Examen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Examen">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupHab">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HabilidadesAlumno" Type="Self.HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Grupo">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Alumno">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoBim">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Bimestres" Type="Self.Bimestres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Bimestres">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoSES">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortAlumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PortafolioAlumno" Type="Self.PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortGrupo">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Portafolio" Type="Self.Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortPortAlumno">
+    <End Role="Portafolio" Type="Self.Portafolio" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PortafolioAlumno" Type="Self.PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Portafolio">
+        <PropertyRef Name="IDPortafolio" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDPortafolio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SesionAlumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AlumnoSesion" Type="Self.AlumnoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="AlumnoSesion">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SesionS">
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AlumnoSesion" Type="Self.AlumnoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sesion">
+        <PropertyRef Name="IDSesion" />
+      </Principal>
+      <Dependent Role="AlumnoSesion">
+        <PropertyRef Name="IDSesion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaAlumno">
+    <End Role="ExamenTema" Type="Self.ExamenTema" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ExamenAlumno" Type="Self.ExamenAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamenTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="ExamenAlumno">
+        <PropertyRef Name="IDTema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaAlumnoCiclico">
+    <End Role="DiagnosticoCicloTema" Type="Self.DiagnosticoCicloTema" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DiagnosticoCicloAlumno" Type="Self.DiagnosticoCicloAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiagnosticoCicloTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloAlumno">
+        <PropertyRef Name="IDTema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaDiagnosticoCiclico">
+    <End Role="DiagnosticoCiclo" Type="Self.DiagnosticoCiclo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DiagnosticoCicloTema" Type="Self.DiagnosticoCicloTema" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiagnosticoCiclo">
+        <PropertyRef Name="IDDiagnosticoCiclo" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloTema">
+        <PropertyRef Name="IDDiagnosticoCiclo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaExamen">
+    <End Role="Examen" Type="Self.Examen" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ExamenTema" Type="Self.ExamenTema" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Examen">
+        <PropertyRef Name="IDExamen" />
+      </Principal>
+      <Dependent Role="ExamenTema">
+        <PropertyRef Name="IDExamen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoPortafolio">
+    <End Role="TipoPortafolio" Type="Self.TipoPortafolio" Multiplicity="0..1" />
+    <End Role="Portafolio" Type="Self.Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoPortafolio">
+        <PropertyRef Name="IDTipoPortafolio" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDTipoPortafolio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TrabGrupo">
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Trabajo" Type="Self.Trabajo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Trabajo">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TrabTrab">
+    <End Role="Trabajo" Type="Self.Trabajo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TrabajoAlumno" Type="Self.TrabajoAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trabajo">
+        <PropertyRef Name="IDTrabajo" />
+      </Principal>
+      <Dependent Role="TrabajoAlumno">
+        <PropertyRef Name="IDTrabajo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SMTDevModelStoreContainer">
+    <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AlumnoDesempenio" EntityType="Self.AlumnoDesempenio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AlumnoSesion" EntityType="Self.AlumnoSesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bimestres" EntityType="Self.Bimestres" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Credencial" EntityType="Self.Credencial" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiagnosticoCiclo" EntityType="Self.DiagnosticoCiclo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiagnosticoCicloAlumno" EntityType="Self.DiagnosticoCicloAlumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiagnosticoCicloTema" EntityType="Self.DiagnosticoCicloTema" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DiagnosticoPsicologico" EntityType="Self.DiagnosticoPsicologico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Entidad" EntityType="Self.Entidad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Examen" EntityType="Self.Examen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamenAlumno" EntityType="Self.ExamenAlumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamenTema" EntityType="Self.ExamenTema" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Grupos" EntityType="Self.Grupos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HabilidadesAlumno" EntityType="Self.HabilidadesAlumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Portafolio" EntityType="Self.Portafolio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PortafolioAlumno" EntityType="Self.PortafolioAlumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PortafolioDefecto" EntityType="Self.PortafolioDefecto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoPortafolio" EntityType="Self.TipoPortafolio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trabajo" EntityType="Self.Trabajo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TrabajoAlumno" EntityType="Self.TrabajoAlumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TutorAlumno" EntityType="Self.TutorAlumno" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AlmHab" Association="Self.FK_AlmHab">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Alumno_TutorAlumno" Association="Self.FK_Alumno_TutorAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="TutorAlumno" EntitySet="TutorAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlumnoDesempenio" Association="Self.FK_AlumnoDesempenio">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ALumnoTema" Association="Self.FK_ALumnoTema">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="ExamenAlumno" EntitySet="ExamenAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ALumnoTemaCiclico" Association="Self.FK_ALumnoTemaCiclico">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="DiagnosticoCicloAlumno" EntitySet="DiagnosticoCicloAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_alumnoTrabajo" Association="Self.FK_alumnoTrabajo">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bimestre" Association="Self.FK_Bimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BimHab" Association="Self.FK_BimHab">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_bimport" Association="Self.FK_bimport">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BimTrab" Association="Self.FK_BimTrab">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Trabajo" EntitySet="Trabajo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DesGrupo" Association="Self.FK_DesGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoAlumno" Association="Self.FK_DiagnosticoAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="DiagnosticoPsicologico" EntitySet="DiagnosticoPsicologico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoCiclicoBimestre" Association="Self.FK_DiagnosticoCiclicoBimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="DiagnosticoCiclo" EntitySet="DiagnosticoCiclo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoGrupo" Association="Self.FK_DiagnosticoGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="DiagnosticoPsicologico" EntitySet="DiagnosticoPsicologico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamenBimestre" Association="Self.FK_ExamenBimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Examen" EntitySet="Examen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupHab" Association="Self.FK_GrupHab">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Grupo" Association="Self.FK_Grupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Alumno" EntitySet="Alumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoBim" Association="Self.FK_GrupoBim">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Bimestres" EntitySet="Bimestres" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoSES" Association="Self.FK_GrupoSES">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortAlumno" Association="Self.FK_PortAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortGrupo" Association="Self.FK_PortGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortPortAlumno" Association="Self.FK_PortPortAlumno">
+      <End Role="Portafolio" EntitySet="Portafolio" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SesionAlumno" Association="Self.FK_SesionAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="AlumnoSesion" EntitySet="AlumnoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SesionS" Association="Self.FK_SesionS">
+      <End Role="Sesion" EntitySet="Sesion" />
+      <End Role="AlumnoSesion" EntitySet="AlumnoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaAlumno" Association="Self.FK_TemaAlumno">
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+      <End Role="ExamenAlumno" EntitySet="ExamenAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaAlumnoCiclico" Association="Self.FK_TemaAlumnoCiclico">
+      <End Role="DiagnosticoCicloTema" EntitySet="DiagnosticoCicloTema" />
+      <End Role="DiagnosticoCicloAlumno" EntitySet="DiagnosticoCicloAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaDiagnosticoCiclico" Association="Self.FK_TemaDiagnosticoCiclico">
+      <End Role="DiagnosticoCiclo" EntitySet="DiagnosticoCiclo" />
+      <End Role="DiagnosticoCicloTema" EntitySet="DiagnosticoCicloTema" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaExamen" Association="Self.FK_TemaExamen">
+      <End Role="Examen" EntitySet="Examen" />
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoPortafolio" Association="Self.FK_TipoPortafolio">
+      <End Role="TipoPortafolio" EntitySet="TipoPortafolio" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TrabGrupo" Association="Self.FK_TrabGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Trabajo" EntitySet="Trabajo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TrabTrab" Association="Self.FK_TrabTrab">
+      <End Role="Trabajo" EntitySet="Trabajo" />
+      <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

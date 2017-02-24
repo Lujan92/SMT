@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Busqueda de Alumnos";
+}
+<h4>@ViewBag.Title</h4>
+<style>
+    .pointer{
+        cursor:pointer;
+    }
+    .table {
+            background-color: #E1E1E1;
+    }
+</style>
+<form onsubmit="return buscar()" lpformnum="1" _lpchecked="1" class="panel-body">
+    <div class="col-lg-5  col-md-5 col-xs-5">
+        <label>Nombre del Alumno</label>
+        <div class="input-group custom-search-form">
+            <input type="text" class="form-control" id="Nombre" placeholder="Buscar alumnos">
+
+            <span class="input-group-btn">
+                <button class="btn btn-default" onclick="buscar()" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+
+</form>
+
+<table id="tElementos" class="tabla-alumnos table table-striped table-bordered table-hover">
+    <thead>
+        <tr>            
+            <th data-sort="string" class="pointer">AP. Paterno</th>
+            <th data-sort="string" class="pointer">AP. Materno</th>
+            <th data-sort="string" class="pointer">Nombre(s)</th>
+            <th data-sort="string" class="pointer">Grupo</th>
+            <th data-sort="string" class="pointer">Bimestres</th>
+            <th data-sort="string" class="pointer">Detalles</th>            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="15" class="text-center">No se encontraron resultados</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="15">
+                <div class="paginacion" id="paginador"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>       
+<div class="modal fade" id="formularioAlumno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Alumnos</h4>
+            </div>
+            <div class="modal-body row">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Alumnos.guardarAlumno()" class="btn btn-sm btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+<script src="~/Scripts/stupidtable.js"></script>
+<script src="~/Scripts/apps/Bimestre/Alumnos.js"></script>
+<link href="~/Scripts/jquery-confirm/jquery-confirm.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-confirm/jquery-confirm.js"></script>
+<script type="text/javascript" src="/Scripts/Paginacion.js"></script>
+<script type="text/javascript">
+    var pag;
+    var preclave = "";
+    var alum="@Request.Params["nombre"]"
+
+    $(function () {
+        pag = new Paginacion({
+            content: $('#paginador'),
+            search: buscar,
+            pageSize: 20,
+            info: true
+        });
+
+
+        buscar();
+        $("#tElementos").stupidtable();
+    });
+
+    $('form').submit(function () {
+        return false;
+    });
+
+    var buscar = function () {
+        if (alum.length>0) {
+            $("#Nombre").val(alum);
+            alum = "";
+        }
+        $.ajax({
+            url: '/Alumnos/BuscarAlumnos',
+            type: 'post',
+            data: {
+                nombre: $("#Nombre").val(),
+                page: pag.getCurrentPage(),
+                pageSize: pag.getPageSize()
+            },
+            beforeSend: function () {
+                Loading('Buscando');
+            },
+            complete: function () {
+                Loading();
+            },
+            success: function (data) {
+
+                var html = '<tr><td>{nombre}</td><td>{apellidoPaterno}</td><td>{apellidoMaterno}</td><td>{salon}</td><td>{bimestres}</td>' +
+                    '<td class="text-center"><div class="btn-group"><button type="button" onclick="abrirDetalle(\'{id}\')" class="btn btn-default" style="width:100px">Ver</button>' +
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>' +
+                    '<span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#" data-alumno="editar" onclick="Alumnos.cargarAlumno(\'{id}\')">Editar</a></li>' +
+                    '<li><a href="#" data-alumno="eliminar" onclick="Alumnos.eliminarAlumno(\'{id}\')">Eliminar</a></li></ul></div></td>';
+
+                var t = $('#tElementos tbody').empty();
+                var total = 0;
+                if (data.length == 0) {
+                    t.append('<tr><td colspan="5" class="text-center">No se encontraron resultados</td></tr>');
+                }
+                else {
+                    data.map(function (e) {
+                        total = e.total;
+                        e.bimestres = '<a class="btn btn-default btn-circle" href="/grupos/' + e.grupo + '/Bimestre/1">1</a><a class="btn btn-default btn-circle" href="/grupos/' + e.grupo + '/Bimestre/2">2</a><a class="btn btn-default btn-circle" href="/grupos/' + e.grupo + '/Bimestre/3">3</a><a class="btn btn-default btn-circle" href="/grupos/' + e.grupo + '/Bimestre/4">4</a><a class="btn btn-default btn-circle" href="/grupos/' + e.grupo + '/Bimestre/5">5</a>'
+                        t.append(html.format(e));
+                    });
+                }
+                pag.updateControls(total);
+            }
+        });
+    };
+
+    var abrirDetalle = function (ID) {
+        location = "/Alumnos/DetalleAlumno?IDAlumno=" + ID;
+    }
+</script>
+}

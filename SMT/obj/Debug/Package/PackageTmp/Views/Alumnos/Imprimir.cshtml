@@ -1,0 +1,42 @@
+﻿@model List<SMT.Models.DB.Alumno.AlumnoSimple>
+@{
+    ViewBag.Title = "Imprimir";
+    int index = 1;
+}
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+
+<style>
+    table {
+        width: 100%;
+    }
+
+    td, th {
+        font-size: 10px;
+        padding: 1px;
+    }
+</style>
+
+
+
+<table border="1" class="break">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="100">Alumnos</th>
+        </tr>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="" >Alumno</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno.AlumnoSimple alumno in Model)
+        {
+            <tr>
+                <td class="text-center" style="width:20px">@(index++)</td>
+                <td>@alumno.apellidoPaterno @alumno.apellidoMaterno @alumno.nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>window.print();</script>

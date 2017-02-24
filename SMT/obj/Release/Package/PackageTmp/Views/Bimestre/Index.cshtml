@@ -1,0 +1,547 @@
+﻿@model SMT.Controllers.BimestreController.BimestreResult
+@{
+    ViewBag.Title = Model.materia + " " + Model.grupo;
+
+}
+
+@section styles{
+    <link href="~/Content/plugins/dropzone/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/plugins/cropper/cropper.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+    <link href="~/Content/theme/morrisjs/morris.css" rel="stylesheet" />
+
+    <style>
+        .tabla-alumnos {
+            display: table;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        a.ayuda {
+            border-radius: 100%;
+        }
+
+            .tabla-alumnos > tbody > tr > td, .tabla-alumnos > tbody > tr > th, .tabla-alumnos > tfoot > tr > td, .tabla-alumnos > tfoot > tr > th, .tabla-alumnos > thead > tr > td, .tabla-alumnos > thead > tr > th {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+            }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .reprobado{
+            color: #ff0000;
+        }
+        .separador{
+            background-color: #F9F9F9!important;
+        }
+            
+
+    </style>
+}
+
+
+
+
+
+<div class="col-lg-12 hidden-print">
+    <h1 class="page-header">
+        @ViewBag.Title
+        <span class="dropdown">
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="text-black">
+                Bimestre @Model.bimestre
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a data-link="/grupos/@Model.id/Bimestre/1" href="/grupos/@Model.id/Bimestre/1">Bimestre 1</a></li>
+                <li><a data-link="/grupos/@Model.id/Bimestre/2" href="/grupos/@Model.id/Bimestre/2">Bimestre 2</a></li>
+                <li><a data-link="/grupos/@Model.id/Bimestre/3" href="/grupos/@Model.id/Bimestre/3">Bimestre 3</a></li>
+                <li><a data-link="/grupos/@Model.id/Bimestre/4" href="/grupos/@Model.id/Bimestre/4">Bimestre 4</a></li>
+                <li><a data-link="/grupos/@Model.id/Bimestre/5" href="/grupos/@Model.id/Bimestre/5">Bimestre 5</a></li>
+            </ul>
+        </span>
+    </h1>
+</div>
+
+
+<div>
+
+    <div id="tabs" role="tablist" class="hidden-print">
+        <a href="#alumnos" class="btn btn-azul" aria-controls="alumnos" role="tab" data-toggle="tab">Alumnos</a>
+        <a href="#asistencia" class="btn btn-violeta" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencias</a>
+        <a href="#trabajos" class="btn btn-vino" aria-controls="trabajos" role="tab" data-toggle="tab">Trabajos</a>
+        <a href="#instrumentos" class="btn btn-rosa" aria-controls="instrumentos" role="tab" data-toggle="tab">Instrumentos</a>
+        <a href="#examenes" class="btn btn-naranja" aria-controls="examenes" role="tab" data-toggle="tab">Examenes</a>
+        @*<a href="#proyectos" class="btn btn-info" aria-controls="proyectos" role="tab" data-toggle="tab">Proyectos</a>*@
+        <a href="#habilidades" class="btn btn-amarillo" aria-controls="habilidades" role="tab" data-toggle="tab">Habilidades</a>
+        <a href="#control" class="btn btn-verdelimon" aria-controls="control" role="tab" data-toggle="tab">Control</a>
+        <a href="#reporte" class="btn btn-verde" aria-controls="reporte" role="tab" data-toggle="tab">Reporte General</a>
+        @*<a href="#diagnostico-bimestral" class="btn btn-default" aria-controls="diagnostico-bimestral" role="tab" data-toggle="tab">Diagnostico Bimestral</a>*@
+        <a href="#diagnostico-ciclo" class="btn btn-turquesa" aria-controls="diagnostico-ciclo" role="tab" data-toggle="tab">Diagnostico por Ciclo</a>
+    </div>
+    <div id="ContenedorImpresion" class="hidden">
+        <div id="divInternoImpresion"></div>
+    </div>
+    <div class="bimestre tab-content">
+        <div role="tabpanel" class="tab-pane active" id="alumnos">
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de alumnos
+                
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-alumno="nuevo" class="btn btn-azul-claro" onclick="Alumnos.cargarAlumno(0)">Crear alumno</button>
+                    <button type="button" data-alumno="importar" onclick="Alumnos.modalImportar()" class="btn btn-azul-claro">Importar alumnos</button>
+                    <a id="btnPerfil" href="/DiagnosticosPsicologicos?id=@Model.id" class="btn btn-azul-claro">Perfil de alumnos</a>
+                    <button id="btnImprimirAlumnos" type="button" onclick="Alumnos.imprimir()" class="btn btn-danger"><i class="fa fa-print fa-fw"></i> Imprimir</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Lista de alumnos @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=GpdMJOKgbqQ", new ViewDataDictionary { { "style", "margin-left:5px;" },  { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <table class="tabla-alumnos table-striped table-bordered table-hover" id="tabla_alumnos_general">
+                        <thead>
+                            <tr>
+                                <th data-sort="string" class="pointer" style="width:50px">Status</th>
+                                <th data-sort="string" class="pointer">Ap. Paterno</th>
+                                <th data-sort="string" class="pointer">Ap. Materno</th>
+                                <th data-sort="string" class="pointer">Nombre(s)</th>
+                                @if (Model.EsTaller == true)
+                                {
+                                    <th data-sort="string" class="pointer">Grupo</th>
+                                }
+                                <th style="width:150px">Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody data-alumno-lista="">
+                            <tr>
+                                <td colspan="5" class="text-center"><h3><span class="fa fa-spin fa-refresh"></span></h3></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal fade" id="formularioAlumno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Alumnos</h4>
+                        </div>
+                        <div class="modal-body row">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" onclick="Alumnos.guardarAlumno()" class="btn btn-sm btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="formularioimportarAlumno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Importar Alumnos</h4>
+                        </div>
+                        <div class="modal-body row">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div id="dropzone"></div>
+                                <input type="hidden" name="IDGrupo" value="@Model.id" />
+                                <input type="hidden" name="bimenste" value="@Model.bimestre" />
+                            </form>
+                            <div class="col-md-12 col-sm-12">
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-sm pull-left" href="/Alumnos/@(Model.EsTaller==true?"DescargarTemplateAlumnosTaller": "DescargarTemplateAlumnos")">
+                                Descargar Plantilla <span class="glyphicon glyphicon-cloud-download"></span>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" onclick="Alumnos.importarAlumno()" class="btn btn-sm btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Alumnos -->
+
+        <div role="tabpanel" class="tab-pane" id="asistencia">
+
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de asistencias
+                   
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-asistencia="nuevo" class="btn btn-violeta-claro">Agregar dia</button>
+                    <button type="button" data-asistencia="suspencion" class="btn btn-violeta-claro">Suspensión de clases</button>
+                    <a class="btn btn-danger" onclick="Asistencia.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Asistencias @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=TZQLhrIlhXg", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-asistencia"></div>
+                </div>
+            </div>
+        </div> <!-- Asistenias -->
+
+        <div role="tabpanel" class="tab-pane" id="trabajos">
+
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de trabajos
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-trabajo="nuevo" class="btn btn-vino-claro">Agregar Trabajo</button>
+                    <a class="btn  btn-danger" onclick="Trabajo.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Trabajos @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=vmM8xetfdGI", new ViewDataDictionary { { "style", "margin-left:5px;" },  { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-trabajo" style="overflow-x: scroll;"></div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="formularioTrabajo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Trabajos</h4>
+                        </div>
+                        <div class="modal-body row">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" onclick="Trabajo.guardar()" class="btn btn-sm btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Trabajos -->
+
+        <div role="tabpanel" class="tab-pane" id="instrumentos">
+
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de instrumentos
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-portafolio="nuevo" class="btn btn-rosa-claro">Agregar instrumento</button>
+                    <a class="btn btn-danger" onclick="Portafolio.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Instrumentos @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=m8tYrT9tsmg", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-portafolio" style="overflow-x:scroll;"></div>
+                </div>
+            </div>
+
+
+        </div> <!-- instrumentos -->
+
+        <div role="tabpanel" class="tab-pane">trabajos</div>
+
+        <div role="tabpanel" class="tab-pane" id="examenes">
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de examenes
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-examen="nuevo" class="btn btn-naranja-claro">Agregar examen</button>
+                    <a class="btn  btn-danger" onclick="Examen.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Examen @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=_tNNvy7A9pI", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-examen" style="overflow-x:scroll;"></div>
+                </div>
+            </div>
+
+        </div><!-- Examenes -->
+
+        <div role="tabpanel" class="tab-pane" id="habilidades">
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">
+                    Acciones de habilidades
+                </div>
+                <div class="panel-body">
+                    <a class="btn  btn-danger" onclick="Habilidades.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Habilidades @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=BPXG8wJro-k", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-habilidades" style="overflow-x: scroll;"></div>
+                </div>
+            </div>
+        </div> <!-- Habilidades -->
+
+        <div role="tabpanel" class="tab-pane" id="control">
+            <div class="panel panel-default hidden-print visor-oculto">
+                <div class="panel panel-heading">Acciones de control</div>
+                <div class="panel panel-body">
+                    <button class="btn  btn-danger" onclick="Control.imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Control @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=HS6a1GrD1aA", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div class="visible-print header-control">
+                        @Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+                    </div>
+                    <div id="tabla-control" style="zoom:0.9">
+                        
+                    </div>
+                </div>
+            </div>
+        </div><!--Control-->
+        <div role="tabpanel" class="tab-pane" id="reporte">
+            <div class="panel panel-default hidden-print visor-oculto">
+                <div class="panel panel-heading">Acciones de Reporte</div>
+                <div class="panel panel-body">
+                    <button class="btn  btn-danger" onclick="print()"><i class="fa fa-print fa-fw"></i> Imprimir</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel panel-heading hidden-print">Reporte General de Alumnos @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=MdNHeLvzES4", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } })</div>
+                <div class="panel panel-body">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="visible-print">
+                                @Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+                            </div>
+                            <ul class="list-inline" id="lista-reporte"></ul>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- Reporte -->
+        
+        <div role="tabpanel" class="tab-pane" id="diagnostico-ciclo">
+            <div class="panel panel-default visor-oculto">
+                <div class="panel-heading">Acciones de diagnosticos por ciclo
+                </div>
+                <div class="panel-body">
+                    <button type="button" data-diagnostico-ciclo="nuevo" class="btn btn-turquesa-claro">Agregar diagnostico</button>
+                    <a class="btn  btn-danger" onclick="DiagnosticoCiclo.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Diagnosticos por ciclo @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=IA3Y1biE6RA", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span> </div>
+                <div class="panel-body">
+                    <div id="tabla-diagnostico-ciclo" style="overflow-x:scroll;"></div>
+                </div>
+            </div>
+        </div><!--Diagnosticos ciclo-->
+    </div>
+
+</div>
+@Html.HiddenFor(i => i.grupo)
+<input type="hidden" id="GrupoEsTaller" value="@(Model.EsTaller==true? "true" :"false")" />
+@section scripts{
+    <script src="~/Scripts/stupidtable.js"></script>
+    <script src="~/Scripts/dropzone/dropzone.min.js"></script>
+    <script src="~/Scripts/cropper/cropper.min.js"></script>
+    <link href="~/Scripts/jquery-confirm/jquery-confirm.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-confirm/jquery-confirm.js"></script>
+    <script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/highcharts.js"></script>
+
+    <script src="~/Scripts/apps/Bimestre/Alumnos.js"></script>
+    <script>
+        var _grupo = "@(Model.id)", _bimestre = @Model.bimestre;
+        var _GradoGrupo = '@Model.grupo', _Materia = '@Model.materia';
+
+        jQuery.validator.setDefaults({
+            ignore: '.ignore'
+        });
+        $(function () {
+            $("#tabla_alumnos_general").stupidtable();
+        })
+        Alumnos.desplegarLista(_grupo,'[data-alumno-lista]');
+
+        $('#tabs a').click(function (e) {
+            e.preventDefault();
+            var seccion = this.getAttribute('aria-controls');
+
+            var param =  '?' + seccion;
+
+            // Para poder acceder mediante la url a los tabs
+            window.history.pushState(seccion, "Title", location.origin + location.pathname + param );
+            $('[data-link]').each(function(){
+                this.href = this.getAttribute('data-link') + param;
+            });
+
+
+            switch(seccion){
+                case 'alumnos':
+                    Alumnos.desplegarLista(_grupo,'[data-alumno-lista]');
+                    break;
+                case 'asistencia':
+                    if(typeof Asistencia === 'undefined')
+                        head.load('/Scripts/apps/Bimestre/asistencia.js',function(){
+                            Asistencia.desplegarResultados(_grupo,'#tabla-asistencia');
+                        });
+                    else
+                        Asistencia.desplegarResultados(_grupo,'#tabla-asistencia');
+                    break;
+                case 'trabajos':
+                    if(typeof Trabajo === 'undefined')
+                        head.load('/Scripts/apps/Bimestre/trabajo.js',function(){
+                            Trabajo.desplegarResultados(_grupo,'#tabla-trabajo');
+                        });
+                    else
+                        Trabajo.desplegarResultados(_grupo,'#tabla-trabajo');
+                    break;
+                case 'instrumentos':
+                    if(typeof Portafolio === 'undefined')
+                        head.load('/Scripts/apps/Bimestre/portafolio.js');
+                    else
+                        Portafolio.desplegarResultados(_grupo,'#tabla-portafolio');
+                    break;
+                case 'proyectos':
+                    if(typeof Proyecto === 'undefined')
+                        head.load('/Scripts/apps/Bimestre/proyecto.js');
+                    else
+                        Proyecto.desplegarResultados(_grupo,'#tabla-proyecto');
+                    break;
+                case 'examenes':
+                    if(typeof Examen === 'undefined')
+                        head.load('/Scripts/apps/Bimestre/examen.js');
+                    else
+                        Examen.desplegarResultados(_grupo, '#tabla-examen');
+                    break;
+                case 'habilidades':
+                    if(typeof Habilidades === 'undefined'){
+                        head.load('/Scripts/apps/Bimestre/Habilidades.js',function(){
+                            Habilidades.desplegarResultados(_grupo, '#tabla-habilidades');
+                        });
+
+                    }else{
+                        Habilidades.desplegarResultados(_grupo, '#tabla-habilidades');
+                    }
+                    break;
+                case 'reporte':
+                    if(typeof Reporte === 'undefined'){
+                        head.load('/Scripts/apps/Control/control.js',function(){
+                            head.load('/Scripts/apps/Bimestre/Reporte.js',function(){
+                                Reporte.desplegarResultados(_grupo, '#lista-reporte')
+                            });
+                        });
+                       
+                    }else{
+                        Reporte.desplegarResultados(_grupo, '#lista-reporte')
+                    }
+                    break;
+                case 'diagnostico-bimestral':
+                    if(typeof DiagnosticoBimestral === 'undefined')
+                        head.load('/Scripts/apps/DiagnosticoBimestral/diagnosticoBimestral.js');
+                    else
+                        DiagnosticoBimestral.desplegarResultados(_grupo, '#tabla-diagnostico-bimestral');
+                    break;
+                case 'diagnostico-ciclo':
+                    if(typeof DiagnosticoCiclo === 'undefined')
+                        head.load('/Scripts/apps/DiagnosticoCiclo/diagnosticoCiclo.js');
+                    else
+                        DiagnosticoCiclo.desplegarResultados(_grupo, '#tabla-diagnostico-ciclo');
+                    break;
+                case 'control':
+                    if(typeof Control === 'undefined')
+                        head.load('/Scripts/apps/Control/control.js',function(){
+                            Control.inicializar('#tabla-control');
+                        });
+                    else
+                        Control.inicializar('#tabla-control');
+                    break;
+            }
+
+
+            setTimeout(function(){
+                Alumnos.cargarSemaforo(seccion);
+            },1000);
+
+            $(this).tab('show');
+        })
+        $(document).ready(function(){
+            try{
+                $('#formularioimportarAlumno form').find('#dropzone').addClass('dropzone').dropzone({
+                    url: '/Alumnos/Nada',
+                    dictDefaultMessage: 'Arrastre o seleccione el archivo que desea subir',
+                    maxFiles: 1,
+                    addRemoveLinks:true,
+                    /*acceptedFiles: "application/xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    init: function () {
+                        this.on("error",
+                            function(file){if (!file.accepted){
+                                this.removeFile(file);
+                                AlertError("El tipo de archivo no es el correcto");
+                            }
+                        });
+                    }*/
+                });
+            }
+            catch(e){
+
+            }
+
+
+        });
+
+        var abrirDetalle = function (ID) {
+            location = "/Alumnos/DetalleAlumno?IDAlumno=" + ID;
+        }
+
+
+        var pluginDatepicker = function(selector,callback){
+
+            $(selector).datetimepicker({
+                locale: 'es',
+                format: 'DD/MM/YYYY',
+                icons:{
+                    time: 'fa fa-clock-o',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-crosshairs',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-times'
+                },
+                widgetPositioning:{
+                    vertical: 'bottom'
+                },
+            }).on('dp.change',function(){
+                if(callback)callback(this);
+            });
+        }
+
+        var autoCargarSeccion = function(){
+            var botones = ['asistencia','trabajos','instrumentos','examenes','habilidades','control','reporte','diagnostico-ciclo'];
+            botones.map(function(e){
+                if( QueryString.hasOwnProperty(e)){
+                    $('#tabs a[href="#'+e+'"]').click();
+                }
+            });
+        }
+
+        setTimeout(autoCargarSeccion,200);
+    </script>
+}

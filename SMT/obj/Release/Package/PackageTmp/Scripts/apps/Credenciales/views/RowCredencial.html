@@ -1,0 +1,19 @@
+﻿<tr class="{classActivo}">
+    <td class="text-center" style="width:350px"><b>{id}</b><br /><sub>{credencial}</sub></td>
+    <td>{tipo}</td>
+    <td>{vigencia}</td>
+    <td>
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-primary {asignar}" data-opcion="asignar" data-id="{id}">Asignar licencia</button>
+            <button type="button" class="btn btn-info  {ver}" data-opcion="ver" data-id="{usuario}">Ver cuenta</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Opciones</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#"  data-opcion="activar" data-id="{id}" data-activo="{activo}">Activar/Desactivar</a></li>
+                <li class="{eliminar}"><a href="#" data-opcion="eliminar" data-id="{id}">Eliminar</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>

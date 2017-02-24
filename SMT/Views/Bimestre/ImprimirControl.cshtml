@@ -1,0 +1,145 @@
+﻿<head>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/theme/metisMenu/dist/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/theme/css/timeline.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/theme/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/theme/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/pnotify/jquery.pnotify.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/pnotify/jquery.pnotify.icons.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/pace/themes/blue/pace-theme-flash.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/dropzone/dropzone.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/cropper/cropper.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/theme/morrisjs/morris.css" rel="stylesheet" type="text/css">
+    <link href="~/Scripts/jquery-confirm/jquery-confirm.css" rel="stylesheet" type="text/css">
+    <link href="~/content/impresionTabla.css" rel="stylesheet" type="text/css">
+    <style>
+        .tabla-alumnos {
+            display: table;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        a.ayuda {
+            border-radius: 100%;
+        }
+
+        .tabla-alumnos > tbody > tr > td, .tabla-alumnos > tbody > tr > th, .tabla-alumnos > tfoot > tr > td, .tabla-alumnos > tfoot > tr > th, .tabla-alumnos > thead > tr > td, .tabla-alumnos > thead > tr > th {
+            padding: 8px;
+            line-height: 1.42857143;
+            vertical-align: top;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .reprobado {
+            color: #ff0000;
+        }
+
+        .separador {
+            background-color: #F9F9F9 !important;
+        }
+        body{
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+        }
+    </style>
+    <style>
+        .circulo_menu {
+            padding: initial !important;
+            height: 18px !important;
+            width: 17px !important;
+        }
+    </style>
+    <style>
+        @@media print{
+            #btn_print{
+                display:none!important;
+            }
+        }
+    </style>
+</head>
+
+<div id="cuerpo_impresion">
+    <button class="btn  btn-danger" onclick="Imprimir()" id="btn_print"><i class="fa fa-print fa-fw"></i> Imprimir</button>
+    <div class="visible-print header-control">
+        @Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+    </div>
+    <div id="tabla-control" style="zoom:0.9; width:100%;">
+
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/load.js"></script>
+<script src="~/Scripts/Utilidades.js"></script>
+
+<link href="~/Scripts/jquery-confirm/jquery-confirm.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-confirm/jquery-confirm.js"></script>
+<script type="text/javascript" src="/Scripts/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/highcharts.js"></script>
+
+<script src="~/Scripts/apps/Bimestre/Alumnos.js"></script>
+<script>
+    var _grupo = "@(Model.id)", _bimestre = @Model.bimestre;
+    var _GradoGrupo = '@Model.grupo', _Materia = '@Model.materia';
+    $(document).ready(function () {
+        head.load('/Scripts/apps/Control/control.js', function () {            
+            Control.inicializar('#tabla-control').then(function() {
+                Imprimir();
+            });
+        });
+    })
+    var Impreso=0;
+    function Imprimir(){
+        if (Impreso==0) {    
+        
+            var div=$("#cuerpo_impresion");;
+            var tControl=$("#tControl").clone();
+            $("#tControl").remove();
+            div.append(tControl);
+        
+            div.append($("#tabla-control").html());
+            $("#tabla-control").remove();
+            $('.header-control').removeClass('visible-print')
+
+            div.find('.fa').remove();
+            div.find('td,th').css({
+                padding: '2px',
+                'text-align': 'center',
+                fontsize: '10px'
+            });
+            div.find('table:eq(1) th:not(:first)').addClass('vertical');
+        
+            div.find('table:eq(1) .w100').removeClass('w100');
+
+            div.find('table:not(:first)').removeClass().attr('border', 1).css('margin-bottom', '10px');
+            $("#grafica-control").remove();
+            $("#grafica-resumen").remove();
+            $("#grafica-califas").remove();
+            $("#grafica-grupal").remove();
+        
+        
+            Control.imprimirWS();
+            Impreso=1;
+        }else{
+            print();
+        }
+        
+
+    }
+    
+    
+</script>

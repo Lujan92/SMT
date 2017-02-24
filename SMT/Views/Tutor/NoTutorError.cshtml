@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "No es Padre de Familia";
+}
+
+<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <br />
+    @if (User.Identity.IsAuthenticated && !User.IsInRole(SMT.Models.Tutor.Rol)) {
+        <div class="col-lg-12">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign pull-left" style="font-size:2em; margin-right:10px; line-height: 1.2em" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                @if (User.IsInRole("Root")) {
+                    <span>Debe tener rol de Padre de Familia para poder ver esta sección. Ir a @Html.ActionLink("administración de usuarios", "Index", "Usuarios", new { area = "Panel" }, null)</span>
+                }
+                else {
+                    <span>Sólo tutores pueden acceder a esta sección. Ir a @Html.ActionLink("activación", "Index", "Activacion")</span>
+                }
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,147 @@
+﻿@using SMT.Models
+@{
+    Layout = null;
+    var secciones = User.GetSecciones();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="language" content="spanish" />
+    <meta http-equiv="content-language" content="es" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMT @(ViewBag.Title?.Insert(0, ":: "))</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/tutor/bundles/css")
+    @Styles.Render("~/panel/bundles/skin")
+    <style>
+        body { background:#040617; }
+        html, body{height:100%; margin:0;padding:0}
+        h1 {color:#E2E2E2;margin-bottom:50px}
+        .row-fluid {height: 100%; display:table-cell; vertical-align: middle;}
+        .small-box{cursor:pointer;position:relative;}
+        .container-fluid {
+          height:100%;
+          display:table;
+          width: 100%;
+          padding: 0;
+        }
+        .centering {
+          float:none;
+          margin:0 auto;
+        }
+    </style>
+    @if (secciones.TotalEnabled == 3) {
+        <style>
+            .secciones > div:first-child {
+                width:100%;
+            }
+        </style>
+    }
+</head>
+<body>
+    <div style="position:fixed;top:60px;right:10px;">
+        <span style="font-size:8px;color:white;">
+            Version @typeof(SMT.MvcApplication).Assembly.GetName().Version Alpha <br />
+
+            @{
+                var version = typeof(SMT.MvcApplication).Assembly.GetName().Version;
+                var buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+                TimeSpan.TicksPerDay * version.Build + // days since 1 January 2000
+                TimeSpan.TicksPerSecond * 2 * version.Revision));
+            }
+            @buildDateTime.ToString();
+        </span>
+    </div>
+
+    <div class="container-fluid" style="position: absolute;">
+        <div class="row-fluid">
+            <div class="centering">
+
+                <div class="col-lg-12">
+                    <h1 class="text-center">
+                        Bienvenido a SMT @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=UABO5f5lRk0", new ViewDataDictionary { { "class", "btn btn-xs btn-info ayuda" } })
+                    </h1>
+                </div>
+
+                <div class="secciones col-lg-6 col-lg-offset-3">
+                    @if (secciones.Panel) {
+                        <div class="col-lg-6 col-xs-6">
+                            <div data-url="@Url.Action("Index", "Home", new { area = "Panel" })" class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>Panel</h3>
+                                    <p>de administración</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-settings"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (secciones.Grupos) {
+                        <div class="col-lg-6 col-xs-6">
+                            <div data-url="@Url.Action("Index", "Grupos")" class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>Grupos</h3>
+                                    <p>de alumnos</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-clipboard"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (secciones.Licencias) {
+                        <div class="col-lg-6 col-xs-6">
+                            <div data-url="@Url.Action("Index", "Licencia")" class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>Escuelas</h3>
+                                    <p>&nbsp;</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (secciones.Tutor) {
+                        <div class="col-lg-6 col-xs-6">
+                            <div data-url="@Url.Action("Index", "Tutor")" class="small-box bg-red">
+                                <div class="inner">
+                                    <h3>Padre de Familia</h3>
+                                    <p>&nbsp;</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".small-box").each(function () {
+            $('<a>', {
+                href: $(this).data("url"),
+                appendTo: this,
+                css: {
+                    "position": "absolute",
+                    "width": "100%",
+                    "height": "100%",
+                    "top": "0"
+                }
+            });
+        });
+    </script>
+</body>
+</html>

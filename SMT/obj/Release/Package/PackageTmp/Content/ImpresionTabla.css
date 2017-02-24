@@ -1,0 +1,32 @@
+﻿body{
+    background:none;
+    padding:10px;
+}
+input,textarea{border:none}
+.table-fixed tbody {
+    max-height: none !important;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.text-center {text-align: center;}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    
+}
+
+
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+    .table > tbody > tr.success > td, .table > tbody > tr.success > th, .table > tbody > tr > td.success, .table > tbody > tr > th.success, .table > tfoot > tr.success > td, .table > tfoot > tr.success > th, .table > tfoot > tr > td.success, .table > tfoot > tr > th.success, .table > thead > tr.success > td, .table > thead > tr.success > th, .table > thead > tr > td.success, .table > thead > tr > th.success {
+        background-color: #dff0d8;
+    }
+
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 1px solid #ddd;
+}
+

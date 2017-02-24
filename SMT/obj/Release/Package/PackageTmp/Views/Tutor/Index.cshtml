@@ -1,0 +1,65 @@
+﻿@using SMT.ViewModels
+@{
+    ViewBag.Title = "Inicio";
+    var alumnos =
+        ViewBag.Alumnos as IEnumerable<TutorIndexAlumnoViewModel> ??
+        new TutorIndexAlumnoViewModel [] { };
+}
+
+<div class="col-lg-12">
+    <h2 class="text-center">Padre de Familia SMT <sup>@Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=sZPgyxv8kyA")</sup></h2>
+    <p class="col-lg-6 col-lg-offset-3">
+        Bienvenido Sr(a). a continuación se muestra un listado de los
+        alumnos que le han sido asignados por los docentes. Haga clic
+        sobre un alumno para ver los detalles.
+    </p>
+
+    <div class="col-lg-6 col-lg-offset-3">
+        @if(!alumnos.Any()) {
+            <p style="border:1px dashed red;padding:5px" class="text-center">
+                No tiene alumnos asignados, pida a los docentes que le asignen al alumno.
+            </p>
+        }
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            @foreach (var alumno in alumnos) {
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading@(alumno.CURP)">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(alumno.CURP)" aria-expanded="false" aria-controls="collapse@(alumno.CURP)">
+                                @alumno.NombreCompleto
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse@(alumno.CURP)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(alumno.CURP)">
+                        <div class="panel-body">
+                            @foreach (var registro in alumno.Grupos) {
+                                <div class="col-lg-6 list-group-item">
+                                    <p class="col-lg-12 text-center">
+                                        @registro.Materia @registro.Grado° @registro.Grupo
+                                    </p>
+                                    <p class="col-lg-12 text-center">
+                                        @for (int i = 1; i <= 6; i++) {
+                                            <a class="badge" href="@Url.Action("Detalle")/@alumno.IdAlumno/@i">@i</a>
+                                        }
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+@section styles {
+<style>
+    .panel-title a {
+        display: block;
+        padding: 10px 15px;
+        margin: -10px -15px;
+        text-decoration: none;
+    }
+</style>
+}

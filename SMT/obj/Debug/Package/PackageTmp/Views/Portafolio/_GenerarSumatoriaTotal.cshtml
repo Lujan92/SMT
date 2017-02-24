@@ -1,0 +1,30 @@
+﻿@model SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio
+
+@if (Model.portafolios.Where(i => i.TipoPortafolio.Nombre == Model.tipo).Count() > 0)
+{
+    foreach (SMT.Models.DB.Portafolio port in Model.portafolios.Where(i => i.TipoPortafolio.Nombre == Model.tipo))
+    {
+
+        if (port.Activo1 == true)
+        {
+            <td class="text-center">@(port.PortafolioAlumno.ToList().Select(i => float.Parse(i.Aspecto1)).Sum())</td>
+        }
+        if (port.Activo2 == true)
+        {
+            <td class="text-center">@(port.PortafolioAlumno.ToList().Select(i => float.Parse(i.Aspecto2)).Sum())</td>
+        }
+        if (port.Activo3 == true)
+        {
+            <td class="text-center">@(port.PortafolioAlumno.ToList().Select(i => float.Parse(i.Aspecto3)).Sum())</td>
+        }
+        if (port.Activo4 == true)
+        {
+            <td class="text-center">@(port.PortafolioAlumno.ToList().Select(i => float.Parse(i.Aspecto4)).Sum())</td>
+        }
+        if (port.Activo5 == true)
+        {
+            <td class="text-center">@(port.PortafolioAlumno.ToList().Select(i => float.Parse(i.Aspecto5)).Sum())</td>
+        }
+        <td></td>
+    }
+}

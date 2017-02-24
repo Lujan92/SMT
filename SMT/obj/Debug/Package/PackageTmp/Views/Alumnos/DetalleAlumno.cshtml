@@ -1,0 +1,790 @@
+﻿@model SMT.Models.DB.Alumno
+<link href="~/Content/plugins/cropper/cropper.css" rel="stylesheet" />
+<script src="~/Scripts/cropper/cropper.min.js"></script>
+<style>
+    .centrado{
+        text-align: center;
+        vertical-align: middle;
+    }
+    .separacionIzq{
+        border-left: 2px solid #DDDDDD;
+    }
+</style>
+<div class="col-lg-12 col-md-12 col-xs-12 form-group">
+    <h4>Datos del Alumno</h4>
+    <div class="col-md-12 col-xs-12 form-group">        
+        <h4 style="text-align:center;">@Model.Grupos.Grado@Model.Grupos.Grupo @Model.Grupos.Materia @Model.Grupos.Escuela</h4>
+    </div>
+    <div class="col-md-6 col-xs-6 form-group">
+        @Html.LabelFor(model => model.Nombre)<br />
+        @Model.Nombre
+    </div>
+    <div class="col-md-6 col-xs-6 form-group">
+        @Html.LabelFor(model => model.ApellidoPaterno)<br />
+        @Model.ApellidoPaterno
+    </div>
+    <div class="col-md-6 col-xs-6 form-group">
+        @Html.LabelFor(model => model.ApellidoMaterno)<br />
+        @Model.ApellidoMaterno
+    </div>
+    <div class="col-md-6 col-xs-6 form-group">
+        @Html.LabelFor(model => model.Curp)<br />
+        @Model.Curp
+    </div>
+    <div class="col-md-6 col-xs-6 form-group">
+        @Html.LabelFor(model => model.EsUSAER)<br />
+        @(Model.EsUSAER==true?"SI":"NO")
+    </div>
+
+    
+</div>    
+<a class="btn btn-info btn-sm pull-right" onclick="window.history.back()">Regresar</a>
+
+<div>
+    <div id="tabs" role="tablist">
+        <a href="#asistencia" class="btn btn-violeta" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencias</a>
+        <a href="#trabajos" class="btn btn-vino" aria-controls="trabajos" role="tab" data-toggle="tab">Trabajos</a>
+        <a href="#instrumentos" class="btn btn-rojo" aria-controls="instrumentos" role="tab" data-toggle="tab">Instrumentos</a>
+        <a href="#examenes" class="btn btn-naranja" aria-controls="exmanes" role="tab" data-toggle="tab">Examanes</a>
+        <a href="#habilidades" class="btn btn-amarillo" aria-controls="habilidades" role="tab" data-toggle="tab">Habilidades</a>
+        <a href="#control" class="btn btn-verdelimon" aria-controls="control" role="tab" data-toggle="tab">Control</a>
+        <a href="#reportes" class="btn btn-verde" aria-controls="reportes" role="tab" data-toggle="tab">Reporte general</a>
+        <a href="#diagnostico" class="btn btn-turquesa" aria-controls="diagnostico" role="tab" data-toggle="tab">Diagnóstico psicológico</a>
+    </div>
+    <div class="bimestre tab-content">
+        <div role="tabpanel" class="tab-pane active" id="asistencia">
+            <h4>Asistencias</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-asistencia">
+                        @foreach (var m in Model.sesionArray.GroupBy(i => new { Bimestre = i.Bimestres.Bimestre, IDBimestre = i.IDBimestre }))
+                        {
+                            <div class="col-md-12">
+                                <table class="table table-hover table-stripped">
+                                    <thead>
+                                        <tr >
+                                            <th rowspan="2" class="centrado" style="width:100px;">Bimestre @m.Key.Bimestre</th>
+                                            @foreach (var n in Model.AlumnoSesion.Where(i => i.Sesion.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Sesion.Fecha))
+                                            {
+                                                <th class="centrado separacionIzq">@SMT.Models.Util.toHoraMexico(n.Sesion.Fecha).ToString("dd/MM/yyyy")</th>
+                                            }
+                                            <th class="centrado">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="centrado">
+                                            <td></td>
+                                            @{ 
+                                                var contAsist = 0;
+                                                foreach (var n in Model.AlumnoSesion.Where(i => i.Sesion.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Sesion.Fecha))
+                                                {
+                                                    <td class="separacionIzq">
+                                                        @switch (n.Estado)
+                                                        {
+                                                            case 0:
+                                                                <span class="fa fa-close"></span>
+                                                                    break;
+                                                            case 1:
+                                                                contAsist++;
+                                                                <span class="fa fa-check"></span>
+                                                                break;
+                                                            case 2:
+                                                                contAsist++;
+                                                                <span>RET</span>
+                                                                break;
+                                                            case 3:
+                                                                contAsist++;
+                                                                <span>SUSP</span>
+                                                                break;
+                                                            case 4:
+                                                                contAsist++;
+                                                                <span>JUST</span>
+                                                                break;
+                                                        }
+                                                    </td>
+                                                }
+                                                <td>@contAsist</td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Asistenias -->
+
+        <div role="tabpanel" class="tab-pane" id="trabajos">
+            <h4>Trabajos</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-trabajo">
+                        @foreach (var m in Model.trabajoArray.GroupBy(i => new { Bimestre = i.Bimestres.Bimestre, IDBimestre = i.IDBimestre }))
+                        {
+                            <div class="col-md-12">
+                                <table class="table table-hover table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" class="centrado" style="width:100px;">Bimestre @m.Key.Bimestre</th>
+                                            @foreach (var n in Model.TrabajoAlumno.Where(i => i.Trabajo != null).Where(i => i.Trabajo.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Trabajo.Fecha))
+                                            {
+                                                <th class="centrado separacionIzq">@n.Trabajo.Nombre @SMT.Models.Util.toHoraMexico(n.Trabajo.Fecha.Value).ToString("dd/MM/yyyy")</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="centrado">
+                                            <td></td>
+                                            @foreach (var n in Model.TrabajoAlumno.Where(i => i.Trabajo != null).Where(i => i.Trabajo.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Trabajo.Fecha))
+                                            {
+                                                <td class="separacionIzq">
+                                                    @switch (n.Estado)
+                                                    {
+                                                        case 0:
+                                                            <span class="fa fa-close"></span>
+                                                            break;
+                                                        case 1:
+                                                            <span class="fa fa-check"></span>
+                                                            break;
+                                                        case 2:
+                                                            <span>&frac12;</span>
+                                                            break;                                                        
+                                                    }
+                                                </td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Trabajos -->
+
+        <div role="tabpanel" class="tab-pane" id="instrumentos">
+            <h4>Instrumentos</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-trabajo">
+                        @foreach (var m in Model.portafolioArray.GroupBy(i => new { Bimestre = i.Bimestres.Bimestre, IDBimestre = i.IDBimestre }))
+                        {
+                            <div class="col-md-12">
+                                <table class="table table-hover table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="3" class="centrado" style="width:100px;">Bimestre @m.Key.Bimestre</th>
+                                            @{
+                                                foreach (var n in Model.PortafolioAlumno.Where(i => i.Portafolio != null).Where(i => i.Portafolio.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Portafolio.FechaEntrega))
+                                                {
+                                                    var contadorCols = 0;
+                                                    if (n.Portafolio.Activo1)
+                                                    {
+                                                        contadorCols++;
+                                                    }
+                                                    if (n.Portafolio.Activo2)
+                                                    {
+                                                        contadorCols++;
+                                                    }
+                                                    if (n.Portafolio.Activo3)
+                                                    {
+                                                        contadorCols++;
+                                                    }
+                                                    if (n.Portafolio.Activo4)
+                                                    {
+                                                        contadorCols++;
+                                                    }
+                                                    if (n.Portafolio.Activo5)
+                                                    {
+                                                        contadorCols++;
+                                                    }
+                                                    contadorCols++;
+                                                    <th class="centrado separacionIzq" colspan="@contadorCols">                                                    
+                                                        @n.Portafolio.Nombre ( @n.Portafolio.TipoPortafolio.Nombre ) @SMT.Models.Util.toHoraMexico(n.Portafolio.FechaEntrega.Value).ToString("dd/MM/yyyy")
+                                                    </th>                                                
+                                                }
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @foreach (var n in Model.PortafolioAlumno.Where(i => i.Portafolio != null).Where(i => i.Portafolio.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Portafolio.FechaEntrega))
+                                            {
+                                                if (n.Portafolio.Activo1)
+                                                {
+                                                    <th class="centrado separacionIzq" >@n.Portafolio.Aspecto1</th>
+                                                }
+                                                if (n.Portafolio.Activo2)
+                                                {
+                                                    <th class="centrado">@n.Portafolio.Aspecto2</th>
+                                                }
+                                                if (n.Portafolio.Activo3)
+                                                {
+                                                    <th class="centrado">@n.Portafolio.Aspecto3</th>
+                                                }
+                                                if (n.Portafolio.Activo4)
+                                                {
+                                                    <th class="centrado">@n.Portafolio.Aspecto4</th>
+                                                }
+                                                if (n.Portafolio.Activo5)
+                                                {
+                                                    <th class="centrado">@n.Portafolio.Aspecto5</th>
+                                                }
+                                                <th class="centrado">Total</th>
+                                            }                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="centrado">
+                                            <td></td>
+                                            @{ 
+                                                foreach (var n in Model.PortafolioAlumno.Where(i => i.Portafolio != null).Where(i => i.Portafolio.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.Portafolio.FechaEntrega))
+                                                {
+                                                    double? contPort = 0.0;
+                                                    if (n.Portafolio.Activo1)
+                                                    {
+                                                        contPort += Convert.ToDouble(n.Aspecto1);
+                                                        <td class="centrado separacionIzq">@n.Aspecto1</td>                                                        
+                                                    }
+                                                    if (n.Portafolio.Activo2)
+                                                    {
+                                                        contPort += Convert.ToDouble(n.Aspecto2);
+                                                        <td class="centrado">@n.Aspecto2</td>
+                                                    }
+                                                    if (n.Portafolio.Activo3)
+                                                    {
+                                                        contPort += Convert.ToDouble(n.Aspecto3);
+                                                        <td class="centrado">@n.Aspecto3</td>
+                                                    }
+                                                    if (n.Portafolio.Activo4)
+                                                    {
+                                                        contPort += Convert.ToDouble(n.Aspecto4);
+                                                        <td class="centrado">@n.Aspecto4</td>
+                                                    }
+                                                    if (n.Portafolio.Activo5)
+                                                    {
+                                                        contPort += Convert.ToDouble(n.Aspecto5);
+                                                        <td class="centrado">@n.Aspecto5</td>
+                                                    }
+                                                    double? lie = 0.0;
+                                                    if (contPort > 10)
+                                                    {
+                                                        lie = 10;
+                                                    }
+                                                    else if (contPort < 5)
+                                                    {
+                                                        lie = 5;
+                                                    }
+                                                    else
+                                                    {
+                                                        lie = contPort;
+                                                    }
+                                                    <td class="centrado">@lie (@contPort)</td>
+                                                }
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Portafolio -->
+
+        <div role="tabpanel" class="tab-pane" id="examenes">
+            <h4>Examen</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-trabajo">
+                        @foreach (var m in Model.examenArray.GroupBy(i => new { Bimestre = i.Bimestres.Bimestre, IDBimestre = i.IDBimestre }))
+                        {
+                            <div class="col-md-12">
+                                <table class="table table-hover table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="4" class="centrado" style="width:100px;">Bimestre @m.Key.Bimestre</th>
+                                            @foreach (var n in Model.examenArray.Where(i => i.ExamenTema != null).Where(i => i.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.FechaEntrega))
+                                            {
+                                                var contadorrowexamen = n.ExamenTema.Count()+1;
+                                                <th class="centrado separacionIzq" colspan="@contadorrowexamen">
+                                                    @n.Tipo @SMT.Models.Util.toHoraMexico(n.FechaEntrega).ToString("dd/MM/yyyy")
+                                                </th>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @{
+                                                int contadorreg = 0;
+                                                Guid idExamen = default(Guid);
+                                                int total = Model.ExamenAlumno.Where(i => i.ExamenTema != null).Where(i => i.ExamenTema.Examen.IDBimestre == m.Key.IDBimestre).Count();
+                                                foreach (var n in Model.ExamenAlumno.Where(i => i.ExamenTema != null).Where(i => i.ExamenTema.Examen.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.ExamenTema.Examen.FechaEntrega))
+                                                {
+                                                    contadorreg++;
+                                                    if ((idExamen != n.ExamenTema.IDExamen && idExamen != default(Guid)) || total == contadorreg)
+                                                    {
+                                                        if (total == contadorreg)
+                                                        {
+                                                            <th class="centrado separacionIzq">@n.ExamenTema.Nombre</th>
+                                                        }
+                                                        <th class="centrado separacionIzq">Total</th>
+                                                    }
+                                                    else { 
+                                                        idExamen = n.ExamenTema.IDExamen;
+                                                        <th class="centrado separacionIzq">@n.ExamenTema.Nombre</th>
+                                                    }
+                                                }
+
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="centrado">
+                                            <td></td>
+                                            @{
+                                                double? contadorExamen = 0.0;
+                                                Guid idExamen2 = default(Guid);
+                                                contadorreg = 0;
+                                                total = Model.ExamenAlumno.Where(i => i.ExamenTema != null).Where(i => i.ExamenTema.Examen.IDBimestre == m.Key.IDBimestre).Count();
+                                                foreach (var n in Model.ExamenAlumno.Where(i => i.ExamenTema != null).Where(i => i.ExamenTema.Examen.IDBimestre == m.Key.IDBimestre).OrderByDescending(i => i.ExamenTema.Examen.FechaEntrega))
+                                                {
+                                                    contadorreg++;
+                                                    if ((idExamen2 != n.ExamenTema.IDExamen && idExamen2 != default(Guid)) || contadorreg == total)
+                                                    {
+                                                        if (total == contadorreg)
+                                                        {
+                                                            <td class="centrado separacionIzq">@n.Calificacion</td>
+                                                        }
+                                                        
+                                                        double? lie = 0.0;
+                                                        if (contadorExamen > 10)
+                                                        {
+                                                            lie = 10;
+                                                        }
+                                                        else if (contadorExamen < 5)
+                                                        {
+                                                            lie = 5;
+                                                        }
+                                                        else
+                                                        {
+                                                            lie = contadorExamen;
+                                                        }
+                                                        <td class="centrado separacionIzq">@lie (@contadorExamen)</td>
+                                                        contadorExamen = 0;
+                                                    }
+                                                    else {
+                                                        idExamen2 = n.ExamenTema.IDExamen;
+                                                        contadorExamen += n.Calificacion;
+                                                        <td class="centrado separacionIzq">@n.Calificacion</td>
+                                                    }
+                                                }
+
+                                                }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Examen -->
+
+        <div role="tabpanel" class="tab-pane" id="habilidades">
+            <h4>Habilidad</h4>
+            <div class="panel panel-default">
+                @{ 
+                    List<SMT.Models.DB.HabilidadesAlumno> habs = Model.HabilidadesAlumno.Where(a => a.IDGrupo == Model.IDGrupo).ToList();
+                    Dictionary<string, string> valores = new Dictionary<string, string>();
+                    valores.Add("S","Siempre");
+                    valores.Add("C", "Casi siempre");
+                    valores.Add("E", "En ocaciones");
+                    valores.Add("R", "Requiere apoyo");
+                }
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    @foreach (var m in habs.OrderBy(a => a.Bimestres.Bimestre))
+                    {
+                       <table class="table">
+                           <tr>
+                               <th class="text-center" colspan="9">Bimestre @m.Bimestres.Bimestre</th>
+                           </tr>
+                           <tr>
+                               <th colspan="2" class="text-center">Evaluación</th>
+                               <th colspan="3" class="text-center">Comprensión de Lectora</th>
+                               <th colspan="4" class="text-center">Apoyo</th>
+                           </tr>
+                           <tr>
+                               <th class="text-center">Autoevaluación</th>
+                               <th class="text-center">Coevaluación</th>
+                               <th class="text-center">Conocimiento</th>
+                               <th class="text-center">Sintesis</th>
+                               <th class="text-center">Argumentacion</th>
+                               <th class="text-center">Requiere Apoyo Lectura</th>
+                               <th class="text-center">Requiere Apoyo Escritura</th>
+                               <th class="text-center">Requiere Apoyo Matemáticas</th>
+                               <th class="text-center">Se involucra en clase</th>
+                           </tr>
+                           <tr>
+                               <td class="text-center">@(m.Autoevaluacion != null? m.Autoevaluacion.ToString() : "")</td>
+                               <td class="text-center">@(m.Coevaluacion != null ? m.Coevaluacion.ToString() : "")</td>
+                               <td class="text-center">@(m.Conocimiento!= null ?valores[m.Conocimiento]:"")</td>
+                               <td class="text-center">@(m.Sintesis != null ? valores[m.Sintesis] : "" )</td>
+                               <td class="text-center">@(m.Argumentacion != null ?valores[m.Argumentacion] : "")</td>
+                               <td class="text-center">@(m.ApoyoLectura != null? m.ApoyoLectura.ToString(): "")</td>
+                               <td class="text-center">@(m.ApoyoEscritura != null ? m.ApoyoEscritura.ToString() :"")</td>
+                               <td class="text-center">@(m.ApoyoMatematicas != null ? m.ApoyoMatematicas.ToString() : "")</td>
+                               <td class="text-center">@(m.SeInvolucraClase == true ? "Si" : "No")</td>
+                           </tr>
+                       </table>
+                    }
+                </div>
+            </div>
+        </div> <!-- Habulidades -->
+
+        <div role="tabpanel" class="tab-pane" id="control">
+            <h4>Control</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    @{ 
+                        var control = Model.AlumnoDesempenio.ToList();
+                        foreach(var m in control)
+                        {
+                            <table class="table">
+                                <tr>
+                                    <th colspan="20" class="text-center">Bimestre @m.Bimestre</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Asistencias</th>
+                                    <th class="text-center">Inasistencias</th>
+                                    <th class="text-center">Trabajos</th>
+                                    <th class="text-center">Exposición</th>
+                                    <th class="text-center">Línea de tiempo</th>
+                                    <th class="text-center">Autoevaluación</th>
+                                    <th class="text-center">Coevaluacion</th>
+                                    <th class="text-center">Promedio Parcial</th>
+                                    <th class="text-center">Bimestral</th>
+                                    <th class="text-center">Diagnostico por Ciclo</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">@(m.TotalAsistencias != null ? m.TotalAsistencias.ToString() : "")</td>
+                                    <td class="text-center">@(m.TotalFaltas != null ? m.TotalFaltas.ToString() : "")</td>
+                                    <td class="text-center">@(m.PromedioTrabajo != null ? SMT.Models.Util.calificacionSEP100String(m.PromedioTrabajo.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioPortafolioExposicion != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioPortafolioExposicion.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioPortafolioLineaTiempo != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioPortafolioLineaTiempo.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioHabilidadAutoevaluacion != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioHabilidadAutoevaluacion.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioHabilidadCoevaluacion != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioHabilidadCoevaluacion.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioExamenParcial != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioExamenParcial.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioExamenBimestral != null ? SMT.Models.Util.calificacionSEP100String(m.PromedioExamenBimestral.Value) : "")</td>
+                                    <td class="text-center">@(m.PromedioExamenDiagnostico != null ? SMT.Models.Util.calificacionSEP100String(m.PromedioExamenDiagnostico.Value) : "")</td>
+    
+
+                                </tr>
+                            </table>
+
+
+                        }
+                    }
+
+                    <div id="tabla-control">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Control -->
+
+        <div role="tabpanel" class="tab-pane" id="reportes">
+            <h4>Reporte general</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-control">
+                        @{ 
+                            var general = Model.AlumnoDesempenio.ToList();
+                            foreach(var m in general)
+                            {
+                                <table class="table">
+                                    <tr><th class="text-center" colspan="7">Bimestre @m.Bimestre</th></tr>
+                                    <tr>
+                                        <th class="text-center">Trabajos y Tareas que Cumplió</th>
+                                        <th class="text-center">Trabajos y Tareas medios</th>
+                                        <th class="text-center">Trabajos y Tareas que no Cumplió</th>
+                                        <th class="text-center" >Exposición</th>
+                                        <th class="text-center">Línea de tiempo</th>
+                                        <th class="text-center">Examen Parcial</th>
+                                        <th class="text-center">Examen Bimestral</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@(m.TotalTrabajosCumplidos != null ? m.TotalTrabajosCumplidos.ToString() : "")</td>
+                                        <td>@(m.TotalTrabajosMedios != null ? m.TotalTrabajosMedios.ToString() : "")</td>
+                                        <td>@(m.TotalTrabajosNoCumplidos != null ? m.TotalTrabajosNoCumplidos.ToString() : "")</td>
+                                        <td>@(m.PromedioPortafolioExposicion != null ? SMT.Models.Util.calificacionSEP10String( m.PromedioPortafolioExposicion.Value) : "")</td>
+                                        <td>@(m.PromedioPortafolioLineaTiempo != null ? SMT.Models.Util.calificacionSEP10String(m.PromedioPortafolioLineaTiempo.Value) : "")</td>
+                                        <td>@(m.PromedioExamenParcial != null ? SMT.Models.Util.calificacionSEP100String(m.PromedioExamenParcial.Value) : "")</td>
+                                        <td>@(m.PromedioExamenBimestral != null ? SMT.Models.Util.calificacionSEP100String(m.PromedioExamenBimestral.Value) : "")</td>
+                                    </tr>
+                                </table>
+
+
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Reporte general -->
+
+
+        <div role="tabpanel" class="tab-pane" id="diagnostico">
+            <h4>Diagnóstico psicológico</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Model.Grupos.Descripcion</div>
+                <div class="panel-body">
+                    <div id="tabla-control">
+                        @{
+                            var diagnostico = Model.DiagnosticoPsicologico.ToList();
+                            foreach (var m in diagnostico)
+                            {
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Entorno familiar</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Familia completa</th>
+                                        <th class="text-center">Familia Monoparental</th>
+                                        <th class="text-center">Vive con abuelos, tíos, etc.</th>
+                                        <th class="text-center">Numero de hermanos</th>
+                                        <th class="text-center">Lugar que ocupa en la familia</th>
+                                        <th class="text-center">Muestra interés en la educación de su hij@@</th>
+                                        <th class="text-center">Participa en las actividades de la escuela</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.FamiliaCompleta != null ? m.FamiliaCompleta.ToString() : "")</td>
+                                        <td class="text-center">@(m.FamiliaMonoparental != null ? m.FamiliaMonoparental.ToString() : "")</td>
+                                        <td class="text-center">@(m.ViveOtros != null ? m.ViveOtros.ToString() : "")</td>
+                                        <td class="text-center">@(m.Hermanos != null ? m.Hermanos.ToString() : "")</td>
+                                        <td class="text-center">@(m.LugarFamilia != null ? m.LugarFamilia.ToString() : "")</td>
+                                        <td class="text-center">@(m.MuestraInteresHijo != null ? m.MuestraInteresHijo.ToString() : "")</td>
+                                        <td class="text-center">@(m.ParticipaActividadesEscuela != null ? m.ParticipaActividadesEscuela.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Entorno social-cultural, convivencia escolar</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Reconoce su propia valía</th>
+                                        <th class="text-center">Expresa emociones o ideas</th>
+                                        <th class="text-center">Respeta a sí mismo y a los demás</th>
+                                        <th class="text-center">Maneja y resuelve conflictos: dialogo y acuerdos</th>
+                                        <th class="text-center">Respeta reglas y acuerdos de convivencia</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.ReconoceValia != null ? m.ReconoceValia .ToString() : "")</td>
+                                        <td class="text-center">@(m.ExpresaEmociones != null ? m.ExpresaEmociones.ToString() : "")</td>
+                                        <td class="text-center">@(m.RespetaAsiMismo != null ? m.RespetaAsiMismo.ToString() : "")</td>
+                                        <td class="text-center">@(m.ResuelveConfilctos != null ? m.ResuelveConfilctos.ToString() : "")</td>
+                                        <td class="text-center">@(m.RespetaReglas != null ? m.RespetaReglas.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Entorno Económico</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Cuenta con casa y servicios básicos</th>
+                                        <th class="text-center">Tiene acceso a computadora e internet</th>
+                                        <th class="text-center">Como se traslada a la escuela</th>
+                                        <th class="text-center">Cuenta con servicio médico</th>
+                                        <th class="text-center">La escolaridad de los padres</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.CuentaConCasa != null ? m.CuentaConCasa.ToString() : "")</td>
+                                        <td class="text-center">@(m.TieneComputadora != null ? m.TieneComputadora.ToString() : "")</td>
+                                        <td class="text-center">@(m.ComoSeTranslada != null ? m.ComoSeTranslada.ToString() : "")</td>
+                                        <td class="text-center">@(m.ServicioMedico != null ? m.ServicioMedico.ToString() : "")</td>
+                                        <td class="text-center">@(m.EscolaridadPadres != null ? m.EscolaridadPadres.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Caracterizacion general del alumno</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Edad</th>
+                                        <th class="text-center">Sexo</th>
+                                        <th class="text-center">Regular</th>
+                                        <th class="text-center">N.E.E</th>
+                                        <th class="text-center">Actitudes sobresalientes y talentos específicos</th>
+                                        <th class="text-center">Situación de riesgo / rechazo</th>
+                                        <th class="text-center">Necesidades especificas</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.Edad != null ? m.Edad.ToString() : "")</td>
+                                        <td class="text-center">@(m.Sexo != null ? m.Sexo.ToString() : "")</td>
+                                        <td class="text-center">@(m.Regular != null ? m.Regular.ToString() : "")</td>
+                                        <td class="text-center">@(m.NEE != null ? m.NEE.ToString() : "")</td>
+                                        <td class="text-center">@(m.Talentos != null ? m.Talentos.ToString() : "")</td>
+                                        <td class="text-center">@(m.SituacionRiesgo != null ? m.SituacionRiesgo.ToString() : "")</td>
+                                        <td class="text-center">@(m.Necesidades != null ? m.Necesidades.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Inteligencias Multiples</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Linguística verbal</th>
+                                        <th class="text-center">Lógico matemática</th>
+                                        <th class="text-center">Visual / espacial</th>
+                                        <th class="text-center">Kinestésica corporal</th>
+                                        <th class="text-center">Musical rítmica/auditivo</th>
+                                        <th class="text-center">Intrapersonal</th>
+                                        <th class="text-center">Interpersonal</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.Linguistica != null ? m.Linguistica.ToString() : "")</td>
+                                        <td class="text-center">@(m.LogicoMatematica != null ? m.LogicoMatematica.ToString() : "")</td>
+                                        <td class="text-center">@(m.VisualEspacial != null ? m.VisualEspacial.ToString() : "")</td>
+                                        <td class="text-center">@(m.KinestesicaCorporal != null ? m.KinestesicaCorporal.ToString() : "")</td>
+                                        <td class="text-center">@(m.Musical != null ? m.Musical.ToString() : "")</td>
+                                        <td class="text-center">@(m.Intrapersonal != null ? m.Intrapersonal.ToString() : "")</td>
+                                        <td class="text-center">@(m.Interpersonal != null ? m.Interpersonal.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Entorno Grupal</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Muestra iniciativa</th>
+                                        <th class="text-center">Requiere apoyo constante</th>
+                                        <th class="text-center">Motivado</th>
+                                        <th class="text-center">Aburrimiento</th>
+                                        <th class="text-center">Indiferencia</th>
+                                        <th class="text-center">Temeroso(a)</th>
+                                        <th class="text-center">Conducta inadecuada</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.MuestraIniciativa != null ? m.MuestraIniciativa.ToString() : "")</td>
+                                        <td class="text-center">@(m.RequiereApoyo != null ? m.RequiereApoyo.ToString() : "")</td>
+                                        <td class="text-center">@(m.Motivado != null ? m.Motivado.ToString() : "")</td>
+                                        <td class="text-center">@(m.Aburrimiento != null ? m.Aburrimiento.ToString() : "")</td>
+                                        <td class="text-center">@(m.Indiferencia != null ? m.Indiferencia.ToString() : "")</td>
+                                        <td class="text-center">@(m.Temeroso != null ? m.Temeroso.ToString() : "")</td>
+                                        <td class="text-center">@(m.ConductaInadecuada != null ? m.ConductaInadecuada.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Desarrollo evolutivo según Piaget</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Muestra iniciativa</th>
+                                        <th class="text-center">Requiere apoyo constante</th>
+                                        <th class="text-center">Motivado</th>
+                                        <th class="text-center">Aburrimiento</th>
+                                        <th class="text-center">Indiferencia</th>
+                                        <th class="text-center">Temeroso(a)</th>
+                                        <th class="text-center">Conducta inadecuada</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.MuestraIniciativa != null ? m.MuestraIniciativa.ToString() : "")</td>
+                                        <td class="text-center">@(m.RequiereApoyo != null ? m.RequiereApoyo.ToString() : "")</td>
+                                        <td class="text-center">@(m.Motivado != null ? m.Motivado.ToString() : "")</td>
+                                        <td class="text-center">@(m.Aburrimiento != null ? m.Aburrimiento.ToString() : "")</td>
+                                        <td class="text-center">@(m.Indiferencia != null ? m.Indiferencia.ToString() : "")</td>
+                                        <td class="text-center">@(m.Temeroso != null ? m.Temeroso.ToString() : "")</td>
+                                        <td class="text-center">@(m.ConductaInadecuada != null ? m.ConductaInadecuada.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Evaluación Diagnostica</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Bloque I</th>
+                                        <th class="text-center">Bloque II</th>
+                                        <th class="text-center">Bloque III</th>
+                                        <th class="text-center">Bloque IV</th>
+                                        <th class="text-center">Bloque V</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.EvaluacionBloque1 != null ? m.EvaluacionBloque1.ToString() : "")</td>
+                                        <td class="text-center">@(m.EvaluacionBloque2 != null ? m.EvaluacionBloque2.ToString() : "")</td>
+                                        <td class="text-center">@(m.EvaluacionBloque3 != null ? m.EvaluacionBloque3.ToString() : "")</td>
+                                        <td class="text-center">@(m.EvaluacionBloque4 != null ? m.EvaluacionBloque4.ToString() : "")</td>
+                                        <td class="text-center">@(m.EvaluacionBloque5 != null ? m.EvaluacionBloque5.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">Programa de intervención</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Bloque I</th>
+                                        <th class="text-center">Bloque II</th>
+                                        <th class="text-center">Bloque III</th>
+                                        <th class="text-center">Bloque IV</th>
+                                        <th class="text-center">Bloque V</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.ProgramaBloque1 != null ? m.ProgramaBloque1.ToString() : "")</td>
+                                        <td class="text-center">@(m.ProgramaBloque2 != null ? m.ProgramaBloque2.ToString() : "")</td>
+                                        <td class="text-center">@(m.ProgramaBloque3 != null ? m.ProgramaBloque3.ToString() : "")</td>
+                                        <td class="text-center">@(m.ProgramaBloque4 != null ? m.ProgramaBloque4.ToString() : "")</td>
+                                        <td class="text-center">@(m.ProgramaBloque5 != null ? m.ProgramaBloque5.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="20">CTE Clasificación</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">9 y 10</th>
+                                        <th class="text-center">7 y 8</th>
+                                        <th class="text-center">5 y 6</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">@(m.CTE10 != null ? m.CTE10.ToString() : "")</td>
+                                        <td class="text-center">@(m.CTE8 != null ? m.CTE8.ToString() : "")</td>
+                                        <td class="text-center">@(m.CTE5 != null ? m.CTE5.ToString() : "")</td>
+
+                                    </tr>
+                                </table>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> <!-- diagnostico -->
+      
+    </div>
+</div>
+
+

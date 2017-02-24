@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Reporte";
+    var reporte = ViewBag.Reporte as SMT.ViewModels.ReporteEscuelaViewModel;
+}
+<div class="clearfix"></div>
+<br />
+<div class="col-lg-12">
+    <h2>Reporte <button onclick="print()" class="hidden-print btn btn-danger pull-right"><i class="fa fa-print"></i> Imprimir</button></h2>
+</div>
+<div class="clearfix"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            Asistencias
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="hidden-print">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                <b>Asistencias:</b> @(reporte.Asistencias.Asistencias)
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                <b>Faltas:</b> @(reporte.Asistencias.Faltas)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                <b>Justificaciones:</b> @(reporte.Asistencias.Justificaciones)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                <b>Retardo:</b> @(reporte.Asistencias.Retardo)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                <b>Suspensión:</b> @(reporte.Asistencias.Suspencion)
+            </div>
+        </div>
+        <div class="only-print">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <b>Asistencias:</b> @(reporte.Asistencias.Asistencias)
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <b>Faltas:</b> @(reporte.Asistencias.Faltas)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Justificaciones:</b> @(reporte.Asistencias.Justificaciones)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Retardo:</b> @(reporte.Asistencias.Retardo)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Suspensión:</b> @(reporte.Asistencias.Suspencion)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            Trabajos
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="hidden-print">
+            <div class="col-lg-3 col-md-3"><b>Trabajos: </b> </div>
+            <div class="col-lg-3 col-md-3">Entregados: @(reporte.Trabajos.Entregados)</div>
+            <div class="col-lg-3 col-md-3">Incompleto: @(reporte.Trabajos.Incompleto)</div>
+            <div class="col-lg-3 col-md-3">No Entregados: @(reporte.Trabajos.NoEntregados)</div>
+
+            <div class="col-lg-3 col-md-3"><b>Instrumentos:</b></div>
+            <div class="col-lg-3 col-md-3">Aprobados: @(reporte.Instrumentos.Aprovados)</div>
+            <div class="col-lg-3 col-md-3">No Aprobados: @(reporte.Instrumentos.NoAprovados)</div>
+            <div class="col-lg-3 col-md-3">Promedio: @(reporte.Instrumentos.Promedio.ToString("F2"))</div>
+        </div>
+
+        <div class="only-print">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Trabajos: </b> </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Entregados: @(reporte.Trabajos.Entregados)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Incompleto: @(reporte.Trabajos.Incompleto)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Entregados: @(reporte.Trabajos.NoEntregados)</div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Instrumentos:</b></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Aprobados: @(reporte.Instrumentos.Aprovados)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Aprobados: @(reporte.Instrumentos.NoAprovados)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Promedio: @(reporte.Instrumentos.Promedio.ToString("F2"))</div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            Examenes
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="hidden-print">
+            <div class="col-lg-3 col-md-3"><b>Bimestrales:</b></div>
+            <div class="col-lg-3 col-md-3">Aprobados: @(reporte.Examenes.Bimestrales.Aprovado)</div>
+            <div class="col-lg-3 col-md-3">No Aprobados: @(reporte.Examenes.Bimestrales.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3">Promedio: @(reporte.Examenes.Bimestrales.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3"><b>Diagnóstico:</b></div>
+            <div class="col-lg-3 col-md-3">Aprobados: @(reporte.Examenes.Diagnostico.Aprovado)</div>
+            <div class="col-lg-3 col-md-3">No Aprobados: @(reporte.Examenes.Diagnostico.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3">Promedio: @(reporte.Examenes.Diagnostico.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3"><b>Parciales:</b></div>
+            <div class="col-lg-3 col-md-3">Aprobados: @(reporte.Examenes.Parciales.Aprovado)</div>
+            <div class="col-lg-3 col-md-3">No Aprobados: @(reporte.Examenes.Parciales.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3">Promedio: @(reporte.Examenes.Parciales.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3"><b>Recuperación:</b></div>
+            <div class="col-lg-3 col-md-3">Aprobados: @(reporte.Examenes.Recuperacion.Aprovado)</div>
+            <div class="col-lg-3 col-md-3">No Aprobados: @(reporte.Examenes.Recuperacion.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3">Promedio: @(reporte.Examenes.Recuperacion.Promedio.ToString("F2"))</div>
+        </div>
+        <div class="only-print">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Bimestrales:</b></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Aprobados: @(reporte.Examenes.Bimestrales.Aprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Aprobados: @(reporte.Examenes.Bimestrales.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Promedio: @(reporte.Examenes.Bimestrales.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Diagnóstico:</b></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Aprobados: @(reporte.Examenes.Diagnostico.Aprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Aprobados: @(reporte.Examenes.Diagnostico.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Promedio: @(reporte.Examenes.Diagnostico.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Parciales:</b></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Aprobados: @(reporte.Examenes.Parciales.Aprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Aprobados: @(reporte.Examenes.Parciales.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Promedio: @(reporte.Examenes.Parciales.Promedio.ToString("F2"))</div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>Recuperación:</b></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Aprobados: @(reporte.Examenes.Recuperacion.Aprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">No Aprobados: @(reporte.Examenes.Recuperacion.NoAprovado)</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Promedio: @(reporte.Examenes.Recuperacion.Promedio.ToString("F2"))</div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            Promedios
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-12 promedios-generales"></div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">&nbsp;</h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-12 promedios-desgloce"></div>
+    </div>
+</div>
+@section scripts {
+<script src="~/Scripts/highcharts.js"></script>
+<script src="~/Scripts/apps/ReporteEscuela/ReporteEscuela.js"></script>
+<script>ReporteEscuela.promedios(@Html.Raw(Json.Encode(reporte.Promedios)))</script>
+}
+@section styles {
+<style>
+    @@media screen {
+        .only-print {
+            display: none;
+        }
+    }
+</style>
+}

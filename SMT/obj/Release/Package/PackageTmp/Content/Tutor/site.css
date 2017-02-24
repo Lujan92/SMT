@@ -1,0 +1,577 @@
+﻿@media screen {
+    body {
+        background: #f5f5f5 url('/Content/Images/bg.png') repeat;
+    }
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #B94A48;
+    position: absolute;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #B94A48 !important;
+    border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    outline: thin dotted \9;
+  /* IE6-9 */
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(185, 74, 72, 0.6 ) !important;
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(185, 74, 72, 0.6 ) !important;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(185, 74, 72, 0.6 ) !important;
+
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #B94A48;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/***
+    Loading    
+***/
+#modal_loading{
+    color:#fff;
+    display:none;
+    font-size:16px;
+    position:fixed;
+    text-align:center;
+    z-index:2000;
+}
+
+    #modal_loading .bks
+    {
+        background: -moz-linear-gradient(top,  rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(0,0,0,0.9)));
+        background: -webkit-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.9) 100%);
+        background: -o-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.9) 100%);
+        background: -ms-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.9) 100%);
+        background: linear-gradient(to bottom,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.9) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66000000', endColorstr='#e6000000',GradientType=0 );
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
+
+#modal_loading .content{
+    left:50%;
+    margin-left:-150px;
+    position:fixed;
+    top:45%;
+    width:300px;
+}
+
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 50px;
+}
+.navbar-top-links .dropdown-menu li a {
+    padding: 3px 20px;
+    min-height: 0;
+}
+.navbar-top-links li:last-child {
+    margin-right: 15px;
+}
+
+
+
+
+#btn-azul{
+    color: #fff;
+    background-color: #377AD3;
+    border-color: #2667bd;
+}
+
+#btn-azul:hover{
+    color: #fff;
+    background-color: #3471c1;
+    border-color: #24589d;
+}
+
+#btn-violeta{
+    color: #fff;
+    background-color: #3D3F7C;
+    border-color: #36386c;
+}
+
+#btn-violeta:hover{
+    color: #fff;
+    background-color: #343667;
+    border-color: #2d2f5a;
+}
+
+#btn-vino{
+    color: #fff;
+    background-color: #83426C;
+    border-color: #743b60;
+}
+
+#btn-vino:hover{
+    color: #fff;
+    background-color: #6c375a;
+    border-color: #663455;
+}
+
+#btn-rojo{
+    color: #fff;
+    background-color: #E93328;
+    border-color: #c72f26;
+}
+
+#btn-rojo:hover{
+    color: #fff;
+    background-color: #d63026;
+    border-color: #af2a22;
+}
+
+#btn-naranja{
+    color: #fff;
+    background-color: #FD6222;
+    border-color: #db5822;
+}
+
+#btn-naranja:hover{
+    color: #fff;
+    background-color: #e85b21;
+    border-color: #c65020;
+}
+
+#btn-amarillo{
+    color: #333;
+    background-color: #FDF80F;
+    border-color: #ddd913;
+}
+
+#btn-amarillo:hover{
+    color: #333;
+    background-color: #e6e10e;
+    border-color: #c1bd14;
+}
+
+#btn-verdelimon{
+    color: #fff;
+    background-color: #71BB3D;
+    border-color: #63a237;
+}
+
+#btn-verdelimon:hover{
+    color: #fff;
+    background-color: #61a034;
+    border-color: #558a30;
+}
+
+#btn-verde{
+    color: #fff;
+    background-color: #2CA851;
+    border-color: #278e46;
+}
+
+#btn-verde:hover{
+    color: #fff;
+    background-color: #299248;
+    border-color: #217b3c;
+}
+
+ #btn-turquesa{
+    color: #fff;
+    background-color: #3CA786;
+    border-color: #369074;
+}
+
+#btn-turquesa:hover{
+    color: #fff;
+    background-color: #338e72;
+    border-color: #2e7a63;
+}
+#btn-rosa{
+    color: #fff;
+    background-color: #FD7986;
+    border-color: #d06570;
+}
+
+#btn-rosa:hover{
+    color: #fff;
+    background-color: #d06570;
+    border-color: #b25760;
+}
+
+
+
+
+#btn-azul-claro{
+    color: #fff;
+    background-color: #5d9bee;
+    border-color: #3a7ed8;
+}
+
+#btn-azul-claro:hover{
+    color: #fff;
+    background-color: #3a7ed8;
+    border-color: #2a70cd;
+}
+
+#btn-violeta-claro{
+    color: #fff;
+    background-color: #7b7cb0;
+    border-color: #414386;
+}
+
+#btn-violeta-claro:hover{
+    color: #fff;
+    background-color: #414386;
+    border-color: #383a7c;
+}
+
+#btn-vino-claro{
+    color: #fff;
+    background-color: #a56a90;
+    border-color: #86446e;
+}
+
+#btn-vino-claro:hover{
+    color: #fff;
+    background-color: #86446e;
+    border-color: #7a3963;
+}
+
+#btn-rojo-claro{
+    color: #fff;
+    background-color: #fa675e;
+    border-color: #ee372c;
+}
+
+#btn-rojo-claro:hover{
+    color: #fff;
+    background-color: #ee372c;
+    border-color: #e12c21;
+}
+
+#btn-naranja-claro{
+    color: #fff;
+    background-color: #fa8f62;
+    border-color: #f6662a;
+}
+
+#btn-naranja-claro:hover{
+    color: #fff;
+    background-color: #f6662a;
+    border-color: #ee5d21;
+}
+
+#btn-amarillo-claro{
+    color: #333;
+    background-color: #fffd8b;
+    border-color: #f7f324;
+}
+
+#btn-amarillo-claro:hover{
+    color: #333;
+    background-color: #f7f324;
+    border-color: #deda13;
+}
+
+#btn-verdelimon-claro{
+    color: #fff;
+    background-color: #b0e28e;
+    border-color: #7ac249;
+}
+
+#btn-verdelimon-claro:hover{
+    color: #fff;
+    background-color: #7ac249;
+    border-color: #68ae39;
+}
+
+#btn-verde-claro{
+    color: #fff;
+    background-color: #87d69e;
+    border-color: #36aa59;
+}
+
+#btn-verde-claro:hover{
+    color: #fff;
+    background-color: #36aa59;
+    border-color: #299b4c;
+}
+
+ #btn-turquesa-claro{
+    color: #fff;
+    background-color: #74ccb1;
+    border-color: #42a98a;
+}
+
+#btn-turquesa-claro:hover{
+    color: #fff;
+    background-color: #42a98a;
+    border-color: #35997b;
+}
+#btn-rosa-claro{
+    color: #fff;
+    background-color: #fdb6bd;
+    border-color: #f37581;
+}
+
+#btn-rosa-claro:hover{
+    color: #fff;
+    background-color: #f37581;
+    border-color: #e86874;
+}
+
+
+.btn-azul{
+    color: #fff;
+    background-color: #377AD3;
+    border-color: #2667bd;
+}
+
+.btn-azul:hover{
+    color: #fff;
+    background-color: #3471c1;
+    border-color: #24589d;
+}
+
+.btn-violeta{
+    color: #fff;
+    background-color: #3D3F7C;
+    border-color: #36386c;
+}
+
+.btn-violeta:hover{
+    color: #fff;
+    background-color: #343667;
+    border-color: #2d2f5a;
+}
+
+.btn-vino{
+    color: #fff;
+    background-color: #83426C;
+    border-color: #743b60;
+}
+
+.btn-vino:hover{
+    color: #fff;
+    background-color: #6c375a;
+    border-color: #663455;
+}
+
+.btn-rojo{
+    color: #fff;
+    background-color: #E93328;
+    border-color: #c72f26;
+}
+
+.btn-rojo:hover{
+    color: #fff;
+    background-color: #d63026;
+    border-color: #af2a22;
+}
+
+.btn-naranja{
+    color: #fff;
+    background-color: #FD6222;
+    border-color: #db5822;
+}
+
+.btn-naranja:hover{
+    color: #fff;
+    background-color: #e85b21;
+    border-color: #c65020;
+}
+
+.btn-amarillo{
+    color: #333;
+    background-color: #FDF80F;
+    border-color: #ddd913;
+}
+
+.btn-amarillo:hover{
+    color: #333;
+    background-color: #e6e10e;
+    border-color: #c1bd14;
+}
+
+.btn-verdelimon{
+    color: #fff;
+    background-color: #71BB3D;
+    border-color: #63a237;
+}
+
+.btn-verdelimon:hover{
+    color: #fff;
+    background-color: #61a034;
+    border-color: #558a30;
+}
+
+.btn-verde{
+    color: #fff;
+    background-color: #2CA851;
+    border-color: #278e46;
+}
+
+.btn-verde:hover{
+    color: #fff;
+    background-color: #299248;
+    border-color: #217b3c;
+}
+
+ .btn-turquesa{
+    color: #fff;
+    background-color: #3CA786;
+    border-color: #369074;
+}
+
+.btn-turquesa:hover{
+    color: #fff;
+    background-color: #338e72;
+    border-color: #2e7a63;
+}
+.btn-rosa{
+    color: #fff;
+    background-color: #FD7986;
+    border-color: #d06570;
+}
+
+.btn-rosa:hover{
+    color: #fff;
+    background-color: #d06570;
+    border-color: #b25760;
+}
+
+
+
+
+.btn-azul-claro{
+    color: #fff;
+    background-color: #5d9bee;
+    border-color: #3a7ed8;
+}
+
+.btn-azul-claro:hover{
+    color: #fff;
+    background-color: #3a7ed8;
+    border-color: #2a70cd;
+}
+
+.btn-violeta-claro{
+    color: #fff;
+    background-color: #7b7cb0;
+    border-color: #414386;
+}
+
+.btn-violeta-claro:hover{
+    color: #fff;
+    background-color: #414386;
+    border-color: #383a7c;
+}
+
+.btn-vino-claro{
+    color: #fff;
+    background-color: #a56a90;
+    border-color: #86446e;
+}
+
+.btn-vino-claro:hover{
+    color: #fff;
+    background-color: #86446e;
+    border-color: #7a3963;
+}
+
+.btn-rojo-claro{
+    color: #fff;
+    background-color: #fa675e;
+    border-color: #ee372c;
+}
+
+.btn-rojo-claro:hover{
+    color: #fff;
+    background-color: #ee372c;
+    border-color: #e12c21;
+}
+
+.btn-naranja-claro{
+    color: #fff;
+    background-color: #fa8f62;
+    border-color: #f6662a;
+}
+
+.btn-naranja-claro:hover{
+    color: #fff;
+    background-color: #f6662a;
+    border-color: #ee5d21;
+}
+
+.btn-amarillo-claro{
+    color: #333;
+    background-color: #fffd8b;
+    border-color: #f7f324;
+}
+
+.btn-amarillo-claro:hover{
+    color: #333;
+    background-color: #f7f324;
+    border-color: #deda13;
+}
+
+.btn-verdelimon-claro{
+    color: #fff;
+    background-color: #b0e28e;
+    border-color: #7ac249;
+}
+
+.btn-verdelimon-claro:hover{
+    color: #fff;
+    background-color: #7ac249;
+    border-color: #68ae39;
+}
+
+.btn-verde-claro{
+    color: #fff;
+    background-color: #87d69e;
+    border-color: #36aa59;
+}
+
+.btn-verde-claro:hover{
+    color: #fff;
+    background-color: #36aa59;
+    border-color: #299b4c;
+}
+
+ .btn-turquesa-claro{
+    color: #fff;
+    background-color: #74ccb1;
+    border-color: #42a98a;
+}
+
+.btn-turquesa-claro:hover{
+    color: #fff;
+    background-color: #42a98a;
+    border-color: #35997b;
+}
+.btn-rosa-claro{
+    color: #fff;
+    background-color: #fdb6bd;
+    border-color: #f37581;
+}
+
+.btn-rosa-claro:hover{
+    color: #fff;
+    background-color: #f37581;
+    border-color: #e86874;
+}

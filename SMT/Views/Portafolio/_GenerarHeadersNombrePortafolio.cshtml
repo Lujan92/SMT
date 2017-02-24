@@ -1,0 +1,12 @@
+﻿@model SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio
+@{ 
+    var t = Model.portafolios.Where(i => i.TipoPortafolio.Nombre == Model.tipo).ToList();
+}
+@if (t.Count() > 0)
+{
+    <th class="text-center" colspan="@(t.Where(i => i.Activo1 == true).Count() +
+                                      t.Where(i => i.Activo2 == true).Count() +
+                                      t.Where(i => i.Activo3 == true).Count() +
+                                      t.Where(i => i.Activo4 == true).Count() +
+                                      t.Where(i => i.Activo5 == true).Count() + 3)">@Model.tipo</th>
+}

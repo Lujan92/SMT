@@ -1,0 +1,38 @@
+﻿<table data-tabla="examen" class="table-fixed table table-bordered table-hover table-striped text-center icono-naranja" >
+    <thead>
+        <tr>
+            <th rowspan="2"><div class="w50">Sesión</div></th>
+            <th rowspan="2"><div class="w100">Fecha de examen</div></th>
+            <th rowspan="2"><div class="w100">Titulo examen</div></th>
+            <th rowspan="2"><div class="w100">Tipo</div></th>
+            <th rowspan="2"><div class="w100">Tema</div></th>
+            <th rowspan="2"><div class="w100">Instrucciones</div></th>
+            <th rowspan="2"><div class="w100">Reactivos</div></th>
+            {numerosHeaders}
+            <th rowspan="2"><div class="w100">Total</div></th>
+            <th rowspan="2"><div class="w100">Promedio</div></th>
+        </tr>
+        <tr>
+            {nombresHeaders}
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+    <tfoot>
+        <tr class="loading">
+            <td colspan="100" class="text-center">
+                <h3 class="col-lg-12"><span class="fa fa-spin fa-refresh"></span></h3>
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="2" colspan="5"><div style="width:635px">Examenes</div></th>
+            <th ><div class="w100">Aprobados</div></th>
+            {rowAprobados}
+        </tr>
+        <tr>
+            <th><div class="w100">No aprobados</div></th>
+            {rowNoAprobados}
+        </tr>
+    </tfoot>
+</table>

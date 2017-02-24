@@ -1,0 +1,3 @@
+﻿@model string
+<script src="~/Scripts/VideoLightbox.js"></script>
+<a style="@ViewData["style"]" class="@ViewData["class"]" href="javascript:Lightbox.show('@(Model)', 600, 400);"><i class="fa fa-youtube-play"></i></a>

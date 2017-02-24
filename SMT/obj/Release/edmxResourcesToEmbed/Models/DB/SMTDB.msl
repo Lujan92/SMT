@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SMTDevModelStoreContainer" CdmEntityContainer="SMTDevEntities">
+    <EntitySetMapping Name="Credencial">
+      <EntityTypeMapping TypeName="SMTDevModel.Credencial">
+        <MappingFragment StoreEntitySet="Credencial">
+          <ScalarProperty Name="FechaPagada" ColumnName="FechaPagada" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="EsPrincipal" ColumnName="EsPrincipal" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="IDUsuarioPaga" ColumnName="IDUsuarioPaga" />
+          <ScalarProperty Name="IDUsuarioBeneficiario" ColumnName="IDUsuarioBeneficiario" />
+          <ScalarProperty Name="FechaVigencia" ColumnName="FechaVigencia" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="IDCredencial" ColumnName="IDCredencial" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entidad">
+      <EntityTypeMapping TypeName="SMTDevModel.Entidad">
+        <MappingFragment StoreEntitySet="Entidad">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PortafolioDefecto">
+      <EntityTypeMapping TypeName="SMTDevModel.PortafolioDefecto">
+        <MappingFragment StoreEntitySet="PortafolioDefecto">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Observacion5" ColumnName="Observacion5" />
+          <ScalarProperty Name="Observacion4" ColumnName="Observacion4" />
+          <ScalarProperty Name="Observacion3" ColumnName="Observacion3" />
+          <ScalarProperty Name="Observacion2" ColumnName="Observacion2" />
+          <ScalarProperty Name="Observacion1" ColumnName="Observacion1" />
+          <ScalarProperty Name="Activo5" ColumnName="Activo5" />
+          <ScalarProperty Name="Activo4" ColumnName="Activo4" />
+          <ScalarProperty Name="Activo3" ColumnName="Activo3" />
+          <ScalarProperty Name="Activo2" ColumnName="Activo2" />
+          <ScalarProperty Name="Activo1" ColumnName="Activo1" />
+          <ScalarProperty Name="Criterio5" ColumnName="Criterio5" />
+          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
+          <ScalarProperty Name="Criterio4" ColumnName="Criterio4" />
+          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
+          <ScalarProperty Name="Criterio3" ColumnName="Criterio3" />
+          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
+          <ScalarProperty Name="Criterio2" ColumnName="Criterio2" />
+          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
+          <ScalarProperty Name="Criterio1" ColumnName="Criterio1" />
+          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="TipoTrabajo" ColumnName="TipoTrabajo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDPortafolioDefecto" ColumnName="IDPortafolioDefecto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alumno">
+      <EntityTypeMapping TypeName="SMTDevModel.Alumno">
+        <MappingFragment StoreEntitySet="Alumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+          <ScalarProperty Name="ColorPromedio" ColumnName="ColorPromedio" />
+          <ScalarProperty Name="PromedioTotal" ColumnName="PromedioTotal" />
+          <ScalarProperty Name="PromedioBimestre5" ColumnName="PromedioBimestre5" />
+          <ScalarProperty Name="PromedioBimestre4" ColumnName="PromedioBimestre4" />
+          <ScalarProperty Name="PromedioBimestre3" ColumnName="PromedioBimestre3" />
+          <ScalarProperty Name="PromedioBimestre2" ColumnName="PromedioBimestre2" />
+          <ScalarProperty Name="PromedioBimestre1" ColumnName="PromedioBimestre1" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="EsUSAER" ColumnName="EsUSAER" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Curp" ColumnName="Curp" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AlumnoDesempenio">
+      <EntityTypeMapping TypeName="SMTDevModel.AlumnoDesempenio">
+        <MappingFragment StoreEntitySet="AlumnoDesempenio">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="TotalTrabajosMedios" ColumnName="TotalTrabajosMedios" />
+          <ScalarProperty Name="PromedioHabilidadCoevaluacion" ColumnName="PromedioHabilidadCoevaluacion" />
+          <ScalarProperty Name="PromedioHabilidadAutoevaluacion" ColumnName="PromedioHabilidadAutoevaluacion" />
+          <ScalarProperty Name="TotalTrabajosNoCumplidos" ColumnName="TotalTrabajosNoCumplidos" />
+          <ScalarProperty Name="TotalTrabajosCumplidos" ColumnName="TotalTrabajosCumplidos" />
+          <ScalarProperty Name="TotalFaltas" ColumnName="TotalFaltas" />
+          <ScalarProperty Name="TotalAsistencias" ColumnName="TotalAsistencias" />
+          <ScalarProperty Name="PromedioExamenDiagnostico" ColumnName="PromedioExamenDiagnostico" />
+          <ScalarProperty Name="PromedioExamenRecuperacion" ColumnName="PromedioExamenRecuperacion" />
+          <ScalarProperty Name="PromedioExamenBimestral" ColumnName="PromedioExamenBimestral" />
+          <ScalarProperty Name="PromedioExamenParcial" ColumnName="PromedioExamenParcial" />
+          <ScalarProperty Name="PromedioPortafolioRubrica" ColumnName="PromedioPortafolioRubrica" />
+          <ScalarProperty Name="PromedioPortafolioRevisionCuadernos" ColumnName="PromedioPortafolioRevisionCuadernos" />
+          <ScalarProperty Name="PromedioPortafolioRegistroAnecdotico" ColumnName="PromedioPortafolioRegistroAnecdotico" />
+          <ScalarProperty Name="PromedioPortafolioProyecto" ColumnName="PromedioPortafolioProyecto" />
+          <ScalarProperty Name="PromedioPortafolioProducciones" ColumnName="PromedioPortafolioProducciones" />
+          <ScalarProperty Name="PromedioPortafolioPortafolio" ColumnName="PromedioPortafolioPortafolio" />
+          <ScalarProperty Name="PromedioPortafolioMapaAprendisaje" ColumnName="PromedioPortafolioMapaAprendisaje" />
+          <ScalarProperty Name="PromedioPortafolioLineaTiempo" ColumnName="PromedioPortafolioLineaTiempo" />
+          <ScalarProperty Name="PromedioPortafolioListaCotejo" ColumnName="PromedioPortafolioListaCotejo" />
+          <ScalarProperty Name="PromedioPortafolioGuiaObservacion" ColumnName="PromedioPortafolioGuiaObservacion" />
+          <ScalarProperty Name="PromedioPortafolioExposicion" ColumnName="PromedioPortafolioExposicion" />
+          <ScalarProperty Name="PromedioPortafolioEsquemaMapa" ColumnName="PromedioPortafolioEsquemaMapa" />
+          <ScalarProperty Name="ColorDiagnostico" ColumnName="ColorDiagnostico" />
+          <ScalarProperty Name="PromedioDiagnostico" ColumnName="PromedioDiagnostico" />
+          <ScalarProperty Name="ColorExamen" ColumnName="ColorExamen" />
+          <ScalarProperty Name="PromedioExamen" ColumnName="PromedioExamen" />
+          <ScalarProperty Name="ColorPortafolio" ColumnName="ColorPortafolio" />
+          <ScalarProperty Name="PromedioPortafolio" ColumnName="PromedioPortafolio" />
+          <ScalarProperty Name="ColorTrabajo" ColumnName="ColorTrabajo" />
+          <ScalarProperty Name="PromedioTrabajo" ColumnName="PromedioTrabajo" />
+          <ScalarProperty Name="ColorAsistencia" ColumnName="ColorAsistencia" />
+          <ScalarProperty Name="PromedioAsistencia" ColumnName="PromedioAsistencia" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="Bimestre" ColumnName="Bimestre" />
+          <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AlumnoSesion">
+      <EntityTypeMapping TypeName="SMTDevModel.AlumnoSesion">
+        <MappingFragment StoreEntitySet="AlumnoSesion">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+          <ScalarProperty Name="IDSesion" ColumnName="IDSesion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bimestres">
+      <EntityTypeMapping TypeName="SMTDevModel.Bimestres">
+        <MappingFragment StoreEntitySet="Bimestres">
+          <ScalarProperty Name="Bimestre" ColumnName="Bimestre" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiagnosticoCiclo">
+      <EntityTypeMapping TypeName="SMTDevModel.DiagnosticoCiclo">
+        <MappingFragment StoreEntitySet="DiagnosticoCiclo">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="IDDiagnosticoCiclo" ColumnName="IDDiagnosticoCiclo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiagnosticoCicloAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.DiagnosticoCicloAlumno">
+        <MappingFragment StoreEntitySet="DiagnosticoCicloAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+          <ScalarProperty Name="IDTema" ColumnName="IDTema" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiagnosticoCicloTema">
+      <EntityTypeMapping TypeName="SMTDevModel.DiagnosticoCicloTema">
+        <MappingFragment StoreEntitySet="DiagnosticoCicloTema">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Instrucciones" ColumnName="Instrucciones" />
+          <ScalarProperty Name="Respuesta2" ColumnName="Respuesta2" />
+          <ScalarProperty Name="Respuesta1" ColumnName="Respuesta1" />
+          <ScalarProperty Name="Pregunta" ColumnName="Pregunta" />
+          <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+          <ScalarProperty Name="TipoTema" ColumnName="TipoTema" />
+          <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+          <ScalarProperty Name="Reactivos" ColumnName="Reactivos" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDDiagnosticoCiclo" ColumnName="IDDiagnosticoCiclo" />
+          <ScalarProperty Name="IDTema" ColumnName="IDTema" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiagnosticoPsicologico">
+      <EntityTypeMapping TypeName="SMTDevModel.DiagnosticoPsicologico">
+        <MappingFragment StoreEntitySet="DiagnosticoPsicologico">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="CTE5" ColumnName="CTE5" />
+          <ScalarProperty Name="CTE8" ColumnName="CTE8" />
+          <ScalarProperty Name="CTE10" ColumnName="CTE10" />
+          <ScalarProperty Name="ProgramaBloque5" ColumnName="ProgramaBloque5" />
+          <ScalarProperty Name="ProgramaBloque4" ColumnName="ProgramaBloque4" />
+          <ScalarProperty Name="ProgramaBloque3" ColumnName="ProgramaBloque3" />
+          <ScalarProperty Name="ProgramaBloque2" ColumnName="ProgramaBloque2" />
+          <ScalarProperty Name="ProgramaBloque1" ColumnName="ProgramaBloque1" />
+          <ScalarProperty Name="EvaluacionBloque5" ColumnName="EvaluacionBloque5" />
+          <ScalarProperty Name="EvaluacionBloque4" ColumnName="EvaluacionBloque4" />
+          <ScalarProperty Name="EvaluacionBloque3" ColumnName="EvaluacionBloque3" />
+          <ScalarProperty Name="EvaluacionBloque2" ColumnName="EvaluacionBloque2" />
+          <ScalarProperty Name="EvaluacionBloque1" ColumnName="EvaluacionBloque1" />
+          <ScalarProperty Name="Integridad" ColumnName="Integridad" />
+          <ScalarProperty Name="Generabilidad" ColumnName="Generabilidad" />
+          <ScalarProperty Name="IntimidadAislamiento" ColumnName="IntimidadAislamiento" />
+          <ScalarProperty Name="IdentidadConfusion" ColumnName="IdentidadConfusion" />
+          <ScalarProperty Name="Laboriosidad" ColumnName="Laboriosidad" />
+          <ScalarProperty Name="IniciativaCulpa" ColumnName="IniciativaCulpa" />
+          <ScalarProperty Name="AutonomiaVerguenza" ColumnName="AutonomiaVerguenza" />
+          <ScalarProperty Name="ConfianzaDesconfianza" ColumnName="ConfianzaDesconfianza" />
+          <ScalarProperty Name="MoralidadPrincipiosAutonomos" ColumnName="MoralidadPrincipiosAutonomos" />
+          <ScalarProperty Name="MoralidadConvencional" ColumnName="MoralidadConvencional" />
+          <ScalarProperty Name="MoralidadPreconvencional" ColumnName="MoralidadPreconvencional" />
+          <ScalarProperty Name="OperacionesFormales" ColumnName="OperacionesFormales" />
+          <ScalarProperty Name="OperacionesContretas" ColumnName="OperacionesContretas" />
+          <ScalarProperty Name="EtapaPreconvencional" ColumnName="EtapaPreconvencional" />
+          <ScalarProperty Name="EtapaSesioromotora" ColumnName="EtapaSesioromotora" />
+          <ScalarProperty Name="EscolaridadPadres" ColumnName="EscolaridadPadres" />
+          <ScalarProperty Name="ServicioMedico" ColumnName="ServicioMedico" />
+          <ScalarProperty Name="ComoSeTranslada" ColumnName="ComoSeTranslada" />
+          <ScalarProperty Name="TieneComputadora" ColumnName="TieneComputadora" />
+          <ScalarProperty Name="CuentaConCasa" ColumnName="CuentaConCasa" />
+          <ScalarProperty Name="RespetaReglas" ColumnName="RespetaReglas" />
+          <ScalarProperty Name="ResuelveConfilctos" ColumnName="ResuelveConfilctos" />
+          <ScalarProperty Name="RespetaAsiMismo" ColumnName="RespetaAsiMismo" />
+          <ScalarProperty Name="ExpresaEmociones" ColumnName="ExpresaEmociones" />
+          <ScalarProperty Name="ReconoceValia" ColumnName="ReconoceValia" />
+          <ScalarProperty Name="ParticipaActividadesEscuela" ColumnName="ParticipaActividadesEscuela" />
+          <ScalarProperty Name="MuestraInteresHijo" ColumnName="MuestraInteresHijo" />
+          <ScalarProperty Name="LugarFamilia" ColumnName="LugarFamilia" />
+          <ScalarProperty Name="Hermanos" ColumnName="Hermanos" />
+          <ScalarProperty Name="ViveOtros" ColumnName="ViveOtros" />
+          <ScalarProperty Name="FamiliaMonoparental" ColumnName="FamiliaMonoparental" />
+          <ScalarProperty Name="FamiliaCompleta" ColumnName="FamiliaCompleta" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="ConductaInadecuada" ColumnName="ConductaInadecuada" />
+          <ScalarProperty Name="Temeroso" ColumnName="Temeroso" />
+          <ScalarProperty Name="Indiferencia" ColumnName="Indiferencia" />
+          <ScalarProperty Name="Aburrimiento" ColumnName="Aburrimiento" />
+          <ScalarProperty Name="Motivado" ColumnName="Motivado" />
+          <ScalarProperty Name="RequiereApoyo" ColumnName="RequiereApoyo" />
+          <ScalarProperty Name="MuestraIniciativa" ColumnName="MuestraIniciativa" />
+          <ScalarProperty Name="Interpersonal" ColumnName="Interpersonal" />
+          <ScalarProperty Name="Intrapersonal" ColumnName="Intrapersonal" />
+          <ScalarProperty Name="Musical" ColumnName="Musical" />
+          <ScalarProperty Name="KinestesicaCorporal" ColumnName="KinestesicaCorporal" />
+          <ScalarProperty Name="VisualEspacial" ColumnName="VisualEspacial" />
+          <ScalarProperty Name="LogicoMatematica" ColumnName="LogicoMatematica" />
+          <ScalarProperty Name="Linguistica" ColumnName="Linguistica" />
+          <ScalarProperty Name="Necesidades" ColumnName="Necesidades" />
+          <ScalarProperty Name="SituacionRiesgo" ColumnName="SituacionRiesgo" />
+          <ScalarProperty Name="Talentos" ColumnName="Talentos" />
+          <ScalarProperty Name="NEE" ColumnName="NEE" />
+          <ScalarProperty Name="Regular" ColumnName="Regular" />
+          <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+          <ScalarProperty Name="Edad" ColumnName="Edad" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Examen">
+      <EntityTypeMapping TypeName="SMTDevModel.Examen">
+        <MappingFragment StoreEntitySet="Examen">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="IDExamen" ColumnName="IDExamen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamenAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.ExamenAlumno">
+        <MappingFragment StoreEntitySet="ExamenAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+          <ScalarProperty Name="IDTema" ColumnName="IDTema" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamenTema">
+      <EntityTypeMapping TypeName="SMTDevModel.ExamenTema">
+        <MappingFragment StoreEntitySet="ExamenTema">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Instrucciones" ColumnName="Instrucciones" />
+          <ScalarProperty Name="Respuesta2" ColumnName="Respuesta2" />
+          <ScalarProperty Name="Respuesta1" ColumnName="Respuesta1" />
+          <ScalarProperty Name="Pregunta" ColumnName="Pregunta" />
+          <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+          <ScalarProperty Name="TipoTema" ColumnName="TipoTema" />
+          <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+          <ScalarProperty Name="Reactivos" ColumnName="Reactivos" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDTema" ColumnName="IDTema" />
+          <ScalarProperty Name="IDExamen" ColumnName="IDExamen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grupos">
+      <EntityTypeMapping TypeName="SMTDevModel.Grupos">
+        <MappingFragment StoreEntitySet="Grupos">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="EsTaller" ColumnName="EsTaller" />
+          <ScalarProperty Name="Ciclo" ColumnName="Ciclo" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Turno" ColumnName="Turno" />
+          <ScalarProperty Name="RegistroFederalEscolar" ColumnName="RegistroFederalEscolar" />
+          <ScalarProperty Name="Escuela" ColumnName="Escuela" />
+          <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+          <ScalarProperty Name="Grado" ColumnName="Grado" />
+          <ScalarProperty Name="Materia" ColumnName="Materia" />
+          <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HabilidadesAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.HabilidadesAlumno">
+        <MappingFragment StoreEntitySet="HabilidadesAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="SeInvolucraClase" ColumnName="SeInvolucraClase" />
+          <ScalarProperty Name="ApoyoMatematicas" ColumnName="ApoyoMatematicas" />
+          <ScalarProperty Name="ApoyoEscritura" ColumnName="ApoyoEscritura" />
+          <ScalarProperty Name="ApoyoLectura" ColumnName="ApoyoLectura" />
+          <ScalarProperty Name="Argumentacion" ColumnName="Argumentacion" />
+          <ScalarProperty Name="Sintesis" ColumnName="Sintesis" />
+          <ScalarProperty Name="Conocimiento" ColumnName="Conocimiento" />
+          <ScalarProperty Name="Comprension" ColumnName="Comprension" />
+          <ScalarProperty Name="Coevaluacion" ColumnName="Coevaluacion" />
+          <ScalarProperty Name="Autoevaluacion" ColumnName="Autoevaluacion" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+          <ScalarProperty Name="IDHabilidadAlumno" ColumnName="IDHabilidadAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Portafolio">
+      <EntityTypeMapping TypeName="SMTDevModel.Portafolio">
+        <MappingFragment StoreEntitySet="Portafolio">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="IDTipoPortafolio" ColumnName="IDTipoPortafolio" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Observacion5" ColumnName="Observacion5" />
+          <ScalarProperty Name="Observacion4" ColumnName="Observacion4" />
+          <ScalarProperty Name="Observacion3" ColumnName="Observacion3" />
+          <ScalarProperty Name="Observacion2" ColumnName="Observacion2" />
+          <ScalarProperty Name="Observacion1" ColumnName="Observacion1" />
+          <ScalarProperty Name="Activo5" ColumnName="Activo5" />
+          <ScalarProperty Name="Activo4" ColumnName="Activo4" />
+          <ScalarProperty Name="Activo3" ColumnName="Activo3" />
+          <ScalarProperty Name="Activo2" ColumnName="Activo2" />
+          <ScalarProperty Name="Activo1" ColumnName="Activo1" />
+          <ScalarProperty Name="Criterio5" ColumnName="Criterio5" />
+          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
+          <ScalarProperty Name="Criterio4" ColumnName="Criterio4" />
+          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
+          <ScalarProperty Name="Criterio3" ColumnName="Criterio3" />
+          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
+          <ScalarProperty Name="Criterio2" ColumnName="Criterio2" />
+          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
+          <ScalarProperty Name="Criterio1" ColumnName="Criterio1" />
+          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="TipoTrabajo" ColumnName="TipoTrabajo" />
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PortafolioAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.PortafolioAlumno">
+        <MappingFragment StoreEntitySet="PortafolioAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
+          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
+          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
+          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
+          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+          <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
+          <ScalarProperty Name="IDPortafolioAlumno" ColumnName="IDPortafolioAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sesion">
+      <EntityTypeMapping TypeName="SMTDevModel.Sesion">
+        <MappingFragment StoreEntitySet="Sesion">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+          <ScalarProperty Name="FechaActualiacion" ColumnName="FechaActualiacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDSesion" ColumnName="IDSesion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoPortafolio">
+      <EntityTypeMapping TypeName="SMTDevModel.TipoPortafolio">
+        <MappingFragment StoreEntitySet="TipoPortafolio">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="Observacion5" ColumnName="Observacion5" />
+          <ScalarProperty Name="Observacion4" ColumnName="Observacion4" />
+          <ScalarProperty Name="Observacion3" ColumnName="Observacion3" />
+          <ScalarProperty Name="Observacion2" ColumnName="Observacion2" />
+          <ScalarProperty Name="Observacion1" ColumnName="Observacion1" />
+          <ScalarProperty Name="Activo5" ColumnName="Activo5" />
+          <ScalarProperty Name="Activo4" ColumnName="Activo4" />
+          <ScalarProperty Name="Activo3" ColumnName="Activo3" />
+          <ScalarProperty Name="Activo2" ColumnName="Activo2" />
+          <ScalarProperty Name="Activo1" ColumnName="Activo1" />
+          <ScalarProperty Name="Criterio5" ColumnName="Criterio5" />
+          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
+          <ScalarProperty Name="Criterio4" ColumnName="Criterio4" />
+          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
+          <ScalarProperty Name="Criterio3" ColumnName="Criterio3" />
+          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
+          <ScalarProperty Name="Criterio2" ColumnName="Criterio2" />
+          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
+          <ScalarProperty Name="Criterio1" ColumnName="Criterio1" />
+          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDTipoPortafolio" ColumnName="IDTipoPortafolio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trabajo">
+      <EntityTypeMapping TypeName="SMTDevModel.Trabajo">
+        <MappingFragment StoreEntitySet="Trabajo">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Actividad" ColumnName="Actividad" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
+          <ScalarProperty Name="IDTrabajo" ColumnName="IDTrabajo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TrabajoAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.TrabajoAlumno">
+        <MappingFragment StoreEntitySet="TrabajoAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+          <ScalarProperty Name="IDTrabajo" ColumnName="IDTrabajo" />
+          <ScalarProperty Name="IDTrabajoAlumno" ColumnName="IDTrabajoAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TutorAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.TutorAlumno">
+        <MappingFragment StoreEntitySet="TutorAlumno">
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="IdTutor" ColumnName="IdTutor" />
+          <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

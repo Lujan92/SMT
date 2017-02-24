@@ -1,0 +1,1112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SMTDevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SMTDevEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Credencial" EntityType="SMTDevModel.Credencial" />
+    <EntitySet Name="Entidad" EntityType="SMTDevModel.Entidad" />
+    <EntitySet Name="PortafolioDefecto" EntityType="SMTDevModel.PortafolioDefecto" />
+    <EntitySet Name="Alumno" EntityType="SMTDevModel.Alumno" />
+    <EntitySet Name="AlumnoDesempenio" EntityType="SMTDevModel.AlumnoDesempenio" />
+    <EntitySet Name="AlumnoSesion" EntityType="SMTDevModel.AlumnoSesion" />
+    <EntitySet Name="Bimestres" EntityType="SMTDevModel.Bimestres" />
+    <EntitySet Name="DiagnosticoCiclo" EntityType="SMTDevModel.DiagnosticoCiclo" />
+    <EntitySet Name="DiagnosticoCicloAlumno" EntityType="SMTDevModel.DiagnosticoCicloAlumno" />
+    <EntitySet Name="DiagnosticoCicloTema" EntityType="SMTDevModel.DiagnosticoCicloTema" />
+    <EntitySet Name="DiagnosticoPsicologico" EntityType="SMTDevModel.DiagnosticoPsicologico" />
+    <EntitySet Name="Examen" EntityType="SMTDevModel.Examen" />
+    <EntitySet Name="ExamenAlumno" EntityType="SMTDevModel.ExamenAlumno" />
+    <EntitySet Name="ExamenTema" EntityType="SMTDevModel.ExamenTema" />
+    <EntitySet Name="Grupos" EntityType="SMTDevModel.Grupos" />
+    <EntitySet Name="HabilidadesAlumno" EntityType="SMTDevModel.HabilidadesAlumno" />
+    <EntitySet Name="Portafolio" EntityType="SMTDevModel.Portafolio" />
+    <EntitySet Name="PortafolioAlumno" EntityType="SMTDevModel.PortafolioAlumno" />
+    <EntitySet Name="Sesion" EntityType="SMTDevModel.Sesion" />
+    <EntitySet Name="TipoPortafolio" EntityType="SMTDevModel.TipoPortafolio" />
+    <EntitySet Name="Trabajo" EntityType="SMTDevModel.Trabajo" />
+    <EntitySet Name="TrabajoAlumno" EntityType="SMTDevModel.TrabajoAlumno" />
+    <EntitySet Name="TutorAlumno" EntityType="SMTDevModel.TutorAlumno" />
+    <AssociationSet Name="FK_AlmHab" Association="SMTDevModel.FK_AlmHab">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Alumno_TutorAlumno" Association="SMTDevModel.FK_Alumno_TutorAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="TutorAlumno" EntitySet="TutorAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AlumnoDesempenio" Association="SMTDevModel.FK_AlumnoDesempenio">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ALumnoTema" Association="SMTDevModel.FK_ALumnoTema">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="ExamenAlumno" EntitySet="ExamenAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ALumnoTemaCiclico" Association="SMTDevModel.FK_ALumnoTemaCiclico">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="DiagnosticoCicloAlumno" EntitySet="DiagnosticoCicloAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_alumnoTrabajo" Association="SMTDevModel.FK_alumnoTrabajo">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoAlumno" Association="SMTDevModel.FK_DiagnosticoAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="DiagnosticoPsicologico" EntitySet="DiagnosticoPsicologico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Grupo" Association="SMTDevModel.FK_Grupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Alumno" EntitySet="Alumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortAlumno" Association="SMTDevModel.FK_PortAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SesionAlumno" Association="SMTDevModel.FK_SesionAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="AlumnoSesion" EntitySet="AlumnoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DesGrupo" Association="SMTDevModel.FK_DesGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SesionS" Association="SMTDevModel.FK_SesionS">
+      <End Role="Sesion" EntitySet="Sesion" />
+      <End Role="AlumnoSesion" EntitySet="AlumnoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bimestre" Association="SMTDevModel.FK_Bimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BimHab" Association="SMTDevModel.FK_BimHab">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_bimport" Association="SMTDevModel.FK_bimport">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BimTrab" Association="SMTDevModel.FK_BimTrab">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Trabajo" EntitySet="Trabajo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoCiclicoBimestre" Association="SMTDevModel.FK_DiagnosticoCiclicoBimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="DiagnosticoCiclo" EntitySet="DiagnosticoCiclo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamenBimestre" Association="SMTDevModel.FK_ExamenBimestre">
+      <End Role="Bimestres" EntitySet="Bimestres" />
+      <End Role="Examen" EntitySet="Examen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoBim" Association="SMTDevModel.FK_GrupoBim">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Bimestres" EntitySet="Bimestres" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaDiagnosticoCiclico" Association="SMTDevModel.FK_TemaDiagnosticoCiclico">
+      <End Role="DiagnosticoCiclo" EntitySet="DiagnosticoCiclo" />
+      <End Role="DiagnosticoCicloTema" EntitySet="DiagnosticoCicloTema" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaAlumnoCiclico" Association="SMTDevModel.FK_TemaAlumnoCiclico">
+      <End Role="DiagnosticoCicloTema" EntitySet="DiagnosticoCicloTema" />
+      <End Role="DiagnosticoCicloAlumno" EntitySet="DiagnosticoCicloAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DiagnosticoGrupo" Association="SMTDevModel.FK_DiagnosticoGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="DiagnosticoPsicologico" EntitySet="DiagnosticoPsicologico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaExamen" Association="SMTDevModel.FK_TemaExamen">
+      <End Role="Examen" EntitySet="Examen" />
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemaAlumno" Association="SMTDevModel.FK_TemaAlumno">
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+      <End Role="ExamenAlumno" EntitySet="ExamenAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupHab" Association="SMTDevModel.FK_GrupHab">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoSES" Association="SMTDevModel.FK_GrupoSES">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortGrupo" Association="SMTDevModel.FK_PortGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TrabGrupo" Association="SMTDevModel.FK_TrabGrupo">
+      <End Role="Grupos" EntitySet="Grupos" />
+      <End Role="Trabajo" EntitySet="Trabajo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortPortAlumno" Association="SMTDevModel.FK_PortPortAlumno">
+      <End Role="Portafolio" EntitySet="Portafolio" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoPortafolio" Association="SMTDevModel.FK_TipoPortafolio">
+      <End Role="TipoPortafolio" EntitySet="TipoPortafolio" />
+      <End Role="Portafolio" EntitySet="Portafolio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TrabTrab" Association="SMTDevModel.FK_TrabTrab">
+      <End Role="Trabajo" EntitySet="Trabajo" />
+      <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Credencial">
+    <Key>
+      <PropertyRef Name="IDCredencial" />
+    </Key>
+    <Property Name="IDCredencial" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaVigencia" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="IDUsuarioBeneficiario" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IDUsuarioPaga" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Activo" Type="Boolean" Nullable="false" />
+    <Property Name="EsPrincipal" Type="Boolean" Nullable="false" />
+    <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaPagada" Type="DateTime" Precision="6" />
+  </EntityType>
+  <EntityType Name="Entidad">
+    <Key>
+      <PropertyRef Name="Numero" />
+    </Key>
+    <Property Name="Numero" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PortafolioDefecto">
+    <Key>
+      <PropertyRef Name="IDPortafolioDefecto" />
+    </Key>
+    <Property Name="IDPortafolioDefecto" Type="Guid" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="TipoTrabajo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Activo1" Type="Boolean" Nullable="false" />
+    <Property Name="Activo2" Type="Boolean" Nullable="false" />
+    <Property Name="Activo3" Type="Boolean" Nullable="false" />
+    <Property Name="Activo4" Type="Boolean" Nullable="false" />
+    <Property Name="Activo5" Type="Boolean" Nullable="false" />
+    <Property Name="Observacion1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IDUsuario" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+  </EntityType>
+  <EntityType Name="Alumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+    </Key>
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IDGrupo" Type="Guid" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ApellidoMaterno" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Curp" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Int32" Nullable="false" />
+    <Property Name="EsUSAER" Type="Boolean" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="NombreCompleto" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioBimestre1" Type="Double" />
+    <Property Name="PromedioBimestre2" Type="Double" />
+    <Property Name="PromedioBimestre3" Type="Double" />
+    <Property Name="PromedioBimestre4" Type="Double" />
+    <Property Name="PromedioBimestre5" Type="Double" />
+    <Property Name="PromedioTotal" Type="Double" />
+    <Property Name="ColorPromedio" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Grupo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="HabilidadesAlumno" Relationship="SMTDevModel.FK_AlmHab" FromRole="Alumno" ToRole="HabilidadesAlumno" />
+    <NavigationProperty Name="TutorAlumno" Relationship="SMTDevModel.FK_Alumno_TutorAlumno" FromRole="Alumno" ToRole="TutorAlumno" />
+    <NavigationProperty Name="AlumnoDesempenio" Relationship="SMTDevModel.FK_AlumnoDesempenio" FromRole="Alumno" ToRole="AlumnoDesempenio" />
+    <NavigationProperty Name="ExamenAlumno" Relationship="SMTDevModel.FK_ALumnoTema" FromRole="Alumno" ToRole="ExamenAlumno" />
+    <NavigationProperty Name="DiagnosticoCicloAlumno" Relationship="SMTDevModel.FK_ALumnoTemaCiclico" FromRole="Alumno" ToRole="DiagnosticoCicloAlumno" />
+    <NavigationProperty Name="TrabajoAlumno" Relationship="SMTDevModel.FK_alumnoTrabajo" FromRole="Alumno" ToRole="TrabajoAlumno" />
+    <NavigationProperty Name="DiagnosticoPsicologico" Relationship="SMTDevModel.FK_DiagnosticoAlumno" FromRole="Alumno" ToRole="DiagnosticoPsicologico" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_Grupo" FromRole="Alumno" ToRole="Grupos" />
+    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="Alumno" ToRole="PortafolioAlumno" />
+    <NavigationProperty Name="AlumnoSesion" Relationship="SMTDevModel.FK_SesionAlumno" FromRole="Alumno" ToRole="AlumnoSesion" />
+  </EntityType>
+  <EntityType Name="AlumnoDesempenio">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDUsuario" />
+      <PropertyRef Name="Bimestre" />
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDUsuario" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Bimestre" Type="Int64" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" Nullable="false" />
+    <Property Name="PromedioAsistencia" Type="Double" />
+    <Property Name="ColorAsistencia" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioTrabajo" Type="Double" />
+    <Property Name="ColorTrabajo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioPortafolio" Type="Double" />
+    <Property Name="ColorPortafolio" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioExamen" Type="Double" />
+    <Property Name="ColorExamen" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioDiagnostico" Type="Double" />
+    <Property Name="ColorDiagnostico" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PromedioPortafolioEsquemaMapa" Type="Double" />
+    <Property Name="PromedioPortafolioExposicion" Type="Double" />
+    <Property Name="PromedioPortafolioGuiaObservacion" Type="Double" />
+    <Property Name="PromedioPortafolioListaCotejo" Type="Double" />
+    <Property Name="PromedioPortafolioLineaTiempo" Type="Double" />
+    <Property Name="PromedioPortafolioMapaAprendisaje" Type="Double" />
+    <Property Name="PromedioPortafolioPortafolio" Type="Double" />
+    <Property Name="PromedioPortafolioProducciones" Type="Double" />
+    <Property Name="PromedioPortafolioProyecto" Type="Double" />
+    <Property Name="PromedioPortafolioRegistroAnecdotico" Type="Double" />
+    <Property Name="PromedioPortafolioRevisionCuadernos" Type="Double" />
+    <Property Name="PromedioPortafolioRubrica" Type="Double" />
+    <Property Name="PromedioExamenParcial" Type="Double" />
+    <Property Name="PromedioExamenBimestral" Type="Double" />
+    <Property Name="PromedioExamenRecuperacion" Type="Double" />
+    <Property Name="PromedioExamenDiagnostico" Type="Double" />
+    <Property Name="TotalAsistencias" Type="Int32" />
+    <Property Name="TotalFaltas" Type="Int32" />
+    <Property Name="TotalTrabajosCumplidos" Type="Double" />
+    <Property Name="TotalTrabajosNoCumplidos" Type="Double" />
+    <Property Name="PromedioHabilidadAutoevaluacion" Type="Double" />
+    <Property Name="PromedioHabilidadCoevaluacion" Type="Double" />
+    <Property Name="TotalTrabajosMedios" Type="Int32" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_AlumnoDesempenio" FromRole="AlumnoDesempenio" ToRole="Alumno" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_DesGrupo" FromRole="AlumnoDesempenio" ToRole="Grupos" />
+  </EntityType>
+  <EntityType Name="AlumnoSesion">
+    <Key>
+      <PropertyRef Name="IDSesion" />
+      <PropertyRef Name="IDAlumno" />
+    </Key>
+    <Property Name="IDSesion" Type="Guid" Nullable="false" />
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="Estado" Type="Int32" Nullable="false" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_SesionAlumno" FromRole="AlumnoSesion" ToRole="Alumno" />
+    <NavigationProperty Name="Sesion" Relationship="SMTDevModel.FK_SesionS" FromRole="AlumnoSesion" ToRole="Sesion" />
+  </EntityType>
+  <EntityType Name="Bimestres">
+    <Key>
+      <PropertyRef Name="IDBimestre" />
+    </Key>
+    <Property Name="IDBimestre" Type="Guid" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" />
+    <Property Name="Bimestre" Type="Int32" />
+    <NavigationProperty Name="Sesion" Relationship="SMTDevModel.FK_Bimestre" FromRole="Bimestres" ToRole="Sesion" />
+    <NavigationProperty Name="HabilidadesAlumno" Relationship="SMTDevModel.FK_BimHab" FromRole="Bimestres" ToRole="HabilidadesAlumno" />
+    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_bimport" FromRole="Bimestres" ToRole="Portafolio" />
+    <NavigationProperty Name="Trabajo" Relationship="SMTDevModel.FK_BimTrab" FromRole="Bimestres" ToRole="Trabajo" />
+    <NavigationProperty Name="DiagnosticoCiclo" Relationship="SMTDevModel.FK_DiagnosticoCiclicoBimestre" FromRole="Bimestres" ToRole="DiagnosticoCiclo" />
+    <NavigationProperty Name="Examen" Relationship="SMTDevModel.FK_ExamenBimestre" FromRole="Bimestres" ToRole="Examen" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_GrupoBim" FromRole="Bimestres" ToRole="Grupos" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCiclo">
+    <Key>
+      <PropertyRef Name="IDDiagnosticoCiclo" />
+    </Key>
+    <Property Name="IDDiagnosticoCiclo" Type="Guid" Nullable="false" />
+    <Property Name="IDBimestre" Type="Guid" Nullable="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaEntrega" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaActualizacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="Titulo" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_DiagnosticoCiclicoBimestre" FromRole="DiagnosticoCiclo" ToRole="Bimestres" />
+    <NavigationProperty Name="DiagnosticoCicloTema" Relationship="SMTDevModel.FK_TemaDiagnosticoCiclico" FromRole="DiagnosticoCiclo" ToRole="DiagnosticoCicloTema" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCicloAlumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDTema" Type="Guid" Nullable="false" />
+    <Property Name="Calificacion" Type="Double" />
+    <Property Name="FechaActualizacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_ALumnoTemaCiclico" FromRole="DiagnosticoCicloAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="DiagnosticoCicloTema" Relationship="SMTDevModel.FK_TemaAlumnoCiclico" FromRole="DiagnosticoCicloAlumno" ToRole="DiagnosticoCicloTema" />
+  </EntityType>
+  <EntityType Name="DiagnosticoCicloTema">
+    <Key>
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDTema" Type="Guid" Nullable="false" />
+    <Property Name="IDDiagnosticoCiclo" Type="Guid" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Reactivos" Type="Int32" Nullable="false" />
+    <Property Name="Respuesta" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="TipoTema" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Archivo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Pregunta" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Respuesta1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Respuesta2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Instrucciones" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="DiagnosticoCiclo" Relationship="SMTDevModel.FK_TemaDiagnosticoCiclico" FromRole="DiagnosticoCicloTema" ToRole="DiagnosticoCiclo" />
+    <NavigationProperty Name="DiagnosticoCicloAlumno" Relationship="SMTDevModel.FK_TemaAlumnoCiclico" FromRole="DiagnosticoCicloTema" ToRole="DiagnosticoCicloAlumno" />
+  </EntityType>
+  <EntityType Name="DiagnosticoPsicologico">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" Nullable="false" />
+    <Property Name="Edad" Type="Int32" />
+    <Property Name="Sexo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Regular" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="NEE" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Talentos" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="SituacionRiesgo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Necesidades" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Linguistica" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="LogicoMatematica" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="VisualEspacial" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="KinestesicaCorporal" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Musical" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Intrapersonal" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Interpersonal" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="MuestraIniciativa" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="RequiereApoyo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Motivado" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aburrimiento" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Indiferencia" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Temeroso" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ConductaInadecuada" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="FamiliaCompleta" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FamiliaMonoparental" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ViveOtros" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Hermanos" Type="Int32" />
+    <Property Name="LugarFamilia" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="MuestraInteresHijo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ParticipaActividadesEscuela" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ReconoceValia" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ExpresaEmociones" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="RespetaAsiMismo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ResuelveConfilctos" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="RespetaReglas" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="CuentaConCasa" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="TieneComputadora" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ComoSeTranslada" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ServicioMedico" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EscolaridadPadres" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EtapaSesioromotora" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EtapaPreconvencional" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="OperacionesContretas" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="OperacionesFormales" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="MoralidadPreconvencional" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="MoralidadConvencional" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="MoralidadPrincipiosAutonomos" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ConfianzaDesconfianza" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="AutonomiaVerguenza" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IniciativaCulpa" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Laboriosidad" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IdentidadConfusion" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IntimidadAislamiento" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Generabilidad" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Integridad" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EvaluacionBloque1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EvaluacionBloque2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EvaluacionBloque3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EvaluacionBloque4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EvaluacionBloque5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProgramaBloque1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProgramaBloque2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProgramaBloque3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProgramaBloque4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProgramaBloque5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="CTE10" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="CTE8" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="CTE5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_DiagnosticoAlumno" FromRole="DiagnosticoPsicologico" ToRole="Alumno" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_DiagnosticoGrupo" FromRole="DiagnosticoPsicologico" ToRole="Grupos" />
+  </EntityType>
+  <EntityType Name="Examen">
+    <Key>
+      <PropertyRef Name="IDExamen" />
+    </Key>
+    <Property Name="IDExamen" Type="Guid" Nullable="false" />
+    <Property Name="IDBimestre" Type="Guid" Nullable="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaEntrega" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaActualizacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="Titulo" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_ExamenBimestre" FromRole="Examen" ToRole="Bimestres" />
+    <NavigationProperty Name="ExamenTema" Relationship="SMTDevModel.FK_TemaExamen" FromRole="Examen" ToRole="ExamenTema" />
+  </EntityType>
+  <EntityType Name="ExamenAlumno">
+    <Key>
+      <PropertyRef Name="IDAlumno" />
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDTema" Type="Guid" Nullable="false" />
+    <Property Name="Calificacion" Type="Double" />
+    <Property Name="FechaActualizacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_ALumnoTema" FromRole="ExamenAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="ExamenTema" Relationship="SMTDevModel.FK_TemaAlumno" FromRole="ExamenAlumno" ToRole="ExamenTema" />
+  </EntityType>
+  <EntityType Name="ExamenTema">
+    <Key>
+      <PropertyRef Name="IDTema" />
+    </Key>
+    <Property Name="IDExamen" Type="Guid" Nullable="false" />
+    <Property Name="IDTema" Type="Guid" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Reactivos" Type="Int32" Nullable="false" />
+    <Property Name="Respuesta" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="TipoTema" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Archivo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Pregunta" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Respuesta1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Respuesta2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Instrucciones" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Examen" Relationship="SMTDevModel.FK_TemaExamen" FromRole="ExamenTema" ToRole="Examen" />
+    <NavigationProperty Name="ExamenAlumno" Relationship="SMTDevModel.FK_TemaAlumno" FromRole="ExamenTema" ToRole="ExamenAlumno" />
+  </EntityType>
+  <EntityType Name="Grupos">
+    <Key>
+      <PropertyRef Name="IDGrupo" />
+    </Key>
+    <Property Name="IDGrupo" Type="Guid" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IDUsuario" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Materia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Grado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Grupo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Escuela" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="RegistroFederalEscolar" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Turno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Timestamp" Type="DateTime" Precision="6" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Color" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Ciclo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EsTaller" Type="Boolean" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_Grupo" FromRole="Grupos" ToRole="Alumno" />
+    <NavigationProperty Name="AlumnoDesempenio" Relationship="SMTDevModel.FK_DesGrupo" FromRole="Grupos" ToRole="AlumnoDesempenio" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_GrupoBim" FromRole="Grupos" ToRole="Bimestres" />
+    <NavigationProperty Name="DiagnosticoPsicologico" Relationship="SMTDevModel.FK_DiagnosticoGrupo" FromRole="Grupos" ToRole="DiagnosticoPsicologico" />
+    <NavigationProperty Name="HabilidadesAlumno" Relationship="SMTDevModel.FK_GrupHab" FromRole="Grupos" ToRole="HabilidadesAlumno" />
+    <NavigationProperty Name="Sesion" Relationship="SMTDevModel.FK_GrupoSES" FromRole="Grupos" ToRole="Sesion" />
+    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_PortGrupo" FromRole="Grupos" ToRole="Portafolio" />
+    <NavigationProperty Name="Trabajo" Relationship="SMTDevModel.FK_TrabGrupo" FromRole="Grupos" ToRole="Trabajo" />
+  </EntityType>
+  <EntityType Name="HabilidadesAlumno">
+    <Key>
+      <PropertyRef Name="IDHabilidadAlumno" />
+    </Key>
+    <Property Name="IDHabilidadAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDAlumno" Type="Guid" />
+    <Property Name="IDGrupo" Type="Guid" />
+    <Property Name="IDBimestre" Type="Guid" />
+    <Property Name="Autoevaluacion" Type="Int32" />
+    <Property Name="Coevaluacion" Type="Int32" />
+    <Property Name="Comprension" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Conocimiento" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Sintesis" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Argumentacion" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ApoyoLectura" Type="Int32" />
+    <Property Name="ApoyoEscritura" Type="Int32" />
+    <Property Name="ApoyoMatematicas" Type="Int32" />
+    <Property Name="SeInvolucraClase" Type="Boolean" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_AlmHab" FromRole="HabilidadesAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_BimHab" FromRole="HabilidadesAlumno" ToRole="Bimestres" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_GrupHab" FromRole="HabilidadesAlumno" ToRole="Grupos" />
+  </EntityType>
+  <EntityType Name="Portafolio">
+    <Key>
+      <PropertyRef Name="IDPortafolio" />
+    </Key>
+    <Property Name="IDPortafolio" Type="Guid" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" />
+    <Property Name="IDBimestre" Type="Guid" />
+    <Property Name="Nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaEntrega" Type="DateTime" Precision="6" />
+    <Property Name="TipoTrabajo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Descripcion" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Activo1" Type="Boolean" Nullable="false" />
+    <Property Name="Activo2" Type="Boolean" Nullable="false" />
+    <Property Name="Activo3" Type="Boolean" Nullable="false" />
+    <Property Name="Activo4" Type="Boolean" Nullable="false" />
+    <Property Name="Activo5" Type="Boolean" Nullable="false" />
+    <Property Name="Observacion1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IDTipoPortafolio" Type="Guid" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_bimport" FromRole="Portafolio" ToRole="Bimestres" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_PortGrupo" FromRole="Portafolio" ToRole="Grupos" />
+    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="Portafolio" ToRole="PortafolioAlumno" />
+    <NavigationProperty Name="TipoPortafolio" Relationship="SMTDevModel.FK_TipoPortafolio" FromRole="Portafolio" ToRole="TipoPortafolio" />
+  </EntityType>
+  <EntityType Name="PortafolioAlumno">
+    <Key>
+      <PropertyRef Name="IDPortafolioAlumno" />
+    </Key>
+    <Property Name="IDPortafolioAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDPortafolio" Type="Guid" />
+    <Property Name="IDAlumno" Type="Guid" />
+    <Property Name="Estado" Type="Int32" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="PortafolioAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="PortafolioAlumno" ToRole="Portafolio" />
+  </EntityType>
+  <EntityType Name="Sesion">
+    <Key>
+      <PropertyRef Name="IDSesion" />
+    </Key>
+    <Property Name="IDSesion" Type="Guid" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" Nullable="false" />
+    <Property Name="IDBimestre" Type="Guid" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="FechaActualiacion" Type="DateTime" Nullable="false" Precision="6" />
+    <Property Name="Observacion" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="AlumnoSesion" Relationship="SMTDevModel.FK_SesionS" FromRole="Sesion" ToRole="AlumnoSesion" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_Bimestre" FromRole="Sesion" ToRole="Bimestres" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_GrupoSES" FromRole="Sesion" ToRole="Grupos" />
+  </EntityType>
+  <EntityType Name="TipoPortafolio">
+    <Key>
+      <PropertyRef Name="IDTipoPortafolio" />
+    </Key>
+    <Property Name="IDTipoPortafolio" Type="Guid" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Criterio5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Activo1" Type="Boolean" Nullable="false" />
+    <Property Name="Activo2" Type="Boolean" Nullable="false" />
+    <Property Name="Activo3" Type="Boolean" Nullable="false" />
+    <Property Name="Activo4" Type="Boolean" Nullable="false" />
+    <Property Name="Activo5" Type="Boolean" Nullable="false" />
+    <Property Name="Observacion1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Observacion5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Orden" Type="Int32" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_TipoPortafolio" FromRole="TipoPortafolio" ToRole="Portafolio" />
+  </EntityType>
+  <EntityType Name="Trabajo">
+    <Key>
+      <PropertyRef Name="IDTrabajo" />
+    </Key>
+    <Property Name="IDTrabajo" Type="Guid" Nullable="false" />
+    <Property Name="IDGrupo" Type="Guid" />
+    <Property Name="Nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="DateTime" Precision="6" />
+    <Property Name="IDBimestre" Type="Guid" />
+    <Property Name="Observaciones" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Descripcion" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Actividad" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_BimTrab" FromRole="Trabajo" ToRole="Bimestres" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_TrabGrupo" FromRole="Trabajo" ToRole="Grupos" />
+    <NavigationProperty Name="TrabajoAlumno" Relationship="SMTDevModel.FK_TrabTrab" FromRole="Trabajo" ToRole="TrabajoAlumno" />
+  </EntityType>
+  <EntityType Name="TrabajoAlumno">
+    <Key>
+      <PropertyRef Name="IDTrabajoAlumno" />
+    </Key>
+    <Property Name="IDTrabajoAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDTrabajo" Type="Guid" />
+    <Property Name="IDAlumno" Type="Guid" />
+    <Property Name="Observaciones" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="Estado" Type="Int32" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_alumnoTrabajo" FromRole="TrabajoAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="Trabajo" Relationship="SMTDevModel.FK_TrabTrab" FromRole="TrabajoAlumno" ToRole="Trabajo" />
+  </EntityType>
+  <EntityType Name="TutorAlumno">
+    <Key>
+      <PropertyRef Name="IdAlumno" />
+      <PropertyRef Name="IdTutor" />
+    </Key>
+    <Property Name="IdAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IdTutor" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_Alumno_TutorAlumno" FromRole="TutorAlumno" ToRole="Alumno" />
+  </EntityType>
+  <Association Name="FK_AlmHab">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.HabilidadesAlumno" Role="HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Alumno_TutorAlumno">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.TutorAlumno" Role="TutorAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="TutorAlumno">
+        <PropertyRef Name="IdAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AlumnoDesempenio">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AlumnoDesempenio" Role="AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ALumnoTema">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.ExamenAlumno" Role="ExamenAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="ExamenAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ALumnoTemaCiclico">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.DiagnosticoCicloAlumno" Role="DiagnosticoCicloAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_alumnoTrabajo">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.TrabajoAlumno" Role="TrabajoAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="TrabajoAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoAlumno">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1" />
+    <End Type="SMTDevModel.DiagnosticoPsicologico" Role="DiagnosticoPsicologico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="DiagnosticoPsicologico">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Grupo">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Alumno">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortAlumno">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SesionAlumno">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AlumnoSesion" Role="AlumnoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="AlumnoSesion">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DesGrupo">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AlumnoDesempenio" Role="AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SesionS">
+    <End Type="SMTDevModel.Sesion" Role="Sesion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AlumnoSesion" Role="AlumnoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sesion">
+        <PropertyRef Name="IDSesion" />
+      </Principal>
+      <Dependent Role="AlumnoSesion">
+        <PropertyRef Name="IDSesion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bimestre">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Sesion" Role="Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BimHab">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.HabilidadesAlumno" Role="HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_bimport">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BimTrab">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Trabajo" Role="Trabajo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Trabajo">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoCiclicoBimestre">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.DiagnosticoCiclo" Role="DiagnosticoCiclo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="DiagnosticoCiclo">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamenBimestre">
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Examen" Role="Examen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bimestres">
+        <PropertyRef Name="IDBimestre" />
+      </Principal>
+      <Dependent Role="Examen">
+        <PropertyRef Name="IDBimestre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoBim">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Bimestres" Role="Bimestres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Bimestres">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaDiagnosticoCiclico">
+    <End Type="SMTDevModel.DiagnosticoCiclo" Role="DiagnosticoCiclo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.DiagnosticoCicloTema" Role="DiagnosticoCicloTema" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiagnosticoCiclo">
+        <PropertyRef Name="IDDiagnosticoCiclo" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloTema">
+        <PropertyRef Name="IDDiagnosticoCiclo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaAlumnoCiclico">
+    <End Type="SMTDevModel.DiagnosticoCicloTema" Role="DiagnosticoCicloTema" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.DiagnosticoCicloAlumno" Role="DiagnosticoCicloAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiagnosticoCicloTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="DiagnosticoCicloAlumno">
+        <PropertyRef Name="IDTema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DiagnosticoGrupo">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.DiagnosticoPsicologico" Role="DiagnosticoPsicologico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="DiagnosticoPsicologico">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaExamen">
+    <End Type="SMTDevModel.Examen" Role="Examen" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.ExamenTema" Role="ExamenTema" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Examen">
+        <PropertyRef Name="IDExamen" />
+      </Principal>
+      <Dependent Role="ExamenTema">
+        <PropertyRef Name="IDExamen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemaAlumno">
+    <End Type="SMTDevModel.ExamenTema" Role="ExamenTema" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.ExamenAlumno" Role="ExamenAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamenTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="ExamenAlumno">
+        <PropertyRef Name="IDTema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupHab">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.HabilidadesAlumno" Role="HabilidadesAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="HabilidadesAlumno">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoSES">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Sesion" Role="Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortGrupo">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TrabGrupo">
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Trabajo" Role="Trabajo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupos">
+        <PropertyRef Name="IDGrupo" />
+      </Principal>
+      <Dependent Role="Trabajo">
+        <PropertyRef Name="IDGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortPortAlumno">
+    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Portafolio">
+        <PropertyRef Name="IDPortafolio" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDPortafolio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoPortafolio">
+    <End Type="SMTDevModel.TipoPortafolio" Role="TipoPortafolio" Multiplicity="0..1" />
+    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoPortafolio">
+        <PropertyRef Name="IDTipoPortafolio" />
+      </Principal>
+      <Dependent Role="Portafolio">
+        <PropertyRef Name="IDTipoPortafolio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TrabTrab">
+    <End Type="SMTDevModel.Trabajo" Role="Trabajo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.TrabajoAlumno" Role="TrabajoAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trabajo">
+        <PropertyRef Name="IDTrabajo" />
+      </Principal>
+      <Dependent Role="TrabajoAlumno">
+        <PropertyRef Name="IDTrabajo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

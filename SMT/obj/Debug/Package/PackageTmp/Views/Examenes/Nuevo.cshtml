@@ -1,0 +1,93 @@
+﻿
+    <div class="row">
+    <div class="form-group col-lg-6">
+        <label>Tipo</label>
+        <select name="Tipo" class="form-control">
+            <option value="Parcial">Parcial</option>
+            <option value="Bimestral">Bimestral</option>
+            <option value="Recuperación">Recuperación</option>
+            <option value="Diagnóstico">Diagnóstico</option>
+        </select>
+    </div>
+    <div class="form-group  col-lg-6">
+        <label>Fecha de examen</label>
+        <input type="text" id="FechaEntrega" name="FechaEntrega" value='' required class="form-control" />
+    </div>
+</div>
+<div class="panel-group form-group" id="preguntas" role="tablist" aria-multiselectable="true">
+
+</div>
+<div class="form-group">
+    <button class="btn btn-primary" data-option="pregunta" type="button">+ Pregunta</button>
+</div>
+
+<div data-template="pregunta" class="hide">
+    <div data-pregunta="" class="panel panel-default resaltar">
+        <div class="panel-heading" role="tab" id="heading{index}">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#preguntas" href="#{index}" aria-expanded="true" aria-controls="{index}">
+                    <span class="nombre">{Nombre}</span> <span data-option="eliminar-pregunta" class="pull-right fa fa-trash"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="{index}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{index}">
+            <div class="panel-body">
+                <input type="hidden" name="ExamenTema[{index}].IDTema" />
+                <input type="hidden" name="ExamenTema[{index}].Archivo" />
+                <div class="form-group">
+                    <label>Tema / Subtema</label>
+                    <input type="text" name="ExamenTema[{index}].Nombre" maxlength="50" minlength="3" required class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select id="tema" name="ExamenTema[{index}].TipoTema" class="form-control">
+                        <option value="Sin personalizar">Sin personalizar</option>
+                        <option value="Multiple">Múltiple</option>
+                        <option value="Columnas">Columnas</option>
+                        <option value="Laguna">Laguna</option>
+                        <option value="Abierta">Abierta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Instrucciones</label>
+                    <label class="pull-right">
+                        Sin instrucciones
+                        <input data-no-instrucciones="ExamenTema[{index}].Instrucciones" type="checkbox" />
+                    </label>
+                    <input type="text" name="ExamenTema[{index}].Instrucciones" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label id="pregunta">Pregunta</label>
+                    <textarea id="tApregunta" name="ExamenTema[{index}].Pregunta" minlength="3" required class="form-control"></textarea>
+                </div>
+
+
+                <div data-respuesta="Multiple,Laguna" class="hide">
+                    <div class="form-group">
+                        <textarea name="ExamenTema[{index}].Respuesta" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div data-respuesta="Columnas" class="hide row">
+                    <div class="form-group col-lg-6">
+                        <label>Columna 1</label>
+                        <textarea id="col1" name="ExamenTema[{index}].Respuesta1" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Columna 2</label>
+                        <textarea id="col2" name="ExamenTema[{index}].Respuesta2" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div data-respuesta="Abierta" class="hide">
+                    <label>Archivo</label>
+                    <input type="file" name="ExamenTema[{index}].file" />
+                </div>
+                <div class="form-group">
+                    <label>Reactivos</label>
+                    <input type="number" name="ExamenTema[{index}].Reactivos" max="100" min="0" required class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

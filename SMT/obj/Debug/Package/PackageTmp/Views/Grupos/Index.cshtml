@@ -1,0 +1,272 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Bienvenidos</h1>
+        @* Ejemplo del partial para abrir videos *@
+        @* @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=nYh-n7EOtMA") *@
+        
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row visor-oculto">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Acciones
+                @Html.Partial("_Ayuda", "https://www.youtube.com/watch?v=hUMWoatmZ80", new ViewDataDictionary { { "style", "margin-left:5px;" }, { "class", "btn btn-xs btn-info pull-right ayuda" } }) <span class="pull-right">Ver Tutorial en Video</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <button onclick="Crear()" type="button" class="btn btn-success">Crear Grupo</button>
+                <button onclick="Crear(0,1)" type="button" class="btn btn-info">Crear Taller</button>
+                <button id="btnBuscar" type="button" class="btn btn-warning">Archivados</button>
+                <p></p>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12" id="barraGrupo">                       
+                
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="formulario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Grupos</h4>
+            </div>
+            <div class="modal-body row">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Guardar()" class="btn btn-sm btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Scripts/jquery-confirm/jquery-confirm.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-confirm/jquery-confirm.js"></script>
+<script type="text/javascript">
+    var page = 0;
+    var buscaOtraVez = true;
+    var barraActual = 1;
+
+    $(document).ready(function () {        
+        CargarBarra(barraActual);
+    })
+    function CargarBarra(tipo, mas) {
+
+        if (mas != true) {
+            page = 0;
+        }
+        else {
+            page++
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/Grupos/CargarBarra',
+            data: { tipo: tipo, page: page },
+            beforeSend: function () {
+                $('#barraGrupo').append('<h2 class="text-center col-md-12 loading form-group"><span class="fa fa-spin fa-refresh"></span></2>');
+            },
+            complete: function () {
+                $('#barraGrupo').find('h2.loading').remove();
+            }
+        })
+        .done(function (data) {
+   
+            if (mas != true) {
+                $('#barraGrupo').empty();
+                buscaOtraVez = true;
+            }
+
+
+            $('#barraGrupo').append(data);
+            $('#barraGrupo').find('button.mas').parent().remove();
+            if (data.trim() != "") {
+                if (buscaOtraVez == true) {
+                    buscaOtraVez = false;
+                    CargarBarra(tipo, true);
+                }
+                $('#barraGrupo').append('<div class="text-center col-md-12"><button type="button" onclick="CargarBarra(' + barraActual + ',true)" class="btn btn-primary mas">Ver +</button><div>');
+            }
+
+            $('[data-toggle="tooltip"]').tooltip();
+   
+        });
+    }
+    function Crear(ID,Tipo) {
+        
+        $.ajax({
+            type: 'GET',
+            url: '/Grupos/CargarGrupo',
+            beforeSend:function(){
+                Loading("Cargando");
+            },
+            complete:function(){
+                Loading();
+            },
+            data: {
+                ID: ID,
+                Tipo:Tipo
+            },
+            success: function (data) {
+                if (Tipo==1) {
+                    $("#myModalLabel").html("Talleres");
+                } else {
+                    $("#myModalLabel").html("Grupos");
+                }
+                $('#formulario .modal-body').empty(data);
+                $('#formulario .modal-body').append(data);
+
+                $('#formulario').modal("show");
+            }
+        });
+    }
+    function Guardar(){
+        form = $("#formulario form");
+        if (form.valid() == true) {
+            $.ajax({
+                url: "/Grupos/GuardarGrupo",
+                type: 'POST',
+                data: form.serializeArray(),
+                beforeSend: function () {
+                    Loading('Guardando');
+                },
+                complete:function(){
+                    Loading();
+                },
+                success: function (data) {
+                    if (data && data.length == 36) {
+                        AlertSuccess('Se ha guardado el registro', '@ViewBag.title')
+                        $("#formulario").modal("hide");
+                        CargarBarra(barraActual);
+                    } else {
+                        AlertError(data);
+                    }
+                    ActualizarMenuLateral();
+                }
+            });
+        }
+    };
+
+    function EliminarGrupo(ID) {
+        var txt = "¿Estas seguro que deseas eliminar este grupo?";        
+        $.confirm({
+            title: 'Grupos',
+            content: txt,
+            confirmButton: 'Aceptar',
+            confirmButtonClass: 'btn-info',
+            cancelButton: 'Cancelar',
+            icon: 'fa fa-question-circle',
+            animation: 'scale',
+            confirm: function () {
+                $.ajax({
+                    url: '@Url.Content("~/Grupos/EliminarGrupo")',
+                    data: {                        
+                        ID: ID
+                    },
+                    method: "post",
+                    beforeSend: function () {
+                        Loading('Guardando');
+                    },
+                    success: function (data) {
+                        Loading();
+                        if (data && data.length == 36) {
+                            AlertSuccess("Se ha cambiado el estatus correctamente");
+                            CargarBarra(barraActual);
+                        } else {
+                            AlertError(data);
+                        }
+                        ActualizarMenuLateral();
+                    }
+                });
+            }
+        });
+    }
+
+    function ArchivarGrupo(ID,archivar) {
+        var txt = "¿Estas seguro que deseas " + (archivar == true ? "archivar" : "desarchivar") + " este grupo?";
+        $.confirm({
+            title: 'Grupos',
+            content: txt,
+            confirmButton: (archivar == true ? "Archivar" : "Desarchivar"),
+            confirmButtonClass: 'btn-info',
+            cancelButton: 'Cancelar',
+            icon: 'fa fa-question-circle',
+            animation: 'scale',
+            confirm: function () {
+                $.ajax({
+                    url: '@Url.Content("~/Grupos/ArchivarGrupo")',
+                    data: {
+                        ID: ID
+                    },
+                    method: "post",
+                    beforeSend: function () {
+                        Loading('Guardando');
+                    },
+                    success: function (data) {
+                        Loading();
+                        ActualizarMenuLateral();
+                        if (data && data.length == 36) {
+                            AlertSuccess("Se ha cambiado el grupo correctamente","Grupos");
+                            CargarBarra(barraActual);
+                        } else {
+                            AlertError(data);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    var clonar = function(id){
+        $.ajax({
+            url:'/grupos/clonar',
+            type:'post',
+            data: { id: id },
+            beforeSend:function(){
+                Loading('Clonando grupo');
+            },
+            complete:function(){
+                Loading();
+            },
+            success: function (response) {
+                if (response.result == true) {
+                    CargarBarra(barraActual);
+                    Crear(response.data);
+                    AlertSuccess('Se ha clonado el grupo','Grupos');
+                }
+                else {
+                    AlertWarning(response.message, 'Grupos');
+                }
+
+            }
+        });
+    }
+
+    $('#btnBuscar').click(function () {
+        barraActual = $('#btnBuscar').text() == 'Activos' ? 1 : 2;
+        CargarBarra(barraActual);
+        $(this).html($(this).text() == 'Archivados' ? 'Activos' : 'Archivados');
+
+    });
+    function ActualizarMenuLateral() {
+        $.ajax({
+            type: 'GET',
+            url: '/Home/CargarGrupos',
+        })
+        .done(function (data) {
+            $('#menuGrupos').empty(data);
+            $('#menuGrupos').append(data);
+        });
+    }
+</script>

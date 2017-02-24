@@ -1,0 +1,61 @@
+﻿@model SMT.Models.Usuario
+@{
+    ViewBag.Title = "_Usuario";
+}
+
+@Html.HiddenFor(i => i.Id)
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group"">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.Email)
+        @Html.TextBoxFor(i => i.Email, new { @class = "form-control", placeholder = "Email" })
+        @Html.ValidationMessageFor(i => i.Email)
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.Password)
+        @Html.PasswordFor(i => i.Password, new { @class = "form-control", placeholder = "Contraseña" })
+        @Html.ValidationMessageFor(i => i.Password)
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.ConfirmarPassword)
+        @Html.PasswordFor(i => i.ConfirmarPassword, new { @class = "form-control", placeholder = "Confirmar Contraseña" })
+        @Html.ValidationMessageFor(i => i.ConfirmarPassword)
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group"">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.Nombre)
+        @Html.TextBoxFor(i => i.Nombre, new { @class = "form-control", placeholder = "Nombre" })
+        @Html.ValidationMessageFor(i => i.Nombre)
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.ApellidoPaterno)
+        @Html.TextBoxFor(i => i.ApellidoPaterno, new { @class = "form-control", placeholder = "Ap. Paterno" })
+        @Html.ValidationMessageFor(i => i.ApellidoPaterno)
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        @Html.LabelFor(i => i.ApellidoMaterno)
+        @Html.TextBoxFor(i => i.ApellidoMaterno, new { @class = "form-control", placeholder = "Ap. Materno" })
+        @Html.ValidationMessageFor(i => i.ApellidoMaterno)
+    </div>
+</div>
+
+
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-12">
+        <label>Roles</label>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+       
+        @foreach (var rol in SMT.Models.Usuario.getAllRoles())
+        {
+            <div class="checkbox-inline col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label><input name="Roles" type="checkbox" value="@rol.Id" )> @rol.Nombre</label>
+            </div>
+        }
+        @if (SMT.Models.Usuario.getAllRoles().Count == 0)
+        {
+            <h3>No hay roles</h3>
+        }
+    </div>
+</div>

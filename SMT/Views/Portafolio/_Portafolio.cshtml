@@ -1,0 +1,87 @@
+﻿@model SMT.Models.DB.Portafolio
+
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(i => i.IDPortafolio)
+    @Html.HiddenFor(i => i.IDGrupo)
+    @Html.HiddenFor(i => i.IDBimestre)
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Nombre)<br />
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.FechaEntrega)<br />
+            @Html.TextBoxFor(model => model.FechaEntrega, new { @class = "form-control col-12", @type="date" })<br />
+            @Html.ValidationMessageFor(model => model.FechaEntrega)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.TipoTrabajo)<br />
+            @Html.TextBoxFor(model => model.TipoTrabajo, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.TipoTrabajo)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Descripcion)<br />
+            @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Aspecto1)<br />
+            @Html.TextBoxFor(model => model.Aspecto1, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Aspecto1)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Aspecto2)<br />
+            @Html.TextBoxFor(model => model.Aspecto2, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Aspecto2)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Criterio1)<br />
+            @Html.TextAreaFor(model => model.Criterio1, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Criterio1)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Criterio2)<br />
+            @Html.TextAreaFor(model => model.Criterio2, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Criterio2)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Aspecto3)<br />
+            @Html.TextBoxFor(model => model.Aspecto3, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Aspecto3)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Aspecto4)<br />
+            @Html.TextBoxFor(model => model.Aspecto4, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Aspecto4)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Criterio3)<br />
+            @Html.TextAreaFor(model => model.Criterio3, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Criterio3)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Criterio4)<br />
+            @Html.TextAreaFor(model => model.Criterio4, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Criterio4)
+        </div>
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Aspecto5)<br />
+            @Html.TextBoxFor(model => model.Aspecto5, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Aspecto5)
+        </div>        
+        <div class="col-md-6 col-xs-6 form-group">
+            @Html.LabelFor(model => model.Criterio5)<br />
+            @Html.TextAreaFor(model => model.Criterio5, new { @class = "form-control col-12" })<br />
+            @Html.ValidationMessageFor(model => model.Criterio5)
+        </div>
+        
+        
+    </div>
+
+}

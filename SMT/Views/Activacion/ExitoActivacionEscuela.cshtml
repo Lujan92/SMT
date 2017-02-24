@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Activar escuela";
+}
+
+<div class="col-lg-12">
+    <h2 class="text-center">SMT</h2>
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3 class="text-center">
+            Gracias! Su cuenta de escuela ha sido
+            activada correctamente!
+        </h3>
+    </div>
+    <p class="col-lg-6 col-lg-offset-3">
+        <a href="@Url.Action("Index", "Licencia")" class="col-lg-12 btn btn-success big">Ir a Licencias!</a>
+    </p>
+</div>
+
+@section styles {
+    <style>
+        body {
+            background: #040617;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, .white {
+            color: #E2E2E2;
+        }
+
+        .row-fluid {
+            height: 100%;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .small-box {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .container-fluid {
+            height: 100%;
+            display: table;
+            width: 100%;
+            padding: 0;
+        }
+
+        .centering {
+            float: none;
+            margin: 0 auto;
+        }
+
+        .big {
+            font-size: 1.5em;
+            padding: 20px;
+            margin: 5px 0;
+        }
+    </style>
+}
+

@@ -1,0 +1,111 @@
+﻿@model List<SMT.Models.DB.Portafolio>
+@using SMT.Models
+@{
+    ViewBag.Title = "Impresión de instrumentos";
+    
+    List<float> totales = new List<float>();
+}
+
+<style>
+   table {
+        width: 100%;
+    }
+
+   th.vertical{
+       height:90px;
+   }
+
+    td, th {
+        font-size:8px;
+        padding: 1px;
+        
+        text-overflow:ellipsis;
+    }
+
+    ul{
+        font-size:12px;
+        page-break-after:always;
+    }
+
+</style>
+
+
+@foreach (SMT.Models.DB.Portafolio portafolio in Model)
+{
+    SMT.Models.DB.TipoPortafolio tipo = portafolio.TipoPortafolio;
+    int index = 1;
+@Html.Partial("_HeaderGrupo",(SMT.Models.DB.HeaderGrupoReporte) ViewBag.header)
+<table border="1">
+    <thead>
+        <tr>
+
+            @Html.Partial("_GenerarHeadersTipoPortafolio", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre))
+
+        </tr>
+        <tr>
+            @Html.Partial("_GenerarHeadersNombrePortafolio", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre))
+            
+        </tr>
+        <tr>
+            <th class="text-center" style="vertical-align:bottom">#</th>
+            <th class="text-center" style="vertical-align:bottom">Alumno</th>
+
+            @Html.Partial("_GenerarHeadersAspectoPortafolio", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre))
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno alu in ViewBag.alumnos)
+        {
+            string nombreCompleto = Util.UpperTitle(string.Join(" ", (string[])(new[] { alu.ApellidoPaterno, alu.ApellidoMaterno, alu.Nombre })).Trim());
+
+            var calis = Model.Select(i => i.PortafolioAlumno.Where(a => a.IDAlumno == alu.IDAlumno).FirstOrDefault()).ToList();
+            int aprobados = calis.Where(i => (float.Parse(i.Aspecto1) + float.Parse(i.Aspecto2) + float.Parse(i.Aspecto3) + float.Parse(i.Aspecto4) + float.Parse(i.Aspecto5)) >= 6).Count();
+            int reprobados = calis.Where(i => (float.Parse(i.Aspecto1) + float.Parse(i.Aspecto2) + float.Parse(i.Aspecto3) + float.Parse(i.Aspecto4) + float.Parse(i.Aspecto5)) < 6).Count();
+            <tr>
+                <td class="text-center">@(index++)</td>
+                <td>@nombreCompleto</td>
+                @Html.Partial("_GenerarCalificacionesAlumno", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre, alu.IDAlumno))
+            </tr>
+
+
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2">Total</th>
+            @Html.Partial("_GenerarSumatoriaTotal", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre))
+         </tr>
+        <tr>
+            <th  colspan="2">Promedio</th>
+            @Html.Partial("_GenerarPromedioAlumno", new SMT.Models.DB.Portafolio.ImpresionHeaderPortafolio(portafolio, tipo.Nombre))
+
+
+        </tr>
+    </tfoot>
+</table>
+   <ul>
+       @if (portafolio.Activo1 == true)
+       {
+        <li>@portafolio.Aspecto1: @portafolio.Criterio1</li>
+       }
+        @if (portafolio.Activo2 == true)
+        {
+            <li>@portafolio.Aspecto2: @portafolio.Criterio2</li>
+        }
+       @if (portafolio.Activo3 == true)
+       {
+           <li>@portafolio.Aspecto3: @portafolio.Criterio3</li>
+       }
+       @if (portafolio.Activo4 == true)
+       {
+           <li>@portafolio.Aspecto4: @portafolio.Criterio4</li>
+       }
+       @if (portafolio.Activo5 == true)
+       {
+           <li>@portafolio.Aspecto5: @portafolio.Criterio5</li>
+       }
+   </ul>
+}
+<script>
+    setTimeout(print, 800);
+</script>

@@ -1,0 +1,20 @@
+﻿<tr data-alumno-id="{id}" data-alumno-nombre="{apellidoPaterno} {apellidoMaterno} {nombre}" class="{color}" style="background-color:{color}">
+    <td style="background-color:{colorSemaforo}">{semaforo}</td>
+    <td>{apellidoPaterno}</td>
+    <td>{apellidoMaterno}</td>
+    <td>{nombre}</td>
+    <td class="text-center">
+        <div class="btn-group">
+            <button data-alumno="detalles" onclick="abrirDetalle('{id}')" type="button" class="btn btn-default" style="width:100px">Ver</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu visor-oculto">
+                <li><a href="javascript:void(0)" onclick="Alumnos.asignarTutor('{id}')" data-alumno="ver-como-tutor" >Asignar Padre de Familia</a></li>
+                <li><a href="#" data-alumno="editar" onclick="Alumnos.cargarAlumno('{id}')">Editar</a></li>
+                <li><a href="#" data-alumno="eliminar" onclick="Alumnos.eliminarAlumno('{id}')">Eliminar</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>

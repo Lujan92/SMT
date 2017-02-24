@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fb5993e67fab4a01ae1fbc0618c2ec6f" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="SMTDevModel.Credencial" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SMTDevModel.Entidad" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SMTDevModel.PortafolioDefecto" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SMTDevModel.Alumno" Width="1.5" PointX="9.625" PointY="34.125" />
+        <EntityTypeShape EntityType="SMTDevModel.AlumnoDesempenio" Width="1.5" PointX="14.875" PointY="35" />
+        <EntityTypeShape EntityType="SMTDevModel.AlumnoSesion" Width="1.5" PointX="11.875" PointY="32.25" />
+        <EntityTypeShape EntityType="SMTDevModel.Bimestres" Width="1.5" PointX="9.625" PointY="44" />
+        <EntityTypeShape EntityType="SMTDevModel.DiagnosticoCiclo" Width="1.5" PointX="11.75" PointY="51.875" />
+        <EntityTypeShape EntityType="SMTDevModel.DiagnosticoCicloAlumno" Width="1.5" PointX="16.375" PointY="47.5" />
+        <EntityTypeShape EntityType="SMTDevModel.DiagnosticoCicloTema" Width="1.5" PointX="14" PointY="51.375" />
+        <EntityTypeShape EntityType="SMTDevModel.DiagnosticoPsicologico" Width="1.5" PointX="17.875" PointY="31.875" />
+        <EntityTypeShape EntityType="SMTDevModel.Examen" Width="1.5" PointX="11.875" PointY="58.25" />
+        <EntityTypeShape EntityType="SMTDevModel.ExamenAlumno" Width="1.5" PointX="16.375" PointY="50.875" />
+        <EntityTypeShape EntityType="SMTDevModel.ExamenTema" Width="1.5" PointX="14.125" PointY="57.875" />
+        <EntityTypeShape EntityType="SMTDevModel.Grupos" Width="1.5" PointX="7.375" PointY="39.125" />
+        <EntityTypeShape EntityType="SMTDevModel.HabilidadesAlumno" Width="1.5" PointX="11.875" PointY="44.25" />
+        <EntityTypeShape EntityType="SMTDevModel.Portafolio" Width="1.5" PointX="20.875" PointY="39.125" />
+        <EntityTypeShape EntityType="SMTDevModel.PortafolioAlumno" Width="1.5" PointX="11.875" PointY="35.625" />
+        <EntityTypeShape EntityType="SMTDevModel.Sesion" Width="1.5" PointX="18.875" PointY="48.625" />
+        <EntityTypeShape EntityType="SMTDevModel.TipoPortafolio" Width="1.5" PointX="18.625" PointY="53.125" />
+        <EntityTypeShape EntityType="SMTDevModel.Trabajo" Width="1.5" PointX="20.875" PointY="34.25" />
+        <EntityTypeShape EntityType="SMTDevModel.TrabajoAlumno" Width="1.5" PointX="11.875" PointY="40" />
+        <EntityTypeShape EntityType="SMTDevModel.TutorAlumno" Width="1.5" PointX="6.125" PointY="47.625" />
+        <AssociationConnector Association="SMTDevModel.FK_AlmHab" />
+        <AssociationConnector Association="SMTDevModel.FK_Alumno_TutorAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_AlumnoDesempenio" />
+        <AssociationConnector Association="SMTDevModel.FK_ALumnoTema" />
+        <AssociationConnector Association="SMTDevModel.FK_ALumnoTemaCiclico" />
+        <AssociationConnector Association="SMTDevModel.FK_alumnoTrabajo" />
+        <AssociationConnector Association="SMTDevModel.FK_DiagnosticoAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_Grupo" />
+        <AssociationConnector Association="SMTDevModel.FK_PortAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_SesionAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_DesGrupo" />
+        <AssociationConnector Association="SMTDevModel.FK_SesionS" />
+        <AssociationConnector Association="SMTDevModel.FK_Bimestre" />
+        <AssociationConnector Association="SMTDevModel.FK_BimHab" />
+        <AssociationConnector Association="SMTDevModel.FK_bimport" />
+        <AssociationConnector Association="SMTDevModel.FK_BimTrab" />
+        <AssociationConnector Association="SMTDevModel.FK_DiagnosticoCiclicoBimestre" />
+        <AssociationConnector Association="SMTDevModel.FK_ExamenBimestre" />
+        <AssociationConnector Association="SMTDevModel.FK_GrupoBim" />
+        <AssociationConnector Association="SMTDevModel.FK_TemaDiagnosticoCiclico" />
+        <AssociationConnector Association="SMTDevModel.FK_TemaAlumnoCiclico" />
+        <AssociationConnector Association="SMTDevModel.FK_DiagnosticoGrupo" />
+        <AssociationConnector Association="SMTDevModel.FK_TemaExamen" />
+        <AssociationConnector Association="SMTDevModel.FK_TemaAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_GrupHab" />
+        <AssociationConnector Association="SMTDevModel.FK_GrupoSES" />
+        <AssociationConnector Association="SMTDevModel.FK_PortGrupo" />
+        <AssociationConnector Association="SMTDevModel.FK_TrabGrupo" />
+        <AssociationConnector Association="SMTDevModel.FK_PortPortAlumno" />
+        <AssociationConnector Association="SMTDevModel.FK_TipoPortafolio" />
+        <AssociationConnector Association="SMTDevModel.FK_TrabTrab" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

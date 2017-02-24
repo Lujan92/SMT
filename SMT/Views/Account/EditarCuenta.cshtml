@@ -1,0 +1,116 @@
+﻿@model SMT.Models.Usuario
+<h2>Editar Cuenta</h2>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width: 800px; left:25%;"> 
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(i => i.Id)
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(i => i.Email)
+                @Html.TextBoxFor(i => i.Email, new { @class = "form-control", placeholder = "Email" })
+                @Html.ValidationMessageFor(i => i.Email)
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                @Html.LabelFor(i => i.Password)
+                @Html.PasswordFor(i => i.Password, new { @class = "form-control", placeholder = "Contraseña" })
+                @Html.ValidationMessageFor(i => i.Password)
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                @Html.LabelFor(i => i.ConfirmarPassword)
+                @Html.PasswordFor(i => i.ConfirmarPassword, new { @class = "form-control", placeholder = "Confirmar Contraseña" })
+                @Html.ValidationMessageFor(i => i.ConfirmarPassword)
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(i => i.Nombre)
+                @Html.TextBoxFor(i => i.Nombre, new { @class = "form-control", placeholder = "Nombre" })
+                @Html.ValidationMessageFor(i => i.Nombre)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(i => i.ApellidoPaterno)
+                @Html.TextBoxFor(i => i.ApellidoPaterno, new { @class = "form-control", placeholder = "Ap. Paterno" })
+                @Html.ValidationMessageFor(i => i.ApellidoPaterno)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(i => i.ApellidoMaterno)
+                @Html.TextBoxFor(i => i.ApellidoMaterno, new { @class = "form-control", placeholder = "Ap. Materno" })
+                @Html.ValidationMessageFor(i => i.ApellidoMaterno)
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button class="btn btn-primary pull-right">Guardar</button>
+        </div>
+        
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#Password").removeAttr('data-val-required');
+        $("#ConfirmarPassword").removeAttr('data-val-required');
+        var form = $("form");
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    })
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var id = $(this).find('#Id').val();
+        var url = '/Account/Editar';
+
+        if ($(this).valid()) {
+
+            var params = $(this).serializeArray();
+
+            $('#modalRegistro form [name="Roles"]:checked').each(function () {
+                params.push({
+                    name: 'IdRoles',
+                    value: this.value
+                });
+            });
+
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: params,
+                beforeSend: function () {
+                    Loading('Guardando usuario');
+                },
+                complete: function () {
+                    Loading();
+                },
+                success: function (response) {
+                    if (response.result == true) {
+                        $('#UserName').val($('#modalRegistro').find('#Username').val());
+                        AlertSuccess('Se ha guardado exitosamente', 'Usuarios');                        
+                        $('#modalRegistro').modal('hide');
+                    }
+                    else {
+                        var errors = '';
+                        if (response.Errors !== undefined) {
+                            response.Errors.map(function (e) {
+                                errors += e + '<br>';
+                            });
+                            AlertError(errors);
+                        } else {
+                            AlertWarning(response.message, 'Usuarios');
+                        }
+                    }
+
+                },
+                error: function (e) {
+                    AlertError(e, 'Usuarios');
+                }
+            })
+        }
+
+    });
+</script>

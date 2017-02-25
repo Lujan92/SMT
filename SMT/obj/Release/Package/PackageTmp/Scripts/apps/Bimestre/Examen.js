@@ -1,4 +1,5 @@
-﻿var Examen = new function () {
+﻿var acumulador=1;
+var Examen = new function () {
     var _a = this;
 
     var tdsCaptura = '',
@@ -599,12 +600,48 @@
             pregunta.find('[name$="' + m + '"]').val(data[m]);
         }
 
+
         pregunta.find('select[name$="TipoTema"]').change(function () {
+            if ($(this).val() == 'Multiple') {
+                $('#frmExamen').find('label#pregunta').show();
+                $('#frmExamen').find('textarea#tApregunta').show();
+            } else {
+                $('#frmExamen').find('label#pregunta').hide();
+                $('#frmExamen').find('textarea#tApregunta').hide();
+            }
+            if ($(this).val() == 'Laguna') {
+                $('#frmExamen').find('label#pregunta').show();
+                $('#frmExamen').find('textarea#tApregunta').show();
+            } else {
+                $('#frmExamen').find('label#pregunta').hide();
+                $('#frmExamen').find('textarea#tApregunta').hide();
+            }
+            if ($(this).val() == 'Abierta') {
+                $('#frmExamen').find('label#pregunta').show();
+                $('#frmExamen').find('textarea#tApregunta').show();
+            } else {
+                $('#frmExamen').find('label#pregunta').hide();
+                $('#frmExamen').find('textarea#tApregunta').hide();
+            }
+            if ($(this).val() == 'Columnas') {
+
+                $('#frmExamen').find('label#pregunta').hide();
+                $('#frmExamen').find('textarea#tApregunta').hide();
+            } else {
+                $('#frmExamen').find('label#pregunta').show();
+                $('#frmExamen').find('textarea#tApregunta').show();
+            }
             $(this).parents('[data-pregunta]').find('[data-respuesta]').addClass('hide');
             var activo = $(this).parents('[data-pregunta]').find('[data-respuesta*="' + $(this).val() + '"]');
             activo.removeClass('hide');
             if ($(this).val() == 'Multiple' && activo.find('textarea').val() == '') {
                 activo.find('textarea').val('a) ');
+            }
+            if ($(this).val() == 'Columnas' && activo.find('textarea').val() == '') {
+
+                $('#frmExamen').find('textarea#col1').val("a)");
+                $('#frmExamen').find('textarea#col2').val("1)");
+
             }
         }).change();
 
@@ -740,28 +777,51 @@ $('body:not(.visualizando)').delegate('#frmExamen textarea', 'keypress', functio
         var ultimaLinea = texts[texts.length - 1];
         var sinEspacios = ultimaLinea.trim();
 
+
         if (reg.test(sinEspacios)) {
 
             var matches = reg.exec(sinEspacios);
-            if (matches == null) matches = reg.exec(sinEspacios); // Nose porque la primera vez da null y la segunda ya da bien el resultado...
-            var valor = /\d/.test(matches[1]) ? matches[1] + 1 : matches[1].charCodeAt(0);
-            var tipo = matches[2];
 
-            var resultado = String.fromCharCode(valor + 1) + tipo;
+
+            if (matches == null) matches = reg.exec(sinEspacios); // Nose porque la primera vez da null y la segunda ya da bien el resultado...
+
+
+            if (!isNaN(matches[1])) {
+
+
+                acumulador = acumulador + 1;
+                var resultado = acumulador + ")";
+
+
+
+
+
+            } else {
+                var valor = matches[1].charCodeAt(0);
+
+                //matches[1] siempre es el primer numero y matches[2] siempre es el )
+                var tipo = matches[2];
+                var resultado = String.fromCharCode(valor + 1) + tipo;
+            }
+
 
             // Ahora detectar espacios
             var espacios = /\s+?_+/;
             if (espacios.test(ultimaLinea)) {
                 var match = espacios.exec(ultimaLinea);
+
                 if (match == null) match = espacios.exec(ultimaLinea);
                 resultado += match[0];
+
             }
+
 
             $(this).val($(this).val() + '\n' + resultado + ' ');
             return false;
+
         }
 
-    }
+    } acumulador = 1;
 });
 
 var cargarComponenteUpload = function (select) {

@@ -8,7 +8,7 @@
     @Html.Hidden("Grupo")
     @Html.HiddenFor(i => i.IDBimestre)
     @Html.HiddenFor(i => i.IDExamen)
-}
+
     <div class="row">
         <div class="form-group col-lg-6">
             <label>Tipo</label>
@@ -31,8 +31,8 @@
     <div class="form-group">
         <button class="btn btn-primary" data-option="pregunta" type="button">+ Pregunta</button>
     </div>
-
 }
+
 <div data-template="pregunta" class="hide">
     <div data-pregunta="" class="panel panel-default resaltar">
         <div class="panel-heading" role="tab" id="heading{index}">
@@ -70,8 +70,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Pregunta</label>
-                    <textarea name="ExamenTema[{index}].Pregunta" minlength="3" required class="form-control"></textarea>
+                    <label id="pregunta">Pregunta</label>
+                    <textarea id="tApregunta" name="ExamenTema[{index}].Pregunta" minlength="3" required class="form-control"></textarea>
                 </div>
 
                 <div data-respuesta="Multiple,Laguna" class="hide">
@@ -82,11 +82,11 @@
                 <div data-respuesta="Columnas" class="hide row">
                     <div class="form-group col-lg-6">
                         <label>Columna 1</label>
-                        <textarea name="ExamenTema[{index}].Respuesta1" class="form-control"></textarea>
+                        <textarea id="col1" name="ExamenTema[{index}].Respuesta1" class="form-control"></textarea>
                     </div>
                     <div class="form-group col-lg-6">
                         <label>Columna 2</label>
-                        <textarea name="ExamenTema[{index}].Respuesta2" class="form-control"></textarea>
+                        <textarea id="col2" name="ExamenTema[{index}].Respuesta2" class="form-control"></textarea>
                     </div>
                 </div>
                 <div data-respuesta="Abierta" class="hide">

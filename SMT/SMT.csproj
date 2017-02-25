@@ -637,6 +637,8 @@
       <DependentUpon>SMTDB.edmx</DependentUpon>
       <LastGenOutput>SMTDB.cs</LastGenOutput>
     </Content>
+    <Content Include="php\examen2.php" />
+    <Content Include="php\webService.php" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />

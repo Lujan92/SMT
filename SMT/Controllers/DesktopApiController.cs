@@ -1341,7 +1341,7 @@ namespace SMT.Controllers
                 .Select(i => new {
                     IDGrupo = i.IDGrupo,
                     Bimestre = i.Bimestre,
-                    fecha = Util.toHoraMexico(i.fecha).ToString("dd-MM-yyyy"),
+                    fecha = i.fecha.ToString("dd-MM-yyyy"),
                     id = i.id,
                     observacion = i.observacion,
                     asistencia = i.asistencia

@@ -85,7 +85,7 @@ namespace SMT.Models.DB
                             }).ToList()
                     }).AsEnumerable()
                     .Select(i => new SesionSimple {
-                        fecha = Util.toHoraMexico(i.fecha).ToString("dd-MM-yyyy"),
+                        fecha = i.fecha.ToString("dd-MM-yyyy"),
                         id = i.id,
                         observacion = i.observacion,
                         asistencia = i.asistencia

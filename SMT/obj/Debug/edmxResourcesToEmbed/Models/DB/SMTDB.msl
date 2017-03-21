@@ -352,6 +352,12 @@
     <EntitySetMapping Name="Portafolio">
       <EntityTypeMapping TypeName="SMTDevModel.Portafolio">
         <MappingFragment StoreEntitySet="Portafolio">
+          <ScalarProperty Name="Reactivo6" ColumnName="Reactivo6" />
+          <ScalarProperty Name="Reactivo5" ColumnName="Reactivo5" />
+          <ScalarProperty Name="Reactivo4" ColumnName="Reactivo4" />
+          <ScalarProperty Name="Reactivo3" ColumnName="Reactivo3" />
+          <ScalarProperty Name="Reactivo2" ColumnName="Reactivo2" />
+          <ScalarProperty Name="Reactivo1" ColumnName="Reactivo1" />
           <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
           <ScalarProperty Name="IDTipoPortafolio" ColumnName="IDTipoPortafolio" />
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
@@ -383,23 +389,6 @@
           <ScalarProperty Name="IDBimestre" ColumnName="IDBimestre" />
           <ScalarProperty Name="IDGrupo" ColumnName="IDGrupo" />
           <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PortafolioAlumno">
-      <EntityTypeMapping TypeName="SMTDevModel.PortafolioAlumno">
-        <MappingFragment StoreEntitySet="PortafolioAlumno">
-          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
-          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
-          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
-          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
-          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
-          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
-          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
-          <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
-          <ScalarProperty Name="IDPortafolioAlumno" ColumnName="IDPortafolioAlumno" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -481,6 +470,86 @@
           <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
           <ScalarProperty Name="IdTutor" ColumnName="IdTutor" />
           <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="SMTDevModel.AspNetRoles">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="SMTDevModel.AspNetUserClaims">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="SMTDevModel.AspNetUserLogins">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="SMTDevModel.AspNetUsers">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Entidad" ColumnName="Entidad" />
+          <ScalarProperty Name="ViendoUsuario" ColumnName="ViendoUsuario" />
+          <ScalarProperty Name="TotalCuentas" ColumnName="TotalCuentas" />
+          <ScalarProperty Name="EsEscuela" ColumnName="EsEscuela" />
+          <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="SMTDevModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="PortafolioAlumno">
+      <EntityTypeMapping TypeName="SMTDevModel.PortafolioAlumno">
+        <MappingFragment StoreEntitySet="PortafolioAlumno">
+          <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+          <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
+          <ScalarProperty Name="Aspecto5" ColumnName="Aspecto5" />
+          <ScalarProperty Name="Aspecto4" ColumnName="Aspecto4" />
+          <ScalarProperty Name="Aspecto3" ColumnName="Aspecto3" />
+          <ScalarProperty Name="Aspecto2" ColumnName="Aspecto2" />
+          <ScalarProperty Name="Aspecto1" ColumnName="Aspecto1" />
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
+          <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
+          <ScalarProperty Name="IDPortafolioAlumno" ColumnName="IDPortafolioAlumno" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

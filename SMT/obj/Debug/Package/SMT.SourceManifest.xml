@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<sitemanifest>
-  <IisApp path="C:\Users\lujan\Desktop\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\Package\PackageTmp" />
-  <setAcl path="C:\Users\lujan\Desktop\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="C:\Users\lujan\Desktop\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
-</sitemanifest>

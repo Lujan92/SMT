@@ -23,7 +23,7 @@
                 _control.data = data;
             }
         }).promise();
-        
+
     }
 
     var generarTablaControl = function (selector) {
@@ -41,6 +41,7 @@
                     header += '<th><div class="w100 text-center">' + head.name + '</div></th>';
 
                     row += '<td><div class="w100">{' + head.key + '}</div></td>';
+
                 });
 
                 header += '<th><div class="w100 text-center">Promedio final del bimestre</div></th>';
@@ -67,36 +68,45 @@
                             lsDataPorc[header.key] :
                         (lsDataPorc[header.key] = 10);
 
-                    return '<td><input data-porcentaje="' + header.key + '" style="width:30px;" value=' + porcentaje + '>%</td>';
+                    return '<td><input data-porcentaje="' + header.key + '" style="width:30px;" value=' + porcentaje + '><label for="myalue">%</label></td>';
                 });
                 porcentajes.pop();
 
                 var trPorcentajes = '' +
                     '<tr>' +
-                        '<td>Ponderación</td>' +
-                        porcentajes.join('') +
-                    '</tr>';
-
+                        '<td>Ponderación</td>' + porcentajes.join('') + '<td><label id="totalValue"></label></td>'
+                '</tr>';
+                // console.log('trPorcentajes: ' + trPorcentajes);
                 $(trPorcentajes).prependTo($(selector).find('#tControl thead'));
 
-                var headerKeys = _control.data.headers.map(function (h) { return h.key });
+                var headerKeys = _control.data.headers.map(function (h) { return h.key });//TRAE LOS ENCABEZADOS
+                console.log('headerKeys: ' + headerKeys);
                 var calcular = function (alum) {
                     for (var a in _control.data.alumnos) {
                         var reporte = _control.data.alumnos[a];
                         var promedioFinal = 0;
                         var promedioFinalCalificaciones = 0;
+
                         if (reporte.id == alum.id) {
                             reporte.nombre = alum.apellidoPaterno + ' ' + alum.apellidoMaterno + ' ' + alum.nombre;
 
                             for (var m in reporte) {
                                 if (m != "totalFaltas" && headerKeys.indexOf(m) !== -1) {
                                     promedioFinalCalificaciones++;
+                                    //if (reporte[m] < 5) {
+                                    //    reporte[m] = 5;
+                                    //}
+                                    console.log('lsDataPorc[m]: ' + lsDataPorc[m]);
+                                    console.log('reporte[m]: ' + reporte[m]);
                                     promedioFinal += reporte[m] * lsDataPorc[m] / 100.0;
+
                                 }
 
                                 if (typeof (reporte[m]) == 'number' && reporte[m] % 1 !== 0) {
                                     reporte[m] = reporte[m].toFixed(1);
+
                                 }
+
                             }
 
                             reporte.promedioFinal = promedioFinal > 10 ? 10 : promedioFinal.toFixed(1);
@@ -115,19 +125,57 @@
                                                                                           });
                             break;
                         }
-                    }
+                    }//FIN DEL PRIMER FOR
                 };
 
                 Alumnos.data.map(calcular);
-
+                //OJO
+                //BLOQUE DE CODIGO QUE HACE LOS CAMBIOS EN DIRECTO
                 $(document).on("change keyup keydown", "[data-porcentaje]", function (e, i) {
                     var $me = $(this);
                     lsDataPorc[$me.data("porcentaje")] = $me.val();
+
+                    //if (lsDataPorc[$me.data("porcentaje")] > 100) {
+                    //    alert('mas de 100');
+                    //}
+                    ///////////////////////////////////////////////////////////////
+                    var map = {};
+                    $("[data-porcentaje]").each(function () {
+                        map[$(this).attr("[data-porcentaje]")] = $(this).val();
+                    });
+                    console.log(map);
+                    ///////////////////////////////////////////////////////////////
                     localStorage.setItem(lsPorcName, JSON.stringify(lsDataPorc));
                     $(selector).find('#tControl tbody').empty();
                     Alumnos.data.map(calcular);
+                    generarTablaResumen(selector);
                 });
+                //FIN DEL BLOQUE DE CODIGO
+                //EL SIGUIENTE BLOQUE CAMBIA EL  COLOR A ROJO DE LOS TD AL PASARSE DE 100%
+                $(document).on("change", "[data-porcentaje]", function (e, i) {
+                    // SE CREA UNA VARIABLE LLAMADA TOTAL QUE VA A GUARDAR LA SUMA
+                    var total = 0;
+                    //SE CREA EL ARREGLO QUE CONTENDRA LOS VALUE DE CADA INPUT
+                    var myArray = $('[data-porcentaje]').map(function () {
+                        return this.value;
+                    }).get();
+                    //EL FOR ME PERMITE RECORRER EL ARREGLO Y REALIZAR LA SUMA
+                    for (var i = 0; i < myArray.length; i++) {
+                        total += myArray[i] << 0;
+                    }
+                    //VALIDO EL TOTAL EN CASO DE PASAR LOS 100 EL LABEL CAMBIA DE COLOR
+                    if (total > 100) {
+                        jQuery("label[for='myalue']").html("%").css("color", "red");
+                        $("#totalValue").text('El total de porcentaje es: ' + total);
+                        jQuery("#totalValue").html('El total de porcentaje es: ' + total).css("color", "red");
+                    }
+                    else {
+                        jQuery("label[for='myalue']").css("color", "black");
+                        $("#totalValue").text('');
+                    }
+                })
 
+                //FIN DEL BLOQUE
                 $(selector).find('h3.loading').remove();
                 $def.resolve();
             });
@@ -145,11 +193,12 @@
 
     var generarTablaResumen = function (selector) {
         var $def = new $.Deferred();
-
+        //$("#tabla-resumen").remove(); PERMITE LIMPIAR LA TABLA Y LUEGO SE VUELVE A LLENAR
+        $("#tabla-resumen").remove();
         Templates.load('tablaResumen', '/scripts/apps/control/views/tablaResumen.html').then(function (tabla) {
             Templates.load('rowResumen', '/scripts/apps/control/views/rowResumen.html').then(function (row) {
                 var t = $(tabla);
-
+                console.log($(selector).find('#tControl').parent().after(t));
                 $(selector).find('#tControl').parent().after(t);
                 var alumnos7 = _control.data.alumnos.filter(estaEnRango(6)).length,
                 alumnos8 = _control.data.alumnos.filter(estaEnRango(7)).length,
@@ -185,16 +234,16 @@
 
                     $(t).find('tbody').append(row.format(resumen));
                 });
-    
+
                 $def.resolve();
-            }); 
+            });
         });
 
         return $def;
     }
 
-    var generarGraficaControl = function(selector,impresion){
-   
+    var generarGraficaControl = function (selector, impresion) {
+
 
         var control = $('<div id="grafica-control" class="' + (impresion == true ? 'col-lg-12 col-md-12' : 'col-lg-6 col-md-6') + ' "  style="height: 450px;"></div>').appendTo(selector);
 
@@ -262,7 +311,7 @@
             ]
 
         }];
-       
+
 
         $(control).highcharts({
             chart: {
@@ -272,7 +321,7 @@
                 text: ''
             },
             credits: false,
-            xAxis:{
+            xAxis: {
                 categories: ['Alumnos que subieron calificación', 'Alumnos que bajaron calificación', 'Alumnos que bajaron calificación y reprobaron', 'Alumnos que bajaron calificación y aprobaron', 'Alumnos que subieron calificación y reprobaron']
             },
             yAxis: {
@@ -290,11 +339,11 @@
                 }
             },
             legend: {
-                enabled:false
+                enabled: false
             },
             tooltip: {
                 formatter: function () {
-                    return '<b>' + this.point.y + '</b> ' +this.series.name;
+                    return '<b>' + this.point.y + '</b> ' + this.series.name;
                 }
             },
             series: series
@@ -374,7 +423,7 @@
             series: series
         });
 
-    
+
         series = [{
             name: 'Alumnos',
             data: []
@@ -392,10 +441,10 @@
                         y: parseFloat(h.promedioFinal.toFixed(1))
                     });
                 }
-                
+
             });
 
-           
+
         });
 
         $(califas).highcharts({
@@ -494,9 +543,9 @@
             series: series
         });
 
-  
+
     }
-    
+
 
     this.inicializar = function (selector) {
         $(selector).html('<h3 class="text-center loading"><span class="fa fa-refresh fa-spin"></span></h3>');
@@ -515,12 +564,12 @@
     this.imprimir = function () {
 
         if (this.data.length == 0) {
-            AlertWarning('Aun no se ha terminado de cargar los datos, por favor espere un momento','Control');
+            AlertWarning('Aun no se ha terminado de cargar los datos, por favor espere un momento', 'Control');
             return;
         }
 
         var w = window.open();
-       
+
         $('link').each(function () {
 
             $(w.document.head).append('<link href="' + this.href + '" rel="stylesheet" type="text/css">');
@@ -531,7 +580,7 @@
         $(w.document.head).append($('style').clone());
         $(w.document.body).append($('.header-control').clone().removeClass('visible-print'));
         $(w.document.body).append($("#tControl").clone());
-        
+
 
         $(w.document.body).append($('#tabla-resumen').clone());
 
@@ -543,17 +592,17 @@
         $(w.document.body).find('.fa').remove();
         $(w.document.body).find('td,th').css({
             padding: '2px',
-            'text-align':'center',
+            'text-align': 'center',
             fontsize: '10px'
         });
 
         $(w.document.body).find('table:eq(1) th:not(:first)').addClass('vertical');
         $(w.document.body).find('table:eq(1) .w100').removeClass('w100');
 
-        $(w.document.body).find('table:not(:first)').removeClass().attr('border',1).css('margin-bottom','10px');
+        $(w.document.body).find('table:not(:first)').removeClass().attr('border', 1).css('margin-bottom', '10px');
 
         setTimeout(function () {
-            generarGraficaControl(grafica,true);
+            generarGraficaControl(grafica, true);
             setTimeout(function () {
                 w.print();
             }, 500);
@@ -577,8 +626,8 @@
 
         $.ajax({
             url: '/alumnos/ActualizarDesempenio',
-            type:'get',
-            data: {grupo:_grupo},
+            type: 'get',
+            data: { grupo: _grupo },
             beforeSend: function () {
                 Loading('Actualizando grupo espere por favor.');
             },
@@ -595,9 +644,9 @@
 
     var graficarExamen = function (_data) {
 
-      
+
         ConfirmDialog.show({
-            title: 'Examenes de ' + _data.nombre ,
+            title: 'Examenes de ' + _data.nombre,
             text: '<fieldset><button id="btnImprimirModal" class="btn btn-danger"><span class="fa fa-print"></span> Imprimir</button><div id="grafica" style="height:300px;" class="col-lg-12"></div></fieldset>',
             beforeOpen: function () {
                 $('#modalConfirm #btnImprimirModal').click(function () {
@@ -605,13 +654,13 @@
                 });
 
                 setTimeout(function () {
-                    generarGraficaExamen('#modalConfirm #grafica',_data);
+                    generarGraficaExamen('#modalConfirm #grafica', _data);
                 }, 500);
 
 
             },
             negativeButton: false,
-            positiveButtonText:'Aceptar'
+            positiveButtonText: 'Aceptar'
         });
     }
 
@@ -619,10 +668,10 @@
         var data = [],
             labels = [];
 
-               
+
 
         _control.data.headers.map(function (e) {
-                   
+
             if (e.examen == true) {
                 data.push({
                     name: e.name,
@@ -653,8 +702,8 @@
         });
 
         // Agregar los otros a mano
-        var extras =  {
-            'promedioTrabajo':'Trabajos',
+        var extras = {
+            'promedioTrabajo': 'Trabajos',
             'promedioCoevaluacion': 'Coevaluación',
             'promedioAutoevaluacion': 'Autoevaluación'
         };
@@ -669,7 +718,7 @@
             labels.push(extras[m]);
         }
 
-      
+
 
         $(content).highcharts({
             chart: {
@@ -724,29 +773,29 @@
 
         setTimeout(function () {
             generarGraficaExamen(grafica, data);
-            setTimeout(function(){w.print()}, 800);
+            setTimeout(function () { w.print() }, 800);
         }, 800);
 
     }
 
     var obtenerColorPorCalificacion = function (val) {
-       
+
         var red = new Color(232, 9, 26),
             white = new Color(255, 255, 255),
             green = new Color(6, 170, 60),
             start = red,
             end = green;
 
-        val = val -5;
-      
+        val = val - 5;
+
         var startColors = start.getColors(),
             endColors = end.getColors();
         var r = Interpolate(startColors.r, endColors.r, 5, val);
         var g = Interpolate(startColors.g, endColors.g, 5, val);
         var b = Interpolate(startColors.b, endColors.b, 5, val);
 
-       return  "rgb(" + r + "," + g + "," + b + ")";
-       
+        return "rgb(" + r + "," + g + "," + b + ")";
+
     }
 
     function Interpolate(start, end, steps, count) {

@@ -17,14 +17,14 @@ namespace SMT.Controllers
     [Authorize, Credencial]
     public class ExamenesController : Controller
     {
-        public JsonResult Listar(Guid grupo,long bimestre)
+        public JsonResult Listar(Guid grupo, long bimestre)
         {
-            return Json(Examen.listar(grupo, bimestre,Usuario.getIDVisor(User.Identity.GetUserId())),JsonRequestBehavior.AllowGet);
+            return Json(Examen.listar(grupo, bimestre, Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Get(Guid examen)
         {
-            return Json(Examen.buscar(examen,Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
+            return Json(Examen.buscar(examen, Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Nuevo()
@@ -44,18 +44,18 @@ namespace SMT.Controllers
 
                 examen.IDBimestre = grupo.Bimestres.Where(a => a.Bimestre == bimestre).Select(a => a.IDBimestre).FirstOrDefault();
 
-                if(examen.IDBimestre == default(Guid))
+                if (examen.IDBimestre == default(Guid))
                     throw new Exception("Bimestre no encontrado");
 
                 examen.IDExamen = Guid.NewGuid();
                 Guid id = examen.crear(User.Identity.GetUserId());
 
-            
+
                 Examen.actualizarAlumnos(id);
 
-                return Json(new ResultViewModel(true,null, Examen.buscar(id, User.Identity.GetUserId())[0]));
+                return Json(new ResultViewModel(true, null, Examen.buscar(id, User.Identity.GetUserId())[0]));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -72,7 +72,7 @@ namespace SMT.Controllers
                     string usuario = User.Identity.GetUserId();
                     ExamenAlumno a = db.ExamenAlumno.FirstOrDefault(i => i.IDAlumno == alumno && i.IDTema == tema);
 
-                    if(!db.Grupos.Any(i => i.IDGrupo == grupo && i.IDUsuario == usuario && i.Alumno.Any(b =>b.IDAlumno == alumno)))
+                    if (!db.Grupos.Any(i => i.IDGrupo == grupo && i.IDUsuario == usuario && i.Alumno.Any(b => b.IDAlumno == alumno)))
                     {
                         throw new Exception("No tienes registrado este alumno");
                     }
@@ -105,7 +105,7 @@ namespace SMT.Controllers
 
 
 
-                    AlumnoDesempenio.actualizarAlumno(alumno, grupo, db.ExamenTema.Where(b => b.IDTema == tema).Select(b => b.Examen.Bimestres.Bimestre.Value).FirstOrDefault() , new { examen = true });
+                    AlumnoDesempenio.actualizarAlumno(alumno, grupo, db.ExamenTema.Where(b => b.IDTema == tema).Select(b => b.Examen.Bimestres.Bimestre.Value).FirstOrDefault(), new { examen = true });
 
                     return Json(new ResultViewModel(true, null, null));
                 }
@@ -135,6 +135,7 @@ namespace SMT.Controllers
         {
             try
             {
+
                 examen.editar(User.Identity.GetUserId());
                 return Json(new ResultViewModel(true, null, Examen.buscar(examen.IDExamen, User.Identity.GetUserId()).FirstOrDefault()));
             }
@@ -143,19 +144,18 @@ namespace SMT.Controllers
                 return Json(new ResultViewModel(e));
             }
         }
-
         [HttpPost]
         public JsonResult SubirArchivo(HttpPostedFileBase file)
         {
             try
             {
                 string archivo = Guid.NewGuid().ToString() + ".jpg";
-                string usuario =Usuario.getIDVisor(User.Identity.GetUserId());
-                AmazonS3.SubirArchivo(file.InputStream, archivo, "/"+ usuario +  "/examenes/");
+                string usuario = Usuario.getIDVisor(User.Identity.GetUserId());
+                AmazonS3.SubirArchivo(file.InputStream, archivo, "/" + usuario + "/examenes/");
 
-                return Json(new ResultViewModel(true,null, archivo));
+                return Json(new ResultViewModel(true, null, archivo));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -183,7 +183,7 @@ namespace SMT.Controllers
                 else
                 {
 
-                   
+
 
                     string[] titulos = new string[]
                     {
@@ -209,18 +209,19 @@ namespace SMT.Controllers
 
                     for (int i = 0; i < titulos.Length; i++)
                     {
-                       
+
                         string text = titulos[i];
                         if (i < 3)
                         {
                             encabezado.Append(text);
                             encabezado.Append(Environment.NewLine);
                         }
-                        else {
+                        else
+                        {
                             titulo.Append(text);
                             titulo.Append(Environment.NewLine);
                         }
-                        
+
 
                     }
 
@@ -247,7 +248,7 @@ namespace SMT.Controllers
                         Paragraph instrucciones;
 
                         instrucciones = doc.InsertParagraph(m.Instrucciones);
-                        pregunta = doc.InsertParagraph(index + ". " + m.Pregunta);                        
+                        pregunta = doc.InsertParagraph(index + ". " + m.Pregunta);
                         pregunta.FontSize(10);
                         pregunta.Italic();
 
@@ -282,15 +283,15 @@ namespace SMT.Controllers
                                 break;
                             case "Abierta":
                                 if (m.Archivo != null)
-                                {    
+                                {
                                     Novacode.Image img = doc.AddImage(AmazonS3.DescargarArchivo(m.Archivo, "/" + usuario + "/examenes"));
 
                                     Paragraph p = doc.InsertParagraph("", false);
                                     Picture pic1 = img.CreatePicture();
-                                    
+
                                     p.InsertPicture(pic1);
                                     p.Alignment = Alignment.center;
-                                    
+
                                 }
 
                                 doc.InsertParagraph(Environment.NewLine);
@@ -304,18 +305,18 @@ namespace SMT.Controllers
 
                         doc.InsertParagraph(Environment.NewLine);
 
-                        
-                        
+
+
 
                     }
 
-                    
+
                     doc.Save();
-                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document",exa.Titulo + ".docx");
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", exa.Titulo + ".docx");
                 }
 
-                
-               
+
+
             }
         }
 
@@ -327,7 +328,7 @@ namespace SMT.Controllers
 
             SMTDevEntities db = new SMTDevEntities();
 
-            foreach(Examen exa in db.Examen.Where(i => i.Bimestres.IDGrupo == grupo && i.Bimestres.Bimestre == bimestre).OrderBy(i => i.FechaEntrega).ToList())
+            foreach (Examen exa in db.Examen.Where(i => i.Bimestres.IDGrupo == grupo && i.Bimestres.Bimestre == bimestre).OrderBy(i => i.FechaEntrega).ToList())
             {
                 examenes.Add(new CalificacionExamenViewModel()
                 {
@@ -338,8 +339,8 @@ namespace SMT.Controllers
                     .GroupBy(i => i.IDAlumno)
                     .Select(i => new CalificacionExamenViewModel.CalificacionAlumno()
                     {
-                         calificacion = i.Select(a => a.Calificacion.Value).Sum() * 10 / i.Select(a => a.ExamenTema.Reactivos).Sum(),
-                         idAlumno = i.Key
+                        calificacion = i.Select(a => a.Calificacion.Value).Sum() * 10 / i.Select(a => a.ExamenTema.Reactivos).Sum(),
+                        idAlumno = i.Key
                     })
                     .ToList()
                 });
@@ -357,19 +358,22 @@ namespace SMT.Controllers
             var examenes = db.Examen
                 .Where(i => i.Bimestres.IDGrupo == grupo && i.Bimestres.Bimestre == bimestre)
                 .OrderBy(i => i.FechaEntrega)
-                .Select(exa => new ExamenViewModel {
+                .Select(exa => new ExamenViewModel
+                {
                     idExamen = exa.IDExamen,
                     tipo = exa.Tipo,
                     titulo = exa.Titulo,
                     alumnos = db.ExamenAlumno
                         .Where(i => i.ExamenTema.IDExamen == exa.IDExamen)
-                        .Select(i => new ExamenViewModel.CalificacionAlumno {
+                        .Select(i => new ExamenViewModel.CalificacionAlumno
+                        {
                             calificacion = i.Calificacion != null ? i.Calificacion.Value : 5,
                             idAlumno = i.IDAlumno,
                             pregunta = i.IDTema
                         }).ToList(),
                     preguntas = db.ExamenTema.Where(i => i.IDExamen == exa.IDExamen)
-                        .Select(i => new ExamenViewModel.Pregunta {
+                        .Select(i => new ExamenViewModel.Pregunta
+                        {
                             idPregunta = i.IDTema,
                             nombre = i.Instrucciones,
                             reactivos = i.Reactivos,

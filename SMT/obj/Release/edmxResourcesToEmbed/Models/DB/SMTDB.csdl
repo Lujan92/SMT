@@ -18,7 +18,6 @@
     <EntitySet Name="Grupos" EntityType="SMTDevModel.Grupos" />
     <EntitySet Name="HabilidadesAlumno" EntityType="SMTDevModel.HabilidadesAlumno" />
     <EntitySet Name="Portafolio" EntityType="SMTDevModel.Portafolio" />
-    <EntitySet Name="PortafolioAlumno" EntityType="SMTDevModel.PortafolioAlumno" />
     <EntitySet Name="Sesion" EntityType="SMTDevModel.Sesion" />
     <EntitySet Name="TipoPortafolio" EntityType="SMTDevModel.TipoPortafolio" />
     <EntitySet Name="Trabajo" EntityType="SMTDevModel.Trabajo" />
@@ -55,10 +54,6 @@
     <AssociationSet Name="FK_Grupo" Association="SMTDevModel.FK_Grupo">
       <End Role="Grupos" EntitySet="Grupos" />
       <End Role="Alumno" EntitySet="Alumno" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PortAlumno" Association="SMTDevModel.FK_PortAlumno">
-      <End Role="Alumno" EntitySet="Alumno" />
-      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
     </AssociationSet>
     <AssociationSet Name="FK_SesionAlumno" Association="SMTDevModel.FK_SesionAlumno">
       <End Role="Alumno" EntitySet="Alumno" />
@@ -136,10 +131,6 @@
       <End Role="Grupos" EntitySet="Grupos" />
       <End Role="Trabajo" EntitySet="Trabajo" />
     </AssociationSet>
-    <AssociationSet Name="FK_PortPortAlumno" Association="SMTDevModel.FK_PortPortAlumno">
-      <End Role="Portafolio" EntitySet="Portafolio" />
-      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
-    </AssociationSet>
     <AssociationSet Name="FK_TipoPortafolio" Association="SMTDevModel.FK_TipoPortafolio">
       <End Role="TipoPortafolio" EntitySet="TipoPortafolio" />
       <End Role="Portafolio" EntitySet="Portafolio" />
@@ -147,6 +138,55 @@
     <AssociationSet Name="FK_TrabTrab" Association="SMTDevModel.FK_TrabTrab">
       <End Role="Trabajo" EntitySet="Trabajo" />
       <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+    <EntitySet Name="AspNetRoles" EntityType="SMTDevModel.AspNetRoles" />
+    <EntitySet Name="AspNetUserClaims" EntityType="SMTDevModel.AspNetUserClaims" />
+    <EntitySet Name="AspNetUserLogins" EntityType="SMTDevModel.AspNetUserLogins" />
+    <EntitySet Name="AspNetUsers" EntityType="SMTDevModel.AspNetUsers" />
+    <AssociationSet Name="FK_UsuarioDesempenio" Association="SMTDevModel.FK_UsuarioDesempenio">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserClaims_UserId_fkey" Association="SMTDevModel.AspNetUserClaims_UserId_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserLogins_UserId_fkey" Association="SMTDevModel.AspNetUserLogins_UserId_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tutor_TutorAlumno" Association="SMTDevModel.FK_Tutor_TutorAlumno">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="TutorAlumno" EntitySet="TutorAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioBeneficiario" Association="SMTDevModel.FK_UsuarioBeneficiario">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Credencial" EntitySet="Credencial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioPaga" Association="SMTDevModel.FK_UsuarioPaga">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Credencial" EntitySet="Credencial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioPortafolioDefecto" Association="SMTDevModel.FK_UsuarioPortafolioDefecto">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PortafolioDefecto" EntitySet="PortafolioDefecto" />
+    </AssociationSet>
+    <AssociationSet Name="Grupos_IDUsuario_fkey" Association="SMTDevModel.Grupos_IDUsuario_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Grupos" EntitySet="Grupos" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="SMTDevModel.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="PortafolioAlumno" EntityType="SMTDevModel.PortafolioAlumno" />
+    <AssociationSet Name="FK_PortAlumno" Association="SMTDevModel.FK_PortAlumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PortPortAlumno" Association="SMTDevModel.FK_PortPortAlumno">
+      <End Role="Portafolio" EntitySet="Portafolio" />
+      <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Credencial">
@@ -162,6 +202,8 @@
     <Property Name="EsPrincipal" Type="Boolean" Nullable="false" />
     <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
     <Property Name="FechaPagada" Type="DateTime" Precision="6" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.FK_UsuarioBeneficiario" FromRole="Credencial" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUsers1" Relationship="SMTDevModel.FK_UsuarioPaga" FromRole="Credencial" ToRole="AspNetUsers" />
   </EntityType>
   <EntityType Name="Entidad">
     <Key>
@@ -201,6 +243,7 @@
     <Property Name="Tipo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
     <Property Name="IDUsuario" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
     <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.FK_UsuarioPortafolioDefecto" FromRole="PortafolioDefecto" ToRole="AspNetUsers" />
   </EntityType>
   <EntityType Name="Alumno">
     <Key>
@@ -233,8 +276,8 @@
     <NavigationProperty Name="TrabajoAlumno" Relationship="SMTDevModel.FK_alumnoTrabajo" FromRole="Alumno" ToRole="TrabajoAlumno" />
     <NavigationProperty Name="DiagnosticoPsicologico" Relationship="SMTDevModel.FK_DiagnosticoAlumno" FromRole="Alumno" ToRole="DiagnosticoPsicologico" />
     <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_Grupo" FromRole="Alumno" ToRole="Grupos" />
-    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="Alumno" ToRole="PortafolioAlumno" />
     <NavigationProperty Name="AlumnoSesion" Relationship="SMTDevModel.FK_SesionAlumno" FromRole="Alumno" ToRole="AlumnoSesion" />
+    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="Alumno" ToRole="PortafolioAlumno" />
   </EntityType>
   <EntityType Name="AlumnoDesempenio">
     <Key>
@@ -283,6 +326,7 @@
     <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
     <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_AlumnoDesempenio" FromRole="AlumnoDesempenio" ToRole="Alumno" />
     <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_DesGrupo" FromRole="AlumnoDesempenio" ToRole="Grupos" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.FK_UsuarioDesempenio" FromRole="AlumnoDesempenio" ToRole="AspNetUsers" />
   </EntityType>
   <EntityType Name="AlumnoSesion">
     <Key>
@@ -510,6 +554,7 @@
     <NavigationProperty Name="Sesion" Relationship="SMTDevModel.FK_GrupoSES" FromRole="Grupos" ToRole="Sesion" />
     <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_PortGrupo" FromRole="Grupos" ToRole="Portafolio" />
     <NavigationProperty Name="Trabajo" Relationship="SMTDevModel.FK_TrabGrupo" FromRole="Grupos" ToRole="Trabajo" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.Grupos_IDUsuario_fkey" FromRole="Grupos" ToRole="AspNetUsers" />
   </EntityType>
   <EntityType Name="HabilidadesAlumno">
     <Key>
@@ -571,26 +616,14 @@
     <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
     <NavigationProperty Name="Bimestres" Relationship="SMTDevModel.FK_bimport" FromRole="Portafolio" ToRole="Bimestres" />
     <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_PortGrupo" FromRole="Portafolio" ToRole="Grupos" />
-    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="Portafolio" ToRole="PortafolioAlumno" />
     <NavigationProperty Name="TipoPortafolio" Relationship="SMTDevModel.FK_TipoPortafolio" FromRole="Portafolio" ToRole="TipoPortafolio" />
-  </EntityType>
-  <EntityType Name="PortafolioAlumno">
-    <Key>
-      <PropertyRef Name="IDPortafolioAlumno" />
-    </Key>
-    <Property Name="IDPortafolioAlumno" Type="Guid" Nullable="false" />
-    <Property Name="IDPortafolio" Type="Guid" />
-    <Property Name="IDAlumno" Type="Guid" />
-    <Property Name="Estado" Type="Int32" />
-    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
-    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
-    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
-    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
-    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
-    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
-    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
-    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="PortafolioAlumno" ToRole="Alumno" />
-    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="PortafolioAlumno" ToRole="Portafolio" />
+    <Property Name="Reactivo1" Type="Double" />
+    <Property Name="Reactivo2" Type="Double" />
+    <Property Name="Reactivo3" Type="Double" />
+    <Property Name="Reactivo4" Type="Double" />
+    <Property Name="Reactivo5" Type="Double" />
+    <Property Name="Reactivo6" Type="Double" />
+    <NavigationProperty Name="PortafolioAlumno" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="Portafolio" ToRole="PortafolioAlumno" />
   </EntityType>
   <EntityType Name="Sesion">
     <Key>
@@ -678,6 +711,7 @@
     <Property Name="IdTutor" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
     <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_Alumno_TutorAlumno" FromRole="TutorAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.FK_Tutor_TutorAlumno" FromRole="TutorAlumno" ToRole="AspNetUsers" />
   </EntityType>
   <Association Name="FK_AlmHab">
     <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
@@ -786,20 +820,6 @@
       </Principal>
       <Dependent Role="Alumno">
         <PropertyRef Name="IDGrupo" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PortAlumno">
-    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Alumno">
-        <PropertyRef Name="IDAlumno" />
-      </Principal>
-      <Dependent Role="PortafolioAlumno">
-        <PropertyRef Name="IDAlumno" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1069,20 +1089,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PortPortAlumno">
-    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Portafolio">
-        <PropertyRef Name="IDPortafolio" />
-      </Principal>
-      <Dependent Role="PortafolioAlumno">
-        <PropertyRef Name="IDPortafolio" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TipoPortafolio">
     <End Type="SMTDevModel.TipoPortafolio" Role="TipoPortafolio" Multiplicity="0..1" />
     <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="*" />
@@ -1106,6 +1112,229 @@
       </Principal>
       <Dependent Role="TrabajoAlumno">
         <PropertyRef Name="IDTrabajo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.AspNetUserClaims_UserId_fkey" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.AspNetUserLogins_UserId_fkey" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="6" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="IDUsuario" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ApellidoPaterno" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="ApellidoMaterno" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Disabled" Type="Boolean" />
+    <Property Name="EsEscuela" Type="Boolean" />
+    <Property Name="TotalCuentas" Type="Int32" />
+    <Property Name="ViendoUsuario" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Entidad" Type="Int32" />
+    <NavigationProperty Name="AlumnoDesempenio" Relationship="SMTDevModel.FK_UsuarioDesempenio" FromRole="AspNetUsers" ToRole="AlumnoDesempenio" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="SMTDevModel.AspNetUserClaims_UserId_fkey" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="SMTDevModel.AspNetUserLogins_UserId_fkey" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="TutorAlumno" Relationship="SMTDevModel.FK_Tutor_TutorAlumno" FromRole="AspNetUsers" ToRole="TutorAlumno" />
+    <NavigationProperty Name="Credencial" Relationship="SMTDevModel.FK_UsuarioBeneficiario" FromRole="AspNetUsers" ToRole="Credencial" />
+    <NavigationProperty Name="Credencial1" Relationship="SMTDevModel.FK_UsuarioPaga" FromRole="AspNetUsers" ToRole="Credencial" />
+    <NavigationProperty Name="PortafolioDefecto" Relationship="SMTDevModel.FK_UsuarioPortafolioDefecto" FromRole="AspNetUsers" ToRole="PortafolioDefecto" />
+    <NavigationProperty Name="Grupos" Relationship="SMTDevModel.Grupos_IDUsuario_fkey" FromRole="AspNetUsers" ToRole="Grupos" />
+    <NavigationProperty Name="AspNetRoles" Relationship="SMTDevModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <Association Name="FK_UsuarioDesempenio">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AlumnoDesempenio" Role="AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserClaims_UserId_fkey">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserLogins_UserId_fkey">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tutor_TutorAlumno">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.TutorAlumno" Role="TutorAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TutorAlumno">
+        <PropertyRef Name="IdTutor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioBeneficiario">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Credencial" Role="Credencial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Credencial">
+        <PropertyRef Name="IDUsuarioBeneficiario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioPaga">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.Credencial" Role="Credencial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Credencial">
+        <PropertyRef Name="IDUsuarioPaga" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioPortafolioDefecto">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="SMTDevModel.PortafolioDefecto" Role="PortafolioDefecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PortafolioDefecto">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Grupos_IDUsuario_fkey">
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+    <End Type="SMTDevModel.Grupos" Role="Grupos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Grupos">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="SMTDevModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+    <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+  </Association>
+  <EntityType Name="PortafolioAlumno">
+    <Key>
+      <PropertyRef Name="IDPortafolioAlumno" />
+    </Key>
+    <Property Name="IDPortafolioAlumno" Type="Guid" Nullable="false" />
+    <Property Name="IDPortafolio" Type="Guid" />
+    <Property Name="IDAlumno" Type="Guid" />
+    <Property Name="Estado" Type="Int32" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="6" />
+    <Property Name="Aspecto1" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto2" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto3" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto4" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="Aspecto5" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="6" />
+    <Property Name="Calificacion" Type="Int32" />
+    <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_PortAlumno" FromRole="PortafolioAlumno" ToRole="Alumno" />
+    <NavigationProperty Name="Portafolio" Relationship="SMTDevModel.FK_PortPortAlumno" FromRole="PortafolioAlumno" ToRole="Portafolio" />
+  </EntityType>
+  <Association Name="FK_PortAlumno">
+    <End Type="SMTDevModel.Alumno" Role="Alumno" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="IDAlumno" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PortPortAlumno">
+    <End Type="SMTDevModel.Portafolio" Role="Portafolio" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="SMTDevModel.PortafolioAlumno" Role="PortafolioAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Portafolio">
+        <PropertyRef Name="IDPortafolio" />
+      </Principal>
+      <Dependent Role="PortafolioAlumno">
+        <PropertyRef Name="IDPortafolio" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

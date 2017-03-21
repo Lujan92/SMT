@@ -22,7 +22,7 @@
     <Property Name="PromedioTotal" Type="float8" />
     <Property Name="ColorPromedio" Type="varchar" MaxLength="8000" />
     <Property Name="Grupo" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="AlumnoDesempenio">
     <Key>
@@ -68,7 +68,7 @@
     <Property Name="PromedioHabilidadAutoevaluacion" Type="float8" />
     <Property Name="PromedioHabilidadCoevaluacion" Type="float8" />
     <Property Name="TotalTrabajosMedios" Type="int4" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="AlumnoSesion">
     <Key>
@@ -79,7 +79,67 @@
     <Property Name="IDAlumno" Type="uuid" Nullable="false" />
     <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
     <Property Name="Estado" Type="int4" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="8000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="ClaimType" Type="varchar" MaxLength="8000" />
+    <Property Name="ClaimValue" Type="varchar" MaxLength="8000" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="ProviderKey" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="8000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="RoleId" Type="varchar" MaxLength="8000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="8000" />
+    <Property Name="EmailConfirmed" Type="bool" Nullable="false" />
+    <Property Name="PasswordHash" Type="varchar" MaxLength="8000" />
+    <Property Name="SecurityStamp" Type="varchar" MaxLength="8000" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="8000" />
+    <Property Name="PhoneNumberConfirmed" Type="bool" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bool" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="timestamp" />
+    <Property Name="LockoutEnabled" Type="bool" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int4" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="8000" Nullable="false" />
+    <Property Name="IDUsuario" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="8000" />
+    <Property Name="ApellidoPaterno" Type="varchar" MaxLength="8000" />
+    <Property Name="ApellidoMaterno" Type="varchar" MaxLength="8000" />
+    <Property Name="Disabled" Type="bool" />
+    <Property Name="EsEscuela" Type="bool" />
+    <Property Name="TotalCuentas" Type="int4" />
+    <Property Name="ViendoUsuario" Type="varchar" MaxLength="8000" />
+    <Property Name="Entidad" Type="int4" />
   </EntityType>
   <EntityType Name="Bimestres">
     <Key>
@@ -113,7 +173,7 @@
     <Property Name="FechaEntrega" Type="timestamp" Nullable="false" />
     <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
     <Property Name="Titulo" Type="varchar" MaxLength="8000" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="DiagnosticoCicloAlumno">
     <Key>
@@ -124,7 +184,7 @@
     <Property Name="IDTema" Type="uuid" Nullable="false" />
     <Property Name="Calificacion" Type="float8" />
     <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="DiagnosticoCicloTema">
     <Key>
@@ -141,7 +201,7 @@
     <Property Name="Respuesta1" Type="varchar" MaxLength="8000" />
     <Property Name="Respuesta2" Type="varchar" MaxLength="8000" />
     <Property Name="Instrucciones" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="DiagnosticoPsicologico">
     <Key>
@@ -217,7 +277,7 @@
     <Property Name="CTE10" Type="varchar" MaxLength="8000" />
     <Property Name="CTE8" Type="varchar" MaxLength="8000" />
     <Property Name="CTE5" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="Entidad">
     <Key>
@@ -237,7 +297,7 @@
     <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
     <Property Name="Titulo" Type="varchar" MaxLength="8000" Nullable="false" />
     <Property Name="Tipo" Type="varchar" MaxLength="8000" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="ExamenAlumno">
     <Key>
@@ -248,7 +308,7 @@
     <Property Name="IDTema" Type="uuid" Nullable="false" />
     <Property Name="Calificacion" Type="float8" />
     <Property Name="FechaActualizacion" Type="timestamp" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="ExamenTema">
     <Key>
@@ -265,7 +325,7 @@
     <Property Name="Respuesta1" Type="varchar" MaxLength="8000" />
     <Property Name="Respuesta2" Type="varchar" MaxLength="8000" />
     <Property Name="Instrucciones" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="Grupos">
     <Key>
@@ -285,7 +345,7 @@
     <Property Name="Color" Type="varchar" MaxLength="8000" />
     <Property Name="Ciclo" Type="varchar" MaxLength="8000" />
     <Property Name="EsTaller" Type="bool" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="HabilidadesAlumno">
     <Key>
@@ -305,7 +365,7 @@
     <Property Name="ApoyoEscritura" Type="int4" />
     <Property Name="ApoyoMatematicas" Type="int4" />
     <Property Name="SeInvolucraClase" Type="bool" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="Portafolio">
     <Key>
@@ -341,7 +401,13 @@
     <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
     <Property Name="Tipo" Type="varchar" MaxLength="8000" />
     <Property Name="IDTipoPortafolio" Type="uuid" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
+    <Property Name="Reactivo1" Type="float8" />
+    <Property Name="Reactivo2" Type="float8" />
+    <Property Name="Reactivo3" Type="float8" />
+    <Property Name="Reactivo4" Type="float8" />
+    <Property Name="Reactivo5" Type="float8" />
+    <Property Name="Reactivo6" Type="float8" />
   </EntityType>
   <EntityType Name="PortafolioAlumno">
     <Key>
@@ -357,7 +423,8 @@
     <Property Name="Aspecto3" Type="varchar" MaxLength="8000" />
     <Property Name="Aspecto4" Type="varchar" MaxLength="8000" />
     <Property Name="Aspecto5" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
+    <Property Name="Calificacion" Type="int4" />
   </EntityType>
   <EntityType Name="PortafolioDefecto">
     <Key>
@@ -389,7 +456,7 @@
     <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
     <Property Name="Tipo" Type="varchar" MaxLength="8000" />
     <Property Name="IDUsuario" Type="varchar" MaxLength="8000" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="Sesion">
     <Key>
@@ -401,7 +468,7 @@
     <Property Name="Fecha" Type="timestamp" Nullable="false" />
     <Property Name="FechaActualiacion" Type="timestamp" Nullable="false" />
     <Property Name="Observacion" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoPortafolio">
     <Key>
@@ -430,7 +497,7 @@
     <Property Name="Observacion4" Type="varchar" MaxLength="8000" />
     <Property Name="Observacion5" Type="varchar" MaxLength="8000" />
     <Property Name="Orden" Type="int4" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="Trabajo">
     <Key>
@@ -445,7 +512,7 @@
     <Property Name="Descripcion" Type="varchar" MaxLength="8000" />
     <Property Name="Tipo" Type="varchar" MaxLength="8000" />
     <Property Name="Actividad" Type="varchar" MaxLength="8000" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="TrabajoAlumno">
     <Key>
@@ -457,7 +524,7 @@
     <Property Name="Observaciones" Type="varchar" MaxLength="8000" />
     <Property Name="FechaActualizacion" Type="timestamp" />
     <Property Name="Estado" Type="int4" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
   <EntityType Name="TutorAlumno">
     <Key>
@@ -466,8 +533,64 @@
     </Key>
     <Property Name="IdAlumno" Type="uuid" Nullable="false" />
     <Property Name="IdTutor" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="FechaSync" Type="timestamptz" Precision="7" Nullable="false" />
+    <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
+  <Association Name="AspNetUserClaims_UserId_fkey">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserLogins_UserId_fkey">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles_RoleId_fkey">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles_UserId_fkey">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AlmHab">
     <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -898,10 +1021,95 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tutor_TutorAlumno">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TutorAlumno" Type="Self.TutorAlumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TutorAlumno">
+        <PropertyRef Name="IdTutor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioBeneficiario">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Credencial" Type="Self.Credencial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Credencial">
+        <PropertyRef Name="IDUsuarioBeneficiario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioDesempenio">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AlumnoDesempenio" Type="Self.AlumnoDesempenio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AlumnoDesempenio">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioPaga">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Credencial" Type="Self.Credencial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Credencial">
+        <PropertyRef Name="IDUsuarioPaga" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioPortafolioDefecto">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="PortafolioDefecto" Type="Self.PortafolioDefecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PortafolioDefecto">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Grupos_IDUsuario_fkey">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Grupos" Type="Self.Grupos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Grupos">
+        <PropertyRef Name="IDUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="SMTDevModelStoreContainer">
     <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AlumnoDesempenio" EntityType="Self.AlumnoDesempenio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AlumnoSesion" EntityType="Self.AlumnoSesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Bimestres" EntityType="Self.Bimestres" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Credencial" EntityType="Self.Credencial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiagnosticoCiclo" EntityType="Self.DiagnosticoCiclo" Schema="dbo" store:Type="Tables" />
@@ -922,6 +1130,22 @@
     <EntitySet Name="Trabajo" EntityType="Self.Trabajo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TrabajoAlumno" EntityType="Self.TrabajoAlumno" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TutorAlumno" EntityType="Self.TutorAlumno" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="AspNetUserClaims_UserId_fkey" Association="Self.AspNetUserClaims_UserId_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserLogins_UserId_fkey" Association="Self.AspNetUserLogins_UserId_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles_RoleId_fkey" Association="Self.AspNetUserRoles_RoleId_fkey">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles_UserId_fkey" Association="Self.AspNetUserRoles_UserId_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
     <AssociationSet Name="FK_AlmHab" Association="Self.FK_AlmHab">
       <End Role="Alumno" EntitySet="Alumno" />
       <End Role="HabilidadesAlumno" EntitySet="HabilidadesAlumno" />
@@ -1045,6 +1269,30 @@
     <AssociationSet Name="FK_TrabTrab" Association="Self.FK_TrabTrab">
       <End Role="Trabajo" EntitySet="Trabajo" />
       <End Role="TrabajoAlumno" EntitySet="TrabajoAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tutor_TutorAlumno" Association="Self.FK_Tutor_TutorAlumno">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="TutorAlumno" EntitySet="TutorAlumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioBeneficiario" Association="Self.FK_UsuarioBeneficiario">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Credencial" EntitySet="Credencial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioDesempenio" Association="Self.FK_UsuarioDesempenio">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AlumnoDesempenio" EntitySet="AlumnoDesempenio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioPaga" Association="Self.FK_UsuarioPaga">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Credencial" EntitySet="Credencial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioPortafolioDefecto" Association="Self.FK_UsuarioPortafolioDefecto">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="PortafolioDefecto" EntitySet="PortafolioDefecto" />
+    </AssociationSet>
+    <AssociationSet Name="Grupos_IDUsuario_fkey" Association="Self.Grupos_IDUsuario_fkey">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Grupos" EntitySet="Grupos" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

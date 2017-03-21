@@ -114,7 +114,7 @@ namespace SMT.Models.DB
                         var portafolios = db.PortafolioAlumno
                             .Where(a => a.IDAlumno == id && a.Portafolio.Bimestres.Bimestre == bimestre)
                             .ToList();
-                       
+
                         double sumatoria = 0, sumTipo = 0, total = 0,
                                sumEsquema = 0, sumExpo = 0, sumGuia = 0,
                                sumLista = 0, sumLinea = 0, sumMapa = 0,
@@ -124,13 +124,13 @@ namespace SMT.Models.DB
                                totalLinea = 0, totalMapa = 0, totalPortafolio = 0,
                                totalProyecto = 0, totalProducciones = 0, totalRegistro = 0,
                                totalRubrica = 0, totalRevision = 0;
-
+                        
                         foreach (var p in portafolios)
                         {
                             int cali;
                             int totalTipo = 0;
                             sumTipo = 0;
-                          
+
                             if (p.Aspecto1 != null && p.Aspecto1 != "0" && int.TryParse(p.Aspecto1, out cali))
                             {
 
@@ -167,9 +167,9 @@ namespace SMT.Models.DB
                                 sumTipo += cali;
                                 totalTipo++;
                             }
-                         
-                            totalTipo = totalTipo == 0 ? 1 : totalTipo;
 
+                            totalTipo = totalTipo == 0 ? 1 : totalTipo;
+                            var name = p.Portafolio.TipoPortafolio.Nombre;
                             switch (p.Portafolio.TipoPortafolio.Nombre)
                             {
                                 case "Esquema y Mapas Conceptuales":
@@ -221,10 +221,57 @@ namespace SMT.Models.DB
                                     totalRubrica++;
                                     break;
                             }
+                         }
+                      /*
+                        var exposicion = 0.0;
+                        var mapaMental = 0.0;
+                        var reactivos = 0;
+                        var totalExamen = 0.0;
+                        var conExamen = 0;
+                        var conMental = 0;
+
+                        foreach (var p in portafolios) {
+                            var boli = p.Portafolio.Activo1;
+                            if (p.Portafolio.TipoPortafolio.Nombre == "Exposición") {
+                                if (p.Portafolio.Activo1 == true) {
+                                    exposicion += Double.Parse(p.Aspecto1);
+                                    reactivos++;
+                                }
+                                if (p.Portafolio.Activo2 == true)
+                                {
+                                    exposicion += Double.Parse(p.Aspecto2);
+                                    reactivos++;
+                                }
+                                if (p.Portafolio.Activo3 == true)
+                                {
+                                    exposicion += Double.Parse(p.Aspecto3);
+                                    reactivos++;
+                                }
+                                if (p.Portafolio.Activo4 == true)
+                                {
+                                    exposicion += Double.Parse(p.Aspecto4);
+                                    reactivos++;
+                                }
+                                if (p.Portafolio.Activo5 == true)
+                                {
+                                    exposicion += Double.Parse(p.Aspecto5);
+                                    reactivos++;
+                                }
+                                conExamen++;
+                                totalExamen = ((exposicion/(3*reactivos))*10)/conExamen;
+                                reactivos = 0;
+
+                            }
+                            if (p.Portafolio.TipoPortafolio.Nombre == "Mapa Mental")
+                            {
+                                conMental++;
+                                mapaMental += (int.Parse(p.Aspecto1) + int.Parse(p.Aspecto2) + int.Parse(p.Aspecto3) +
+                                    int.Parse(p.Aspecto4) + int.Parse(p.Aspecto5)) / conMental;
+                            }
+
                         }
-
-
-                        desempenio.PromedioPortafolio = total == 0 ? 0 : sumatoria / total;
+                        */
+                      //  desempenio.PromedioPortafolio = total == 0 ? 0 : sumatoria / total;
                         desempenio.PromedioPortafolioEsquemaMapa = totalEsquema == 0 ? 0 : sumEsquema / totalEsquema;
                         desempenio.PromedioPortafolioExposicion = totalExpo == 0 ? 0 : sumExpo / totalExpo;
                         desempenio.PromedioPortafolioGuiaObservacion = totalGuia == 0 ? 0 : sumGuia / totalGuia;
@@ -237,11 +284,11 @@ namespace SMT.Models.DB
                         desempenio.PromedioPortafolioRegistroAnecdotico = totalRegistro == 0 ? 0 : sumRegistro / totalRegistro;
                         desempenio.PromedioPortafolioRevisionCuadernos = totalRevision == 0 ? 0 : sumRevision / totalRevision;
                         desempenio.PromedioPortafolioRubrica = totalRubrica == 0 ? 0 : sumRubrica / totalRubrica;
-                        desempenio.ColorPortafolio =
-                            desempenio.PromedioPortafolio <= 6 ? colores[1] :
-                            desempenio.PromedioPortafolio < 9 ? colores[1] : colores[1];
+                      /*  desempenio.ColorPortafolio =
+                            desempenio.PromedioPortafolio <= 6 ? colores[2] :
+                            desempenio.PromedioPortafolio < 9 ? colores[1] : colores[0];*/
                     }
-                    #endregion
+                    #endregion 
 
                     #region Examenes
                     if (actualizar == null || actualizar.GetType().GetProperty("examen") != null)
@@ -425,6 +472,24 @@ namespace SMT.Models.DB
             }
         }
 
+        internal static void actualizarAlumno()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int aprobado, int reprobado)
+        {
+            var colores = new[] {
+                        AlumnoDesempenioStatus.BIEN, // Verde
+                        AlumnoDesempenioStatus.REGULAR, // Amarillo
+                        AlumnoDesempenioStatus.APOYO  // Rojo
+                    };
+            using (var db = new SMTDevEntities())
+            {
+                var desempenio = db.AlumnoDesempenio.FirstOrDefault(i => i.IDAlumno == alumno && i.IDGrupo == grupo && i.Bimestre == bimestre);
+            }
+        }
+
         /// <summary>
         /// Actualiza o genera todo el desempeño de todos los alumnos de cada grupo en todos sus bimestres
         /// </summary>
@@ -497,7 +562,7 @@ namespace SMT.Models.DB
                         id = a.IDAlumno,
                         semaforo =  seccion == "asistencia" ? a.ColorAsistencia :
                                     seccion == "trabajos" ? a.ColorTrabajo :
-                                    seccion == "portafolio" ? a.ColorPortafolio :
+                                    seccion == "instrumentos" ? a.ColorPortafolio :
                                     seccion == "examenes" ? a.ColorExamen :
                                     seccion == "diagnostico-ciclo" ? a.ColorDiagnostico :
                                     a.ColorPromedio
@@ -568,7 +633,7 @@ namespace SMT.Models.DB
 
                 foreach (var a in alumnos.GroupBy(a => new { a.IDAlumno }))
                 {
-
+                    
                     var cali = new AlumnoReporteViewModel {
                         id = a.Key.IDAlumno,
                         totalAsistencias = a.Sum(m => m.TotalAsistencias ?? 0),
@@ -577,7 +642,7 @@ namespace SMT.Models.DB
                         totalTrabajoNoCumplidos = a.Sum(m => m.TotalTrabajosNoCumplidos ?? 0),
                         totalTrabajosMedios = a.Sum(m => m.TotalTrabajosMedios ?? 0),
                     };
-
+                   
                     cali.promedioDiagnosticoCiclo = calcularPromedioSEP(a.Select(b => b.PromedioDiagnostico).ToList(), 100);
                     cali.promedioExamenBimestral = calcularPromedioSEP(a.Select(m => m.PromedioExamenBimestral).ToList());
                     cali.promedioExamenParcial = calcularPromedioSEP(a.Select(m => m.PromedioExamenParcial).ToList());

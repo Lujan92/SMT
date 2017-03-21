@@ -204,6 +204,7 @@ C:\Users\lujan\Desktop\Repositoriowc\SMT-master-f0a3ca656757b96e659bf2136165c085
 C:\Users\lujan\Desktop\Repositoriowc\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\SMT.csprojResolveAssemblyReference.cache
 C:\Users\lujan\Desktop\Repositoriowc\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\SMT.dll
 C:\Users\lujan\Desktop\Repositoriowc\SMT-master-f0a3ca656757b96e659bf2136165c0856136e8d2\SMT\obj\Debug\SMT.pdb
+C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.csprojResolveAssemblyReference.cache
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\ApplicationInsights.config
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\roslyn\csc.exe
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -304,6 +305,5 @@ C:\Users\lujan\Desktop\Trabajo\SMT\bin\fi\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\fr\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\ja\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\zh-CN\Npgsql.resources.dll
-C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.csprojResolveAssemblyReference.cache
 C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.pdb

@@ -18,15 +18,15 @@ namespace SMT.Models.DB
             {
                 List<Examen> examenes = db.Examen.Where(i => i.Bimestres.IDGrupo == grupo && i.Bimestres.Bimestre == bimestre && i.Bimestres.Grupos.IDUsuario == usuario).ToList();
 
-                string url = ConfigurationManager.AppSettings["AWSUrl"] + "/" +usuario + "/examenes/";
+                string url = ConfigurationManager.AppSettings["AWSUrl"] + "/" + usuario + "/examenes/";
 
                 List<ExamenResult> result = examenes.OrderByDescending(i => i.FechaEntrega).Select(i => new ExamenResult()
                 {
                     IDExamen = i.IDExamen.ToString(),
                     Titulo = i.Titulo,
                     Tipo = i.Tipo,
-                    FechaEntrega = Util.toHoraMexico(i.FechaEntrega).ToString("dd-MM-yyyy"),
-                    FechaEntregaDesplegable = Util.toHoraMexico(i.FechaEntrega).ToString("dd-MM-yyyy"),
+                    FechaEntrega = i.FechaEntrega.ToString("dd-MM-yyyy"),
+                    FechaEntregaDesplegable = i.FechaEntrega.ToString("dd-MM-yyyy"),
                     Temas = i.ExamenTema.Select(t => new TemasResult()
                     {
                         IDTema = t.IDTema.ToString(),
@@ -99,11 +99,11 @@ namespace SMT.Models.DB
         public Guid crear(string usuario)
         {
 
-            using(SMTDevEntities db = new SMTDevEntities())
+            using (SMTDevEntities db = new SMTDevEntities())
             {
 
                 // Validaciones
-                if(Tipo == "Parcial" && db.Examen.Where(i => i.IDBimestre == IDBimestre && i.Tipo == "Parcial").Count() > 1)
+                if (Tipo == "Parcial" && db.Examen.Where(i => i.IDBimestre == IDBimestre && i.Tipo == "Parcial").Count() > 1)
                 {
                     throw new Exception("No se permite crear mas de 2 exámenes parciales por bimestre");
                 }
@@ -128,7 +128,8 @@ namespace SMT.Models.DB
                 {
                     m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
 
-                    if (m.file != null) {
+                    if (m.file != null)
+                    {
                         m.Archivo = Guid.NewGuid().ToString() + ".jpg";
                         Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
                         AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
@@ -145,7 +146,7 @@ namespace SMT.Models.DB
                 {
                     Titulo = Tipo + " " + db.Bimestres.Where(a => a.IDBimestre == IDBimestre).Select(a => a.Bimestre).FirstOrDefault();
                 }
-               
+
                 FechaRegistro = DateTime.Now;
                 FechaActualizacion = DateTime.Now;
                 this.Titulo = Util.UppercaseFirst(this.Titulo);
@@ -187,22 +188,23 @@ namespace SMT.Models.DB
                     throw new Exception("No se permite crear mas un examen de diagnostico por bimestre");
                 }
 
-
+                // Tipo = "Bimestral";
+                // FechaEntrega = DateTime.Now;
                 original.FechaActualizacion = DateTime.Now;
                 original.FechaSync = DateTime.Now;
                 original.FechaEntrega = FechaEntrega;
                 original.Tipo = Tipo;
-               
+
                 db.SaveChanges();
 
                 // Agregar/actualizar temas
-                foreach(var m in this.ExamenTema.ToList())
+                foreach (var m in this.ExamenTema.ToList())
                 {
                     ExamenTema tema = original.ExamenTema.FirstOrDefault(a => a.IDTema == m.IDTema);
 
                     if (tema == null)
                     {
-                        if(m.file != null)
+                        if (m.file != null)
                         {
                             m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
                             m.Archivo = Guid.NewGuid().ToString() + ".jpg";
@@ -210,6 +212,10 @@ namespace SMT.Models.DB
                             AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
                         }
 
+                        m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
+
+                        var prueba = m.IDTema;
+                        var pruebaw = m.IDExamen;
                         original.ExamenTema.Add(m);
                         db.SaveChanges();
                     }
@@ -237,9 +243,9 @@ namespace SMT.Models.DB
                 }
 
                 // Elilminar temas que no esten en la lista
-                foreach(var tema in original.ExamenTema.ToList())
+                foreach (var tema in original.ExamenTema.ToList())
                 {
-                    if(!this.ExamenTema.Any(a => a.IDTema == tema.IDTema))
+                    if (!this.ExamenTema.Any(a => a.IDTema == tema.IDTema))
                     {
                         db.ExamenTema.Remove(tema);
                         db.SaveChanges();
@@ -251,11 +257,11 @@ namespace SMT.Models.DB
 
         public static void actualizarAlumnos(Guid id)
         {
-            using(SMTDevEntities db = new SMTDevEntities())
+            using (SMTDevEntities db = new SMTDevEntities())
             {
                 var exa = db.Examen.FirstOrDefault(i => i.IDExamen == id);
                 var alumnos = exa.Bimestres.Grupos.Alumno.Select(i => i.IDAlumno).ToList();
-                foreach(var tema in exa.ExamenTema.ToList())
+                foreach (var tema in exa.ExamenTema.ToList())
                 {
                     foreach (var a in alumnos)
                     {
@@ -264,7 +270,7 @@ namespace SMT.Models.DB
                             tema.ExamenAlumno.Add(new ExamenAlumno
                             {
                                 IDAlumno = a,
-                                IDTema= tema.IDTema,
+                                IDTema = tema.IDTema,
                                 Calificacion = 0
                             });
                         }
@@ -276,13 +282,13 @@ namespace SMT.Models.DB
 
 
         }
-    
+
         public static void eliminar(Guid id, string usuario)
         {
             using (SMTDevEntities db = new SMTDevEntities())
             {
                 Examen exa = db.Examen.FirstOrDefault(a => a.IDExamen == id && a.Bimestres.Grupos.IDUsuario == usuario);
-                if(exa == null)
+                if (exa == null)
                 {
                     throw new Exception("No se encontro el examen");
                 }
@@ -337,7 +343,7 @@ namespace SMT.Models.DB
 
     public class CalificacionExamenViewModel
     {
-        
+
         public Guid idExamen { get; set; }
         public string titulo { get; set; }
         public string tipo { get; set; }

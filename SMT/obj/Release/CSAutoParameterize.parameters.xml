@@ -6,7 +6,4 @@
   <parameter name="SMTDevEntities-Web.config Connection String" description="SMTDevEntities Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="metadata=res://*/Models.DB.SMTDB.csdl|res://*/Models.DB.SMTDB.ssdl|res://*/Models.DB.SMTDB.msl;provider=Npgsql;provider connection string=&quot;       TIMEOUT=15;POOLING=True;MINPOOLSIZE=1;MAXPOOLSIZE=20;COMMANDTIMEOUT=20;COMPATIBLE=2.2.5.0;&#xD;&#xA;      HOST=smts.cjup94k2g7mf.us-east-1.rds.amazonaws.com;&#xD;&#xA;      PORT=5432;&#xD;&#xA;      DATABASE=SMTs;&#xD;&#xA;      PASSWORD=JRG9Jx$UDtOGXG5hQjfR8*ta.W0vkl1C2JAMk%Vg9,Ywmfd1!SOD9?IX8fC99Gye;&#xD;&#xA;      USER ID=smts&quot;" tags="SqlConnectionString">
     <parameterEntry kind="XmlFile" scope="C:\\Users\\lujan\\Desktop\\Trabajo\\SMT\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SMTDevEntities']/@connectionString" />
   </parameter>
-  <parameter name="SMT.Models.ApplicationDbContext-Web.config Connection String" description="SMT.Models.ApplicationDbContext Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="SMT.Models.ApplicationDbContext_ConnectionString" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\lujan\\Desktop\\Trabajo\\SMT\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SMT.Models.ApplicationDbContext']/@connectionString" />
-  </parameter>
 </parameters>

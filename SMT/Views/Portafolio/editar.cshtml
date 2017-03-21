@@ -1,0 +1,126 @@
+﻿@model SMT.Models.DB.Portafolio
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmPortafolio" }))
+{
+    @Html.HiddenFor(i => i.IDBimestre)
+    @Html.HiddenFor(i => i.IDGrupo)
+    @Html.HiddenFor(i => i.IDPortafolio)
+
+    <div class="col-lg-12 form-group">
+        @Html.LabelFor(i => i.Nombre)
+        @Html.TextBoxFor(i => i.Nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(i => i.Nombre)
+    </div>
+    <div class="col-lg-6 form-group">
+        @Html.LabelFor(i => i.FechaEntrega)
+        <input type="text" id="FechaEntrega" name="FechaEntrega" class="form-control" required />
+        @Html.ValidationMessageFor(i => i.FechaEntrega)
+    </div>
+    <div class="col-lg-6 form-group">
+        @Html.LabelFor(i => i.IDTipoPortafolio)
+        @Html.DropDownListFor(i => i.IDTipoPortafolio, new SelectList(ViewBag.tipos, "id", "name"), new { @class = "form-control" })
+        @Html.ValidationMessageFor(i => i.IDTipoPortafolio)
+    </div>
+    <div class="col-lg-12 form-group">
+        @Html.LabelFor(i => i.Descripcion)
+        @Html.TextAreaFor(i => i.Descripcion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(i => i.Descripcion)
+    </div>
+
+    <table class="table table-condensed table-striped table-hover text-center">
+        <thead>
+            <tr>
+                <th colspan="4">Aspectos de evaluación</th>
+            </tr>
+            <tr>
+                <th class="col-lg-4">Aspecto</th>
+                <th class="col-lg-6">Criterio de evaluación</th>
+                <th class="col-lg-6">Reactivos</th>
+                <th class="col-lg-2">Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="resaltar">
+                <td>
+                    @Html.TextBoxFor(i => i.Aspecto1, new { @class = "form-control form-control-oculto", placeholder = "Aspecto1", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Aspecto1)
+                </td>
+                <td>
+                    @Html.TextAreaFor(i => i.Criterio1, new { @class = "form-control form-control-oculto", placeholder = "Ejemplo:\n1 - Si lo incluye\n2 - Faltante\n3 - No lo incluye", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Criterio1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(i => i.Reactivo1, new { @class = "form-control form-control-oculto", placeholder = "Aspecto1", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Reactivo1)
+                    @*<input type="number" id="requerimiento1" name="requerimiento1" max="10" min="0" required class="form-control" />*@
+                </td>
+                <td>@Html.CheckBoxFor(i => i.Activo1, new { data_aspecto = "1" })</td>
+            </tr>
+            <tr class="resaltar">
+                <td>
+                    @Html.TextBoxFor(i => i.Aspecto2, new { @class = "form-control form-control-oculto", placeholder = "Aspecto 2", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Aspecto2)
+                </td>
+                <td>
+                    @Html.TextAreaFor(i => i.Criterio2, new { @class = "form-control form-control-oculto", placeholder = "Ejemplo:\n1 - Si lo incluye\n2 - Faltante\n3 - No lo incluye", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Criterio2)
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(i => i.Reactivo2, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Reactivo2)
+                    @*<input type="number" id="requerimiento2" name="requerimiento2" max="10" min="0" required class="form-control" />*@
+                </td>
+                <td>@Html.CheckBoxFor(i => i.Activo2)</td>
+            </tr>
+            <tr class="resaltar">
+                <td>
+                    @Html.TextBoxFor(i => i.Aspecto3, new { @class = "form-control form-control-oculto ignore", placeholder = "Aspecto 3", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Aspecto3)
+                </td>
+                <td>
+                    @Html.TextAreaFor(i => i.Criterio3, new { @class = "form-control form-control-oculto ignore", placeholder = "Ejemplo:\n1 - Si lo incluye\n2 - Faltante\n3 - No lo incluye", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Criterio3)
+                </td>
+                <td>
+                    @Html.TextBoxFor(i => i.Reactivo3, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Reactivo3)
+                    @*<input type="number" id="requerimiento3" name="requerimiento3" max="10" min="0" required class="form-control" />*@
+                </td>
+                <td>@Html.CheckBoxFor(i => i.Activo3)</td>
+            </tr>
+            <tr class="resaltar">
+                <td>
+                    @Html.TextBoxFor(i => i.Aspecto4, new { @class = "form-control form-control-oculto ignore", placeholder = "Aspecto 4", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Aspecto4)
+                </td>
+                <td>
+                    @Html.TextAreaFor(i => i.Criterio4, new { @class = "form-control form-control-oculto ignore", placeholder = "Ejemplo:\n1 - Si lo incluye\n2 - Faltante\n3 - No lo incluye", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Criterio4)
+                </td>
+                <td>
+                    @Html.TextBoxFor(i => i.Reactivo4, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Reactivo4)
+                    @*<input type="number" id="requerimiento4" name="requerimiento4" max="10" min="0" required class="form-control" />*@
+                </td>
+                <td>@Html.CheckBoxFor(i => i.Activo4)</td>
+            </tr>
+            <tr class="resaltar">
+                <td>
+                    @Html.TextBoxFor(i => i.Aspecto5, new { @class = "form-control form-control-oculto ignore", placeholder = "Aspecto 5", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Aspecto5)
+                </td>
+                <td>
+                    @Html.TextAreaFor(i => i.Criterio5, new { @class = "form-control form-control-oculto ignore", placeholder = "Ejemplo:\n1 - Si lo incluye\n2 - Faltante\n3 - No lo incluye", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Criterio5)
+                </td>
+                <td>
+                    @Html.TextBoxFor(i => i.Reactivo5, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.ValidationMessageFor(i => i.Reactivo5)
+                    @*<input type="number" id="requerimiento5" name="requerimiento5" max="10" min="0" required class="form-control" />*@
+                </td>
+                <td>@Html.CheckBoxFor(i => i.Activo5)</td>
+            </tr>
+        </tbody>
+    </table>
+}

@@ -184,6 +184,7 @@ namespace SMT.Models.DB
                         Aspecto3 = i.Aspecto3,
                         Aspecto4 = i.Aspecto4,
                         Aspecto5 = i.Aspecto5,
+                        
                     })
                     .ToList()
                 };
@@ -210,6 +211,10 @@ namespace SMT.Models.DB
 
             }
         }
+
+        
+    
+
 
         public static void actualizarObservacion(Guid id, string aspecto, string observacion, string usuario)
         {
@@ -325,6 +330,54 @@ namespace SMT.Models.DB
             var db = new SMTDevEntities();
             return db.Portafolio.Where(i => i.IDPortafolio == ID).FirstOrDefault();
         }
+
+
+
+        public static void actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int cantidad,int suma)
+        {
+
+            try
+            {
+                using (var db = new SMTDevEntities())
+                {
+                    var colores = new[] {
+                        AlumnoDesempenioStatus.BIEN, // Verde
+                        AlumnoDesempenioStatus.REGULAR, // Amarillo
+                        AlumnoDesempenioStatus.APOYO  // Rojo
+                    };
+
+                    var Alumno = db.Alumno.FirstOrDefault(i => i.IDAlumno == alumno && i.IDGrupo == grupo);
+                    if (Alumno == null) return;
+
+                    var desempenio = db.AlumnoDesempenio.FirstOrDefault(i => i.IDAlumno == alumno && i.IDGrupo == grupo && i.Bimestre == bimestre);
+                    if (desempenio == null)
+                    {
+                        desempenio = new AlumnoDesempenio
+                        {
+                            IDAlumno = alumno,
+                            IDGrupo = grupo,
+                            Bimestre = bimestre,
+                            IDUsuario = Alumno.Grupos.IDUsuario
+                        };
+
+                        db.AlumnoDesempenio.Add(desempenio);
+                        db.SaveChanges();
+                    }
+                    desempenio.PromedioPortafolio = suma / cantidad;
+                    desempenio.ColorPortafolio =
+                            desempenio.PromedioPortafolio <= 6 ? colores[2] :
+                            desempenio.PromedioPortafolio < 9 ? colores[1] : colores[0];
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+
+
 
         public class PortafolioSimple
         {

@@ -179,7 +179,7 @@
                 </div>
                 <div class="panel-body">
                     <button type="button" data-asistencia="nuevo" class="btn btn-violeta-claro">Agregar dia</button>
-                    <button type="button" data-asistencia="suspencion" class="btn btn-violeta-claro">Suspensión de clases</button>
+                    <button type="button" data-asistencia="suspencion" class="btn btn-violeta-claro">Suspencion de clases</button>
                     <a class="btn btn-danger" onclick="Asistencia.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
                 </div>
             </div>
@@ -257,6 +257,7 @@
                 </div>
                 <div class="panel-body">
                     <button type="button" data-examen="nuevo" class="btn btn-naranja-claro">Agregar examen</button>
+					<button type="button" data-examen="nuevoRR" class="btn btn-naranja-claro">Agregar examen Revisión Rápida</button>
                     <a class="btn  btn-danger" onclick="Examen.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
                 </div>
             </div>
@@ -425,6 +426,11 @@
                 case 'examenes':
                     if(typeof Examen === 'undefined')
                         head.load('/Scripts/apps/Bimestre/examen.js');
+                     
+                    
+                                 
+                    
+                      
                     else
                         Examen.desplegarResultados(_grupo, '#tabla-examen');
                     break;

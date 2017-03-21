@@ -1115,7 +1115,7 @@ namespace SMT.Controllers
 
                 return new {
                     Nombre = port.Nombre,
-                    IDTipoPortafolio = port.IDTipoPortafolio,
+                    IDTipoPortafolio = o.port.IDTipoPortafolio,
                     Aspecto1 = port.Aspecto1,
                     Aspecto2 = port.Aspecto2,
                     Aspecto3 = port.Aspecto3,
@@ -1189,8 +1189,8 @@ namespace SMT.Controllers
                     })
                 }).AsEnumerable()
                 .Select(i => new {
-                    Fecha = Util.toHoraMexico(i.FechaEntrega.Value).ToString("dd-MM-yyyy"),
-                    FechaEntrega = Util.toHoraMexico(i.FechaEntrega.Value).ToString("dd-MM-yyyy"),
+                    Fecha = i.FechaEntrega.Value.ToString("dd-MM-yyyy"),
+                    FechaEntrega = i.FechaEntrega.Value.ToString("dd-MM-yyyy"),
                     i.IDGrupo,i.Bimestre,i.IDPortafolio,i.Descripcion,i.TipoTrabajo,
                     i.IDTipoPortafolio,i.Nombre,i.Aspecto1,i.Aspecto2,i.Aspecto3,i.Aspecto4,
                     i.Aspecto5,i.Criterio1,i.Criterio2,i.Criterio3,i.Criterio4,i.Criterio5,
@@ -1392,8 +1392,8 @@ namespace SMT.Controllers
                 .Select(i => new {
                     IDGrupo = i.IDGrupo, Bimestre = i.Bimestre, IDExamen = i.IDExamen,
                     Titulo = i.Titulo, Tipo = i.Tipo, Temas = i.Temas,
-                    FechaEntrega = Util.toHoraMexico(i.FechaEntrega).ToString("dd-MM-yyyy"),
-                    FechaEntregaDesplegable = Util.toHoraMexico(i.FechaEntrega).ToString("dd-MM-yyyy"),
+                    FechaEntrega = i.FechaEntrega.ToString("dd-MM-yyyy"),
+                    FechaEntregaDesplegable = i.FechaEntrega.ToString("dd-MM-yyyy"),
                 });
         }
         private dynamic RetrieveHabilidades(string userid) {

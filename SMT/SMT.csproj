@@ -269,6 +269,18 @@
     <Compile Include="Models\DB\AlumnoSesion.cs">
       <DependentUpon>SMTDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\AspNetRoles.cs">
+      <DependentUpon>SMTDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\AspNetUserClaims.cs">
+      <DependentUpon>SMTDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\AspNetUserLogins.cs">
+      <DependentUpon>SMTDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\AspNetUsers.cs">
+      <DependentUpon>SMTDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\Bimestres.cs">
       <DependentUpon>SMTDB.tt</DependentUpon>
     </Compile>
@@ -646,6 +658,7 @@
     <Content Include="Scripts\apps\Bimestre\Alumnos.js" />
     <Content Include="Scripts\apps\Bimestre\Asistencia.js" />
     <Content Include="Scripts\apps\Bimestre\Examen.js" />
+    <Content Include="Scripts\apps\Bimestre\ExamenRR.js" />
     <Content Include="Scripts\apps\Bimestre\Portafolio.js" />
     <Content Include="Scripts\apps\Bimestre\Habilidades.js" />
     <Content Include="Scripts\apps\Bimestre\Reporte.js" />
@@ -872,6 +885,8 @@
     <Content Include="Views\ReporteEscuela\Index.cshtml" />
     <Content Include="Views\ReporteEscuela\Reporte.cshtml" />
     <Content Include="Views\Bimestre\ImprimirControl.cshtml" />
+    <Content Include="Views\Examenes\NuevoRR.cshtml" />
+    <Content Include="Views\Portafolio\editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

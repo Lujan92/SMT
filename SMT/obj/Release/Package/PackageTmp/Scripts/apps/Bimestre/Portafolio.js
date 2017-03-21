@@ -10,22 +10,22 @@
         rowPortafolio = '',
         tdsTotales = '';
 
-    
+
     var generarNombreCache = function () {
         return 'portafolio-' + _grupo + '-' + _bimestre;
     }
-    $("#portafolio").keydown(function(e) {        
+    $("#portafolio").keydown(function (e) {
         var code = e.keyCode || e.which;
         if (code == '9') {
             e.preventDefault();
             e.stopPropagation();
             var cellIndex = $(e.target).closest('td').index();
             var nxt = $(e.target).closest('tr').next().children().eq(cellIndex);
-            if (nxt.data("alumno-id")!=undefined) {
+            if (nxt.data("alumno-id") != undefined) {
                 nxt.find("input").focus()
             } else {
                 var previo = $(e.target).closest('tr').prev();
-                if (previo == undefined || previo.data("total-agregado")!=undefined) {
+                if (previo == undefined || previo.data("total-agregado") != undefined) {
                     $(e.target).closest('td').next().find("input").focus()
                 } else {
                     var contador = 0;
@@ -36,131 +36,131 @@
                         if (previo.data("total-agregado") != undefined) {
                             $(previo).next().children().eq(cellIndex + 1).find("input").focus()
                             contador = 1;
-                        } else if (previo.length==0) {
+                        } else if (previo.length == 0) {
                             $(anterior).children().eq(cellIndex + 1).find("input").focus()
                             contador = 1;
-                        } else if (nxt.length==0) {
+                        } else if (nxt.length == 0) {
                             previo.next().next().next().next().children().eq(3).find("input").focus();
                             contador = 1;
                         }
                         c++;
-                        if (c==10) {
+                        if (c == 10) {
                             contador = 1;
                         }
 
-                    } while (contador==0);
+                    } while (contador == 0);
 
                 }
-            }           
+            }
 
         }
     })
 
     this.listar = function () {
         return new Promise(function (success) {
-           
-                _data = [];
-                var consultaParcial = function (page) {
-                    $.ajax({
-                        url: '/Instrumentos/listarPortafolio',
-                        data: {
-                            grupo: _grupo,
-                            bimestre: _bimestre,
-                            page: page
-                        },
-                        error: function () {
-                            success(_data);
-                        },
-                        beforeSend:function(){
-                            Loading('Cargando instrumentos');  
-                        },
-                        success: function (data) {
-                            _data = _data.concat(data);
-                            if (data.length > 0) {
-                                // Hacer recursivo hasta que ya no hallan registros
-                                page++;
-                                consultaParcial(page);
-                            }
-                            else {
-                                Loading();
-                                success(_data);
-                            }
-                        }
-                    });
-                }
 
-                // Se inicia el cargado de datos por partes
-                consultaParcial(0);
-         
+            _data = [];
+            var consultaParcial = function (page) {
+                $.ajax({
+                    url: '/Instrumentos/listarPortafolio',
+                    data: {
+                        grupo: _grupo,
+                        bimestre: _bimestre,
+                        page: page
+                    },
+                    error: function () {
+                        success(_data);
+                    },
+                    beforeSend: function () {
+                        Loading('Cargando instrumentos');
+                    },
+                    success: function (data) {
+                        _data = _data.concat(data);
+                        if (data.length > 0) {
+                            // Hacer recursivo hasta que ya no hallan registros
+                            page++;
+                            consultaParcial(page);
+                        }
+                        else {
+                            Loading();
+                            success(_data);
+                        }
+                    }
+                });
+            }
+
+            // Se inicia el cargado de datos por partes
+            consultaParcial(0);
+
         });
     }
 
     this.generarTrabajo = function (selector, portafolio, focus, autoOrdenar) {
 
-       
-            portafolio.num = $(selector).find('[data-portafolio-id]').length + 1;
-            portafolio.tds = tdsCaptura;
-            portafolio.grupo = _grupo;
 
-            var elementosPortafolio = $(selector).find('tbody');
+        portafolio.num = $(selector).find('[data-portafolio-id]').length + 1;
+        portafolio.tds = tdsCaptura;
+        portafolio.grupo = _grupo;
 
-            var actualizarAspecto = function (a, key, nombre, template,criterios) {
-                var element = $(template.format(a)).appendTo(elementosPortafolio).addData(a);
+        var elementosPortafolio = $(selector).find('tbody');
 
-                $(elementosPortafolio).append(element);
+        var actualizarAspecto = function (a, key, nombre, template, criterios) {
+            var element = $(template.format(a)).appendTo(elementosPortafolio).addData(a);
 
-                element.attr('data-aspecto', key);
+            $(elementosPortafolio).append(element);
 
-                a.entrega.map(function (a) {
-    
-                    element.find('[data-alumno-id="' + a.id + '"]')
-                                .attr('data-alumno-portafolio-estado', a.estado)
-                                .attr('data-alumno-aspecto', key)
-                                .find('input').val(a[key]);
-                    element.find('[data-alumno-id="' + a.id + '"]')
-                            .prev('[data-aspecto]')
-                            .html('<div class="">' + nombre + '</br> '+criterios+' </div>');
+            element.attr('data-aspecto', key);
 
-                    
-                });
-            }
+            a.entrega.map(function (a) {
 
-            if (portafolio.Activo1 == true) {
-                portafolio.observacion = portafolio.Observacion1;
-                actualizarAspecto(portafolio, 'Aspecto1', portafolio.Aspecto1, rowPortafolio,portafolio.Criterio1);
-            }
-            if (portafolio.Activo2 == true) {
-                portafolio.observacion = portafolio.Observacion2;
-                actualizarAspecto(portafolio, 'Aspecto2', portafolio.Aspecto2, rowPortafolio, portafolio.Criterio2);
-            }
-            if (portafolio.Activo3 == true) {
-                portafolio.observacion = portafolio.Observacion3;
-                actualizarAspecto(portafolio, 'Aspecto3', portafolio.Aspecto3, rowPortafolio, portafolio.Criterio3);
-            }
-            if (portafolio.Activo4 == true) {
-                portafolio.observacion = portafolio.Observacion4;
-                actualizarAspecto(portafolio, 'Aspecto4', portafolio.Aspecto4, rowPortafolio, portafolio.Criterio4);
-            }
-            if (portafolio.Activo5 == true) {
-                portafolio.observacion = portafolio.Observacion5;
-                actualizarAspecto(portafolio, 'Aspecto5', portafolio.Aspecto5, rowPortafolio,portafolio.Criterio5);
-            }
+                element.find('[data-alumno-id="' + a.id + '"]')
+                            .attr('data-alumno-portafolio-estado', a.estado)
+                            .attr('data-alumno-aspecto', key)
+                            .find('input').val(a[key]);
+                element.find('[data-alumno-id="' + a.id + '"]')
+                        .prev('[data-aspecto]')
+                        .html('<div class="">' + nombre + '</br> ' + criterios + ' </div>');
 
-            $('span[title]').tooltip();
 
-   
-            if (focus == true) {
-                $('html, body').animate({
-                    scrollTop: $(selector).find('[data-portafolio-id="'+ portafolio.IDPortafolio +'"]:first').offset().top
-                }, 1000);
+            });
+        }
 
-                $(selector).find('[data-portafolio-id="' + portafolio.IDPortafolio + '"]:first').resaltar('info', 3000)
-                            .find('input:first')
-                            .focus();
-            }
+        if (portafolio.Activo1 == true) {
+            portafolio.observacion = portafolio.Observacion1;
+            actualizarAspecto(portafolio, 'Aspecto1', portafolio.Aspecto1, rowPortafolio, portafolio.Criterio1);
+        }
+        if (portafolio.Activo2 == true) {
+            portafolio.observacion = portafolio.Observacion2;
+            actualizarAspecto(portafolio, 'Aspecto2', portafolio.Aspecto2, rowPortafolio, portafolio.Criterio2);
+        }
+        if (portafolio.Activo3 == true) {
+            portafolio.observacion = portafolio.Observacion3;
+            actualizarAspecto(portafolio, 'Aspecto3', portafolio.Aspecto3, rowPortafolio, portafolio.Criterio3);
+        }
+        if (portafolio.Activo4 == true) {
+            portafolio.observacion = portafolio.Observacion4;
+            actualizarAspecto(portafolio, 'Aspecto4', portafolio.Aspecto4, rowPortafolio, portafolio.Criterio4);
+        }
+        if (portafolio.Activo5 == true) {
+            portafolio.observacion = portafolio.Observacion5;
+            actualizarAspecto(portafolio, 'Aspecto5', portafolio.Aspecto5, rowPortafolio, portafolio.Criterio5);
+        }
 
-            if ($('body').hasClass('visualizando') == true)
-                $('input,textarea').attr('disabled', true);
+        $('span[title]').tooltip();
+
+
+        if (focus == true) {
+            $('html, body').animate({
+                scrollTop: $(selector).find('[data-portafolio-id="' + portafolio.IDPortafolio + '"]:first').offset().top
+            }, 1000);
+
+            $(selector).find('[data-portafolio-id="' + portafolio.IDPortafolio + '"]:first').resaltar('info', 3000)
+                        .find('input:first')
+                        .focus();
+        }
+
+        if ($('body').hasClass('visualizando') == true)
+            $('input,textarea').attr('disabled', true);
 
     }
 
@@ -233,13 +233,13 @@
 
     var actualizarCalificacion = function (alumno, portafolio, calificacion, grupo, aspecto) {
 
-        if (calificacion == '' || alumno == '' || portafolio == '' || aspecto == undefined || aspecto =='') {
+        if (calificacion == '' || alumno == '' || portafolio == '' || aspecto == undefined || aspecto == '') {
 
             return;
         }
 
 
-        var input = $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="'+aspecto+'"] input');
+        var input = $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="' + aspecto + '"] input');
 
         $.ajax({
             url: '/Instrumentos/actualizarCalificacion',
@@ -286,7 +286,7 @@
     var actualizarTotales = function (sesion) {
         var selector = $('[data-tabla="portafolio"]');
 
-       
+
         // Promedio de trabajos en un aspecto
         $(selector).find('[data-portafolio-promedio="' + sesion + '"]').each(function () {
 
@@ -302,10 +302,10 @@
             $(this).prev('[data-portafolio-total="' + sesion + '"]').html(falsa);
             var promedio = sumatoria / total;
             falsa = falsa / total;
-          
-           
-      
-            if (falsa>0) {
+
+
+
+            if (falsa > 0) {
                 falsa = falsa.toFixed(1)
             }
             $(this).html(falsa < 5 ? 5 : falsa > 10 ? 10 : falsa + (falsa != promedio ? '(' + promedio.toFixed(2) + ')' : ''));
@@ -319,11 +319,11 @@
             $(selector).find('[data-portafolio-id="' + sesion + '"] [data-alumno-id="' + this.getAttribute('data-alumno-total') + '"][data-alumno-aspecto] input').each(function () {
                 calificacion += parseInt(this.value);
             });
-          
+
             var promedio = (calificacion / numeroAspectos);
             $(this).html(calificacion < 5 || calificacion > 10 ? (calificacion > 10 ? 10 : 5) + ' (' + calificacion + ')' : calificacion.toFixed(1)).attr('data-real', calificacion < 5 ? 5 : calificacion > 10 ? 10 : calificacion.toFixed(1));
-           
-           
+
+
         });
 
         // Aprobados y reprobados
@@ -341,15 +341,15 @@
         })
     }
 
-    var obtenerPosicion = function (selector,fecha) {
+    var obtenerPosicion = function (selector, fecha) {
 
         var list = $(selector).find('[data-portafolio-fecha][data-visible="true"]').get();
         var date = fecha.toDate2();
         var tr = undefined;
-        for (var m = 0; m < list.length-1; m++) {
+        for (var m = 0; m < list.length - 1; m++) {
 
             if (date <= list[m].getAttribute('data-portafolio-fecha').toDate2() && date > list[m + 1].getAttribute('data-portafolio-fecha').toDate2()) {
-                tr = list[m+1];
+                tr = list[m + 1];
                 break;
             }
             else if (date > list[m].getAttribute('data-portafolio-fecha').toDate2() && m == 0) {
@@ -358,14 +358,14 @@
             }
         }
 
-       
+
 
         return tr;
     }
 
     var ajustarRows = function (selector) {
 
-   
+
         var ids = [];
         $(selector).find('[data-portafolio-id]').each(function () {
             if (ids.indexOf(this.getAttribute('data-portafolio-id')) == -1) ids.push(this.getAttribute('data-portafolio-id'));
@@ -378,13 +378,13 @@
         // Ajustar los rowspan
         var index = 1;
         ids.map(function (id) {
-            
+
             // agregar row para totales a cada conjunto de portafolio
             $(selector).find('[data-portafolio-id="' + id + '"]:last').after('<tr data-total-agregado="" data-portafolio-id="' + id + '"><td colspan="3" rowspan=""></td><th><div class="" style="width: 315px;">Calificación</div></th>' + tdsTotales + '</tr>');
 
             var total = $(selector).find('[data-portafolio-id="' + id + '"]').length;
 
-            $(selector).find('[data-portafolio-id="' + id + '"]').each(function (i,k) {
+            $(selector).find('[data-portafolio-id="' + id + '"]').each(function (i, k) {
                 if (i == 0) {
                     $(k).attr('data-visible', true);
                     $(k).find('td[rowspan]').removeClass('hide').attr('rowspan', total);
@@ -393,7 +393,7 @@
                     index++;
                 }
                 else {
-                    $(k).attr('data-visible',false);
+                    $(k).attr('data-visible', false);
                     $(k).find('td[rowspan]').addClass('hide');
                 }
             });
@@ -413,7 +413,7 @@
                 title: 'Nuevo instrumento',
                 text: template,
                 closeModalOnAction: false,
-                callback:function(result){
+                callback: function (result) {
                     if (result == true) {
                         $('#frmPortafolio').submit();
                     }
@@ -423,27 +423,28 @@
                 },
                 beforeOpen: function () {
                     var form = $('#frmPortafolio');
-                   
+
 
                     $('#modalConfirm button[data-confirm="true"]').before('<button class="btn btn-info pull-left" data-defecto="">Guardar configuración</button>');
 
                     pluginDatepicker(form.find('[name="FechaEntrega"]'));
 
                     form.find('#IDTipoPortafolio').change();
-                    
+
 
                     form.find('#IDGrupo').val(_grupo);
                     form.find('#IDBimestre').val(_bimestre);
                     form.find('#FechaEntrega').val(formatDate(new Date()));
-                   
+
 
                     $.validator.unobtrusive.parse(form);
-                   
+
 
                     form.submit(function (e) {
                         e.preventDefault();
                         var items = $(this).serializeArray();
-                            items.push({ name: "bimestre", value: _bimestre })
+                        items.push({ name: "bimestre", value: _bimestre })
+                        console.log(items);
                         if ($(this).valid()) {
                             $.ajax({
                                 url: '/Instrumentos/GuardarPortafolio',
@@ -481,9 +482,12 @@
 
     }
 
-    this.editar = function (selector,data) {
+    this.editar = function (selector, data) {
         Loading('Cargando formulario')
-        Templates.load('nuevoPortafolio', '/portafolio/nuevo').then(function (template) {
+        var id = data.IDPortafolio;
+
+        Templates.load('nuevoPortafolio', '/portafolio/editar?id=' + id + '').then(function (template) {
+            console.log(data);
             Loading();
             ConfirmDialog.show({
                 title: 'Editar instrumento',
@@ -505,24 +509,26 @@
                     pluginDatepicker(form.find('[name="FechaEntrega"]'));
 
                     for (var name in data) {
-                        if(name.startsWith('activo') && data[name] == true)
-                            form.find('[name="' + name + '"]').attr('checked',true).change();
-                        else
+                        if (name.startsWith('activo') && data[name] == true) {
+                            form.find('[name="' + name + '"]').attr('checked', true).change();
+                        }
+                        else {
                             form.find('[name="' + name + '"]').val(data[name]);
-                        
+                        }
+
                     }
 
                     $('#modalConfirm button[data-confirm="true"]').before('<button class="btn btn-info pull-left" data-defecto="">Guardar configuración</button>');
-                    
-                    
 
-                  
+
+
+
 
                     form.find('#IDGrupo').val(_grupo);
                     form.find('#IDBimestre').val(_bimestre);
                     form.submit(function (e) {
                         e.preventDefault();
-                    
+
                         form.find('input[type="checkbox"]').each(function () {
                             form.find('input[name="' + this.name + '"]').val($(this).is(':checked'));
                         });
@@ -544,6 +550,7 @@
                                         _a.generarTrabajo(selector, response.data, true, true);
                                         ConfirmDialog.hide();
                                         Portafolio.desplegarResultados(_grupo, '#tabla-portafolio');
+                                        console.log('holaa');
                                     }
                                     else {
                                         AlertError(response.message, 'Instrumentos');
@@ -555,12 +562,13 @@
                 }
 
             });
+
         });
 
-       
+
     }
 
-    this.eliminar = function (selector,id) {
+    this.eliminar = function (selector, id) {
         ConfirmDialog.show({
             title: 'Eliminar instrumento',
             text: '<h3 class="text-center">Esta intentando eliminar un instrumento permanentemente, la cual ya no se podrá recuperar. ¿Desea continuar?</h3>',
@@ -610,11 +618,11 @@
     this.actualizarObservacion = function (id, aspecto, observacion) {
         $.ajax({
             url: '/Instrumentos/actualizarObservacion',
-            type:'post',
+            type: 'post',
             data: {
                 id: id,
                 aspecto: aspecto,
-                observacion:observacion
+                observacion: observacion
             },
             success: function (response) {
                 if (response.result == true) {
@@ -640,10 +648,10 @@
             url: '/Instrumentos/GuardarPorDefecto',
             type: 'post',
             data: $("#frmPortafolio").serializeArray(),
-            beforeSend:function(){
+            beforeSend: function () {
                 $("#modalConfirm button[data-defecto]").attr('disabled', true).append(' <span class="fa fa-refresh fa-spin"></span>');
             },
-            complete:function(){
+            complete: function () {
                 $("#modalConfirm button[data-defecto]").attr('disabled', false).find('span').remove();
             },
             success: function (response) {
@@ -670,7 +678,7 @@
             });
 
         });
-        
+
     }
 
     // Cambiar el estado inmediatamente al seleccionar opcion
@@ -692,10 +700,9 @@
     $('body:not(.visualizando)').delegate('form [name="IDTipoPortafolio"]', 'change', function () {
         getDefecto($(this).val()).then(function (data) {
 
-            for(var name in data)
-            {
+            for (var name in data) {
                 if ($('#frmPortafolio [name="' + name + '"]').is(':checkbox')) {
-                    $('#frmPortafolio [name="' + name + '"]').prop('checked',data[name]);
+                    $('#frmPortafolio [name="' + name + '"]').prop('checked', data[name]);
                 }
                 else {
                     $('#frmPortafolio [name="' + name + '"]').val(data[name]);
@@ -742,7 +749,7 @@
 
     $('body:not(.visualizando)').delegate('[data-portafolio-id] [data-option="eliminar"]', 'click', function () {
         var tr = $(this).parents('[data-portafolio-id]');
-        _a.eliminar(tr.parents('table'),tr.attr('data-portafolio-id'));
+        _a.eliminar(tr.parents('table'), tr.attr('data-portafolio-id'));
     });
     $('body:not(.visualizando)').delegate('[data-portafolio-id] [data-option="editar"]', 'click', function () {
         var tr = $(this).parents('[data-portafolio-id]');
@@ -767,7 +774,7 @@
 
 
     // Se precarga template 
-    Templates.load('rowPortafolio', '/Scripts/apps/Bimestre/views/rowPortafolio.html' ).then(function (template) {
+    Templates.load('rowPortafolio', '/Scripts/apps/Bimestre/views/rowPortafolio.html').then(function (template) {
         rowPortafolio = template;
         Portafolio.desplegarResultados(_grupo, '#tabla-portafolio');
     });
@@ -780,4 +787,3 @@
 $('body:not(.visualizando)').delegate('[data-portafolio="nuevo"]', 'click', function () {
     Portafolio.nuevo('#tabla-portafolio', 1);
 });
-

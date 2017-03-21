@@ -5,7 +5,7 @@
         rowNumeros = '',
         rowNombres = '',
         rowInacisistencia = '',
-        rowMedios='',
+        rowMedios = '',
         rowAsistencias = '';
 
     var generarNombreCache = function () {
@@ -14,7 +14,7 @@
 
     this.listar = function () {
         return new Promise(function (success) {
-           
+
             _data = [];
             var consultaParcial = function (page) {
                 $.ajax({
@@ -24,7 +24,7 @@
                         bimestre: _bimestre,
                         page: page
                     },
-                    beforeSend:function(){
+                    beforeSend: function () {
                         Loading('Cargando trabajos');
                     },
                     error: function () {
@@ -47,30 +47,37 @@
 
             // Se inicia el cargado de datos por partes
             consultaParcial(1);
-            
+
         });
     }
-
+    var contador = 0;
     this.generarTrabajo = function (selector, trabajo, grupo, focus, autoOrdenar) {
 
         Templates.load('rowTrabajo', '/Scripts/apps/Bimestre/views/rowTrabajo.html').then(function (template) {
+            //ESTE CODIGO COMENTADO ES LA FORMA ORIGINAL ANTES DE ORDENARLO POR SESION
+            //trabajo.num = $(selector).find('[data-trabajo-id]').length + 1;
 
-            trabajo.num = $(selector).find('[data-trabajo-id]').length + 1;
+            //SE CREA UNA VARIABLE GLOBAL QUE ES CONTADOR, ESTA VARIABLE SE LLENA EN EL METODO desplegarResultados, DONDE SE LE ASIGNA LOS length OBTENIDOS DE DATA
+            //LUEGO SIMPLEMENTE SE RESTA CON SELECTOR
+            trabajo.num = contador - $(selector).find('[data-trabajo-id]').length;
+
+
             trabajo.tds = tdsCaptura;
             trabajo.grupo = grupo;
+
 
             var elementSesion = $(template.format(trabajo)).appendTo($(selector).find('tbody'));
 
 
             // Actualizar los tds a los datos reales
             trabajo.entrega.map(function (a) {
-                elementSesion.find('[data-alumno-id="' + a.id + '"]').attr('data-alumno-trabajo-estado', a.estado).html('<div class="w100">'+obtenerHtmlEstado(a.estado)+'</div>');
+                elementSesion.find('[data-alumno-id="' + a.id + '"]').attr('data-alumno-trabajo-estado', a.estado).html('<div class="w100">' + obtenerHtmlEstado(a.estado) + '</div>');
             });
 
             // Se actualizan los totales de la sesion y la columna del alumno
             actualizarTotales(trabajo.id);
 
-            if($('body').hasClass('visualizando') == false)
+            if ($('body').hasClass('visualizando') == false)
                 pluginDatepicker(elementSesion.find('[name="fecha"]'), function (obj) {
                     var tr = $(obj).parents('[data-trabajo-id]');
 
@@ -78,9 +85,9 @@
 
                 });
             else
-                elementSesion.find('input,textarea').attr('disabled',true)
+                elementSesion.find('input,textarea').attr('disabled', true)
 
-          
+
 
             if (focus == true) {
                 $('html, body').animate({
@@ -91,11 +98,29 @@
                              .find('input:first')
                              .focus();
             }
+            // sortTable();
         });
 
 
 
 
+    }
+    function sortTable() {
+        var tbl = document.getElementById("trabajoTabla").tBodies[0];
+        var store = [];
+        for (var i = 0, len = tbl.rows.length; i < len; i++) {
+            var row = tbl.rows[i];
+            var sortnr = parseFloat(row.cells[0].textContent || row.cells[0].innerText);
+            if (!isNaN(sortnr)) store.push([sortnr, row]);
+        }
+        store.sort(function (y, x) {
+
+            return x[0] - y[0];
+        });
+        for (var i = 0, len = store.length; i < len; i++) {
+            tbl.appendChild(store[i][1]);
+        }
+        store = null;
     }
 
     this.desplegarResultados = function (grupo, selector) {
@@ -138,6 +163,8 @@
 
                 _a.listar(grupo).then(function (data) {
                     data.map(function (s) {
+                        //SE OBTIENE LA CANTIDAD DE REGISTROS
+                        contador = data.length;
                         _a.generarTrabajo(selector, s, grupo);
                     });
 
@@ -196,7 +223,7 @@
                     // Se despliega la sesion actualizada con efecto
                     $('[data-trabajo-id="' + sesion + '"] [data-alumno-id="' + alumno + '"]')
                         .attr('data-alumno-trabajo-estado', estado)
-                        .html('<div class="w100">' +obtenerHtmlEstado(estado) + '</div>')
+                        .html('<div class="w100">' + obtenerHtmlEstado(estado) + '</div>')
                         .resaltar('info', 800);
 
                     // Se actualiza el dato actualizado en el cache
@@ -232,12 +259,12 @@
             $(selector).find('[data-alumno-medio="' + alumno.id + '"]').html(totalMedio);
         });
 
-        var totalSesionAsistencia = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="1"]').length*10;
-        var totalnoentregado = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="0"]').length*0;
-        var totalmedio = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="2"]').length*5;
+        var totalSesionAsistencia = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="1"]').length * 10;
+        var totalnoentregado = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="0"]').length * 0;
+        var totalmedio = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id][data-alumno-trabajo-estado="2"]').length * 5;
         var totalSesionAlumnos = $(selector).find('[data-trabajo-id="' + sesion + '"] [data-alumno-id]').length;
-        $(selector).find('[data-trabajo-total="' + sesion + '"]').html((totalSesionAsistencia + totalnoentregado + totalmedio)/10.0);
-        $(selector).find('[data-trabajo-promedio="' + sesion + '"]').html((((totalSesionAsistencia + totalnoentregado + totalmedio) / (totalSesionAlumnos*10))* 100).toFixed(2) + '%');
+        $(selector).find('[data-trabajo-total="' + sesion + '"]').html((totalSesionAsistencia + totalnoentregado + totalmedio) / 10.0);
+        $(selector).find('[data-trabajo-promedio="' + sesion + '"]').html((((totalSesionAsistencia + totalnoentregado + totalmedio) / (totalSesionAlumnos * 10)) * 100).toFixed(2) + '%');
     }
 
     var ordenar = function (selector) {
@@ -256,13 +283,13 @@
             var hay = $(list[i]).find('td:first').find('span');
             if (hay.length == 0) {
                 $(list[i]).find('td:first').find('div').append('<a><span data-trabajo-option="editardescripcion" class="fa fa-edit visor-oculto" title="Editar Descripción"></span></a><a><span data-asitencia-option="eliminar" class="fa fa-trash visor-oculto" title="Eliminar sesión"></span></a> ');
-                
+
             }
 
         }
     }
 
-    this.nuevo = function (selector, estado,tipo,actividad) {
+    this.nuevo = function (selector, estado, tipo, actividad) {
         $.ajax({
             url: '/trabajos/nuevo',
             type: 'post',
@@ -271,7 +298,7 @@
                 bimestre: _bimestre,
                 estado: estado,
                 tipo: tipo,
-                actividad:actividad
+                actividad: actividad
             },
             beforeSend: function () {
                 Loading('Generando sesión');
@@ -298,7 +325,7 @@
         });
     }
 
-    this.editar = function (id, fecha, observacion, nombre,tipo,actividad) {
+    this.editar = function (id, fecha, observacion, nombre, tipo, actividad) {
         $.ajax({
             url: '/Trabajos/editar',
             type: 'post',
@@ -308,7 +335,7 @@
                 observacion: observacion,
                 nombre: nombre,
                 tipo: tipo,
-                actividad:actividad
+                actividad: actividad
             },
             success: function (response) {
                 if (response.result == true) {
@@ -371,12 +398,12 @@
 
     }
 
-    this.modaleditar=function(id){
+    this.modaleditar = function (id) {
         Loading("Cargando");
         $.ajax({
             type: 'GET',
             url: '/Trabajos/CargarTrabajo',
-            data: {                
+            data: {
                 ID: id,
             }
         })
@@ -402,7 +429,7 @@
                     Loading();
                     if (data > 0) {
                         AlertSuccess('Se ha guardado el registro')
-                        $('#formularioTrabajo').modal("hide");                        
+                        $('#formularioTrabajo').modal("hide");
                     } else {
                         AlertError('No se ha podido guardar: ' + data);
 
@@ -466,7 +493,7 @@
         _a.modaleditar(tr.attr('data-trabajo-id'));
     });
 
-    
+
     // Se precarga template 
     Templates.load('rowTrabajo', '/Scripts/apps/Bimestre/views/rowTrabajo.html')
 
@@ -481,7 +508,7 @@
 
         tabla.find('td').each(function () {
             var td = $(this);
-            td.find('input,textarea').each(function(){
+            td.find('input,textarea').each(function () {
                 td.append($(this).val());
                 $(this).remove();
             });
@@ -498,7 +525,7 @@
         tableToExcel(tabla[0], 'Trabajos');
     }
 
- 
+
 }
 
 $('body:not(.visualizando)').delegate('[data-trabajo="nuevo"]', 'click', function () {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using SMT.Models;
 namespace SMT.Controllers
 {
     [Authorize, Credencial]
@@ -75,7 +75,7 @@ namespace SMT.Controllers
                     db.PortafolioAlumno.Add(alumno);
                 }
                 db.SaveChanges();
-                return Json(new ResultViewModel(true,null, new
+                return Json(new ResultViewModel(true, null, new
                 {
                     IDPortafolio = res.IDPortafolio,
                     Fecha = Util.toHoraMexico(res.FechaEntrega.Value).ToString("dd-MM-yyyy"),
@@ -83,7 +83,7 @@ namespace SMT.Controllers
                     observacion = res.Descripcion,
                     Nombre = res.Nombre,
                     Descripcion = res.Descripcion,
-                    TipoTrabajo = res.TipoPortafolio != null ? res.TipoPortafolio.Nombre :"",
+                    TipoTrabajo = res.TipoPortafolio != null ? res.TipoPortafolio.Nombre : "",
                     IDTipoPortafolio = res.IDTipoPortafolio,
                     Aspecto1 = res.Aspecto1,
                     Aspecto2 = res.Aspecto2,
@@ -109,16 +109,22 @@ namespace SMT.Controllers
                     Observacion4 = res.Observacion4,
                     Observacion5 = res.Observacion5,
 
+                    Reactivo1 = res.Reactivo1,
+                    Reactivo2 = res.Reactivo2,
+                    Reactivo3 = res.Reactivo3,
+                    Reactivo4 = res.Reactivo4,
+                    Reactivo5 = res.Reactivo5,
+
                     entrega = als.Select(i => new
-                                    {
-                                        id = i.IDAlumno,
-                                        estado = i.Estado,
-                                        Aspecto1 = i.Aspecto1,
-                                        Aspecto2 = i.Aspecto2,
-                                        Aspecto3 = i.Aspecto3,
-                                        Aspecto4 = i.Aspecto4,
-                                        Aspecto5 = i.Aspecto5,
-                                    })
+                    {
+                        id = i.IDAlumno,
+                        estado = i.Estado,
+                        Aspecto1 = i.Aspecto1,
+                        Aspecto2 = i.Aspecto2,
+                        Aspecto3 = i.Aspecto3,
+                        Aspecto4 = i.Aspecto4,
+                        Aspecto5 = i.Aspecto5,
+                    })
                                     .ToList()
                 }));
             }
@@ -142,10 +148,27 @@ namespace SMT.Controllers
             return PartialView(new Models.DB.Portafolio()
             {
                 Activo1 = true,
-                Activo2 = true
+                Activo2 = true,
             });
         }
 
+        public ActionResult editar(string id)
+        {
+            Guid? idPort = Guid.Empty;
+            idPort = new Guid(id);
+
+            SMTDevEntities db = new SMTDevEntities();
+
+            ViewBag.tipos = db.TipoPortafolio.OrderBy(i => i.Orden).Select(i => new
+            {
+                id = i.IDTipoPortafolio,
+                name = i.Nombre
+            })
+            .ToList();
+            Portafolio port = db.Portafolio.FirstOrDefault(r => r.IDPortafolio == idPort);
+            Portafolio port2 = db.Portafolio.Single(r => r.IDPortafolio == idPort);
+            return PartialView(db.Portafolio.Single(r => r.IDPortafolio == idPort));
+        }
         [HttpPost]
         public JsonResult Nuevo(Guid grupo, int bimestre, int estado)
         {
@@ -164,7 +187,7 @@ namespace SMT.Controllers
         {
             try
             {
-                using(SMTDevEntities db = new SMTDevEntities())
+                using (SMTDevEntities db = new SMTDevEntities())
                 {
                     PortafolioAlumno a = db.PortafolioAlumno.FirstOrDefault(i => i.IDAlumno == alumno && i.IDPortafolio == portafolio);
                     if (a == null)
@@ -203,10 +226,10 @@ namespace SMT.Controllers
 
                     AlumnoDesempenio.actualizarAlumno(alumno, a.Portafolio.IDGrupo.Value, a.Portafolio.Bimestres.Bimestre.Value, new { portafolio = true });
 
-                    return Json(new ResultViewModel(true,null,null));
+                    return Json(new ResultViewModel(true, null, null));
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -217,9 +240,9 @@ namespace SMT.Controllers
         {
             try
             {
-                return Json(new ResultViewModel(true,null,portfolio.editar(User.Identity.GetUserId())));
+                return Json(new ResultViewModel(true, null, portfolio.editar(User.Identity.GetUserId())));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -240,12 +263,12 @@ namespace SMT.Controllers
         }
 
         [HttpPost]
-        public JsonResult ActualizarObservacion(Guid id,string aspecto, string observacion)
+        public JsonResult ActualizarObservacion(Guid id, string aspecto, string observacion)
         {
             try
             {
                 Portafolio.actualizarObservacion(id, aspecto, observacion, User.Identity.GetUserId());
-                return Json(new ResultViewModel(true, null,null));
+                return Json(new ResultViewModel(true, null, null));
             }
             catch (Exception e)
             {

@@ -95,6 +95,7 @@
         });
     }
 
+
     this.generarTrabajo = function (selector, portafolio, focus, autoOrdenar) {
 
 
@@ -106,9 +107,9 @@
 
         var actualizarAspecto = function (a, key, nombre, template, criterios) {
             var element = $(template.format(a)).appendTo(elementosPortafolio).addData(a);
-
+            
             $(elementosPortafolio).append(element);
-
+      
             element.attr('data-aspecto', key);
 
             a.entrega.map(function (a) {
@@ -124,10 +125,11 @@
 
             });
         }
-
+    
         if (portafolio.Activo1 == true) {
             portafolio.observacion = portafolio.Observacion1;
             actualizarAspecto(portafolio, 'Aspecto1', portafolio.Aspecto1, rowPortafolio, portafolio.Criterio1);
+            
         }
         if (portafolio.Activo2 == true) {
             portafolio.observacion = portafolio.Observacion2;
@@ -157,6 +159,7 @@
             $(selector).find('[data-portafolio-id="' + portafolio.IDPortafolio + '"]:first').resaltar('info', 3000)
                         .find('input:first')
                         .focus();
+        
         }
 
         if ($('body').hasClass('visualizando') == true)
@@ -179,15 +182,17 @@
         tdsTotales = '';
 
         Alumnos.listar(_grupo).then(function () {
-
+ 
             for (var i = 0; i < Alumnos.data.length; i++) {
                 var alumn = Alumnos.data[i];
+           
+        
                 rowNumeros += '<th>{0}</th>'.format([i + 1]);
                 rowNombres += '<th><div class="w100"><span data-alumno="{id}" class="semaforo" style="background-color:{semaforo}"></span>{apellidoPaterno} {apellidoMaterno} {nombre}</div></th>'.format(alumn);
                 rowCalificacionFinal += '<td><div data-alumno-final="{id}" class="w100">0</div></th>'.format(alumn);
-                rowAprobados += '<td><div data-alumno-aprobado="{id}" class="w100">0</div></th>'.format(alumn);
+                rowAprobados += '<td><div data-alumno-aprobado="{id}" class="w100"></div></th>'.format(alumn);
                 rowNoAprobados += '<td><div data-alumno-reprobado="{id}" class="w100">0</div></th>'.format(alumn);
-                tdsTotales += '<td><div  data-alumno-total="{id}"class="w100">0</div></th>'.format(alumn);
+                tdsTotales += '<td><div  data-alumno-total="{id}"class="w100"></div></th>'.format(alumn);
                 tdsCaptura += '<td data-alumno-id="{id}" data-alumno-aspecto="" data-alumno-portafolio-estado="" ><input name="calificacion" tabindex="0" type="number" min="0" max="10" required="required" class="form-control form-control-oculto" class="w100" /></td>'.format(alumn);
             }
 
@@ -241,6 +246,7 @@
 
         var input = $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="' + aspecto + '"] input');
 
+    
         $.ajax({
             url: '/Instrumentos/actualizarCalificacion',
             type: 'post',
@@ -275,7 +281,19 @@
                 }
             }
         })
+        $.ajax({
+            url: '/Instrumentos/calificacion',
+            type: 'post',
+            data: {
+                id: alumno,
+                portafolio: portafolio,
+                grupo: grupo
+             
+            },
+            success: function (response) {
 
+            }
+        })
     }
 
     var actualizaDataEnCache = function () {
@@ -285,60 +303,84 @@
 
     var actualizarTotales = function (sesion) {
         var selector = $('[data-tabla="portafolio"]');
+        var x = 0;
+        $.ajax({
+            url: '/Instrumentos/reactivos',
+            type: 'post',
+            data: {
+                id: sesion
+
+            },
+            success: function (response) {
+                
+                x = response;
+               
+
+                // Promedio de trabajos en un aspecto
+                $(selector).find('[data-portafolio-promedio="' + sesion + '"]').each(function () {
+
+                    var total = $(this).parents('tr').find('[data-alumno-id][data-alumno-aspecto="' + $(this).parents('tr').attr('data-aspecto') + '"]').length;
+                    var sumatoria = 0;
+                    var falsa = 0;
+
+                    $(this).parents('tr').find('[data-alumno-id][data-alumno-aspecto="' + $(this).parents('tr').attr('data-aspecto') + '"] input').each(function () {
+                        sumatoria += parseInt($(this).val());
+                        falsa += parseInt($(this).val()) < 5 ? 5 : parseInt($(this).val()) > 10 ? 10 : parseInt($(this).val());
+
+                    });
+
+                    $(this).prev('[data-portafolio-total="' + sesion + '"]').html(falsa);
+                    var promedio = sumatoria / total;
+                    falsa = falsa / total;
 
 
-        // Promedio de trabajos en un aspecto
-        $(selector).find('[data-portafolio-promedio="' + sesion + '"]').each(function () {
 
-            var total = $(this).parents('tr').find('[data-alumno-id][data-alumno-aspecto="' + $(this).parents('tr').attr('data-aspecto') + '"]').length;
-            var sumatoria = 0;
-            var falsa = 0;
+                    if (falsa > 0) {
+                        falsa = falsa.toFixed(1)
+                    }
+                    $(this).html(falsa < 5 ? 5 : falsa > 10 ? 10 : falsa + (falsa != promedio ? '(' + promedio.toFixed(2) + ')' : ''));
+                });
 
-            $(this).parents('tr').find('[data-alumno-id][data-alumno-aspecto="' + $(this).parents('tr').attr('data-aspecto') + '"] input').each(function () {
-                sumatoria += parseInt($(this).val());
-                falsa += parseInt($(this).val()) < 5 ? 5 : parseInt($(this).val()) > 10 ? 10 : parseInt($(this).val());
-            });
-            console.log(falsa);
-            $(this).prev('[data-portafolio-total="' + sesion + '"]').html(falsa);
-            var promedio = sumatoria / total;
-            falsa = falsa / total;
+                // Aprobados y reprobados
+                $(selector).find('[data-alumno-aprobado]').each(function () {
+                    var alumno = this.getAttribute('data-alumno-aprobado');
+                    var aprobados = 0, reprobados = 0;
+                    $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
+
+                        aprobados += parseFloat($(this).attr('data-real')) >= 6 ? 1 : 0;
+                        reprobados += parseFloat($(this).attr('data-real')) < 6 ? 1 : 0;
+                    });
+
+                    $(selector).find('[data-alumno-aprobado="' + alumno + '"]').html(aprobados);
+                    $(selector).find('[data-alumno-reprobado="' + alumno + '"]').html(reprobados);
+                })
+
+                // Calificaciones de todos los aspectos de cada alumno en el proyecto
+                $(selector).find('[data-portafolio-id="' + sesion + '"][data-total-agregado] [data-alumno-total]').each(function () {
+                    var numeroAspectos = $(selector).find('[data-portafolio-id="' + sesion + '"]').length - 1;
+                    var calificacion = 0;
+                    $(selector).find('[data-portafolio-id="' + sesion + '"] [data-alumno-id="' + this.getAttribute('data-alumno-total') + '"][data-alumno-aspecto] input').each(function () {
+                        calificacion += parseInt(this.value);
+
+                    });
 
 
 
-            if (falsa > 0) {
-                falsa = falsa.toFixed(1)
+                    var promedio = ((calificacion / x) * 10);
+                    var promedioFixed = promedio.toFixed(2);
+                    console.log(promedio);
+                    $(this).html(promedioFixed < 5 || promedioFixed > 10 ? (promedioFixed > 10 ? 10 : 5) + ' (' + promedioFixed + ')' : promedio.toFixed(1)).attr('data-real', promedioFixed < 5 ? 5 : promedioFixed > 10 ? 10 : promedio.toFixed(1));
+
+
+                });
+
+
             }
-            $(this).html(falsa < 5 ? 5 : falsa > 10 ? 10 : falsa + (falsa != promedio ? '(' + promedio.toFixed(2) + ')' : ''));
-        });
 
-
-        // Calificaciones de todos los aspectos de cada alumno en el proyecto
-        $(selector).find('[data-portafolio-id="' + sesion + '"][data-total-agregado] [data-alumno-total]').each(function () {
-            var numeroAspectos = $(selector).find('[data-portafolio-id="' + sesion + '"]').length - 1;
-            var calificacion = 0;
-            $(selector).find('[data-portafolio-id="' + sesion + '"] [data-alumno-id="' + this.getAttribute('data-alumno-total') + '"][data-alumno-aspecto] input').each(function () {
-                calificacion += parseInt(this.value);
-            });
-
-            var promedio = (calificacion / numeroAspectos);
-            $(this).html(calificacion < 5 || calificacion > 10 ? (calificacion > 10 ? 10 : 5) + ' (' + calificacion + ')' : calificacion.toFixed(1)).attr('data-real', calificacion < 5 ? 5 : calificacion > 10 ? 10 : calificacion.toFixed(1));
-
-
-        });
-
-        // Aprobados y reprobados
-        $(selector).find('[data-alumno-aprobado]').each(function () {
-            var alumno = this.getAttribute('data-alumno-aprobado');
-            var aprobados = 0, reprobados = 0;
-            $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
-
-                aprobados += parseFloat($(this).attr('data-real')) >= 6 ? 1 : 0;
-                reprobados += parseFloat($(this).attr('data-real')) < 6 ? 1 : 0;
-            });
-
-            $(selector).find('[data-alumno-aprobado="' + alumno + '"]').html(aprobados);
-            $(selector).find('[data-alumno-reprobado="' + alumno + '"]').html(reprobados);
         })
+       
+
+      
     }
 
     var obtenerPosicion = function (selector, fecha) {
@@ -444,7 +486,7 @@
                         e.preventDefault();
                         var items = $(this).serializeArray();
                         items.push({ name: "bimestre", value: _bimestre })
-                        console.log(items);
+               
                         if ($(this).valid()) {
                             $.ajax({
                                 url: '/Instrumentos/GuardarPortafolio',
@@ -487,7 +529,7 @@
         var id = data.IDPortafolio;
 
         Templates.load('nuevoPortafolio', '/portafolio/editar?id=' + id + '').then(function (template) {
-            console.log(data);
+           
             Loading();
             ConfirmDialog.show({
                 title: 'Editar instrumento',
@@ -550,7 +592,7 @@
                                         _a.generarTrabajo(selector, response.data, true, true);
                                         ConfirmDialog.hide();
                                         Portafolio.desplegarResultados(_grupo, '#tabla-portafolio');
-                                        console.log('holaa');
+                                        
                                     }
                                     else {
                                         AlertError(response.message, 'Instrumentos');
@@ -691,6 +733,7 @@
             var aspecto = $(this).parents('td').attr('data-alumno-aspecto');
 
             actualizarCalificacion(alumno, sesion, $(this).val(), grupo, aspecto);
+         
             $(this).removeClass('input-validation-error');
         }
         else

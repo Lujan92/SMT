@@ -357,6 +357,7 @@ namespace SMT.Controllers
                         try {
                             db.SaveChanges();
                             AlumnoDesempenio.actualizarAlumno(entrega.id, trabajo.IDGrupo, trabajo.Bimestre, new { trabajo = true });
+                           
                         }
                         catch (Exception ex) {
                             Debug.WriteLine("[SincronizarTrabajos]");
@@ -1536,7 +1537,7 @@ namespace SMT.Controllers
                     asistencia = a.ColorAsistencia,
                     trabajos = a.ColorTrabajo,
                     portafolio = a.ColorPortafolio,
-                    examenes = a.ColorExamen,
+                    examenes = a.ColorPortafolio,
                     diagnosticoCiclo = a.ColorDiagnostico,
                     colorPromedio = a.Alumno.ColorPromedio,
                 });

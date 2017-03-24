@@ -17,7 +17,9 @@ namespace SMT.Models.DB
         /// <param name="bimestre">Numero del bimestre</param>
         /// <param name="actualizar">Variables para saber que se va  actualizar, si pasan null se actualiza todo</param>
         /// <param name="otraTarea">Ejecuta el actualizado en otro hilo para no esperar respuesta</param>
-        public static void actualizarAlumno(Guid id, Guid grupo, int bimestre, dynamic actualizar, bool otraTarea = true)
+        /// 
+       
+        public static void actualizarAlumno(Guid id,Guid grupo, int bimestre, dynamic actualizar, bool otraTarea = true)
         {
             if(otraTarea == true)
             {
@@ -477,6 +479,7 @@ namespace SMT.Models.DB
             throw new NotImplementedException();
         }
 
+       
         public static void actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int aprobado, int reprobado)
         {
             var colores = new[] {
@@ -489,7 +492,10 @@ namespace SMT.Models.DB
                 var desempenio = db.AlumnoDesempenio.FirstOrDefault(i => i.IDAlumno == alumno && i.IDGrupo == grupo && i.Bimestre == bimestre);
             }
         }
+        private static void actualizarCalificacion(Guid id, Guid portafolio, Guid grupo)
+        {
 
+        }
         /// <summary>
         /// Actualiza o genera todo el desempeño de todos los alumnos de cada grupo en todos sus bimestres
         /// </summary>

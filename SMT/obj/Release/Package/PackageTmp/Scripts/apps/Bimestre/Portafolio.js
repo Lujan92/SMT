@@ -95,6 +95,7 @@
         });
     }
 
+
     this.generarTrabajo = function (selector, portafolio, focus, autoOrdenar) {
 
 
@@ -108,7 +109,7 @@
             var element = $(template.format(a)).appendTo(elementosPortafolio).addData(a);
 
             $(elementosPortafolio).append(element);
-
+      
             element.attr('data-aspecto', key);
 
             a.entrega.map(function (a) {
@@ -124,7 +125,7 @@
 
             });
         }
-
+     
         if (portafolio.Activo1 == true) {
             portafolio.observacion = portafolio.Observacion1;
             actualizarAspecto(portafolio, 'Aspecto1', portafolio.Aspecto1, rowPortafolio, portafolio.Criterio1);
@@ -157,6 +158,7 @@
             $(selector).find('[data-portafolio-id="' + portafolio.IDPortafolio + '"]:first').resaltar('info', 3000)
                         .find('input:first')
                         .focus();
+        
         }
 
         if ($('body').hasClass('visualizando') == true)
@@ -179,15 +181,18 @@
         tdsTotales = '';
 
         Alumnos.listar(_grupo).then(function () {
-
+ 
             for (var i = 0; i < Alumnos.data.length; i++) {
                 var alumn = Alumnos.data[i];
+           
+        
                 rowNumeros += '<th>{0}</th>'.format([i + 1]);
                 rowNombres += '<th><div class="w100"><span data-alumno="{id}" class="semaforo" style="background-color:{semaforo}"></span>{apellidoPaterno} {apellidoMaterno} {nombre}</div></th>'.format(alumn);
+                console.log(rowNombres);
                 rowCalificacionFinal += '<td><div data-alumno-final="{id}" class="w100">0</div></th>'.format(alumn);
-                rowAprobados += '<td><div data-alumno-aprobado="{id}" class="w100">0</div></th>'.format(alumn);
+                rowAprobados += '<td><div data-alumno-aprobado="{id}" class="w100"></div></th>'.format(alumn);
                 rowNoAprobados += '<td><div data-alumno-reprobado="{id}" class="w100">0</div></th>'.format(alumn);
-                tdsTotales += '<td><div  data-alumno-total="{id}"class="w100">0</div></th>'.format(alumn);
+                tdsTotales += '<td><div  data-alumno-total="{id}"class="w100">{curp}</div></th>'.format(alumn);
                 tdsCaptura += '<td data-alumno-id="{id}" data-alumno-aspecto="" data-alumno-portafolio-estado="" ><input name="calificacion" tabindex="0" type="number" min="0" max="10" required="required" class="form-control form-control-oculto" class="w100" /></td>'.format(alumn);
             }
 
@@ -241,6 +246,7 @@
 
         var input = $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="' + aspecto + '"] input');
 
+    
         $.ajax({
             url: '/Instrumentos/actualizarCalificacion',
             type: 'post',
@@ -275,7 +281,19 @@
                 }
             }
         })
+        $.ajax({
+            url: '/Instrumentos/calificacion',
+            type: 'post',
+            data: {
+                id: alumno,
+                portafolio: portafolio,
+                grupo: grupo
+             
+            },
+            success: function (response) {
 
+            }
+        })
     }
 
     var actualizaDataEnCache = function () {
@@ -298,12 +316,12 @@
                 sumatoria += parseInt($(this).val());
                 falsa += parseInt($(this).val()) < 5 ? 5 : parseInt($(this).val()) > 10 ? 10 : parseInt($(this).val());
             });
-            console.log(falsa);
+ 
             $(this).prev('[data-portafolio-total="' + sesion + '"]').html(falsa);
             var promedio = sumatoria / total;
             falsa = falsa / total;
 
-
+            
 
             if (falsa > 0) {
                 falsa = falsa.toFixed(1)
@@ -322,7 +340,7 @@
 
             var promedio = (calificacion / numeroAspectos);
             $(this).html(calificacion < 5 || calificacion > 10 ? (calificacion > 10 ? 10 : 5) + ' (' + calificacion + ')' : calificacion.toFixed(1)).attr('data-real', calificacion < 5 ? 5 : calificacion > 10 ? 10 : calificacion.toFixed(1));
-
+        
 
         });
 
@@ -691,6 +709,9 @@
             var aspecto = $(this).parents('td').attr('data-alumno-aspecto');
 
             actualizarCalificacion(alumno, sesion, $(this).val(), grupo, aspecto);
+            console.log("aspecto" + " " + aspecto);
+            console.log("???" + " " + $(this).val());
+            console.log("sesion"+" "+sesion);
             $(this).removeClass('input-validation-error');
         }
         else

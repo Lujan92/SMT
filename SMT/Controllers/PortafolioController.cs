@@ -225,7 +225,7 @@ namespace SMT.Controllers
                     db.SaveChanges();
 
                     AlumnoDesempenio.actualizarAlumno(alumno, a.Portafolio.IDGrupo.Value, a.Portafolio.Bimestres.Bimestre.Value, new { portafolio = true });
-
+                    
                     return Json(new ResultViewModel(true, null, null));
                 }
             }
@@ -241,6 +241,49 @@ namespace SMT.Controllers
             try
             {
                 return Json(new ResultViewModel(true, null, portfolio.editar(User.Identity.GetUserId())));
+            }
+            catch (Exception e)
+            {
+                return Json(new ResultViewModel(e));
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult Calificacion(Guid id, Guid portafolio,Guid grupo)
+        {
+            try
+            {
+                Portafolio.calificacion(id, portafolio,grupo);
+                return Json(new ResultViewModel(true, null, null));
+            }
+            catch (Exception e)
+            {
+                return Json(new ResultViewModel(e));
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult reactivos(Guid id)
+        {
+            try
+            {
+                
+                using (SMTDevEntities db = new SMTDevEntities())
+                {
+                    Portafolio port = db.Portafolio.FirstOrDefault(i => i.IDPortafolio == id);
+
+                    PortafolioAlumno alumno = db.PortafolioAlumno.FirstOrDefault(i => i.IDAlumno == id && i.IDPortafolio == port.IDPortafolio);
+                    if (port == null)
+                        throw new Exception("No existe este portafolio");
+
+                    var TotalReactivos = port.Reactivo1 + port.Reactivo2 + port.Reactivo3 + port.Reactivo4 + port.Reactivo5;
+
+
+                    return Json(TotalReactivos);
+                }
+                
             }
             catch (Exception e)
             {

@@ -103,7 +103,7 @@ namespace SMT.Controllers
 
                     db.SaveChanges();
 
-
+        
 
                     AlumnoDesempenio.actualizarAlumno(alumno, grupo, db.ExamenTema.Where(b => b.IDTema == tema).Select(b => b.Examen.Bimestres.Bimestre.Value).FirstOrDefault(), new { examen = true });
 

@@ -80,6 +80,7 @@ namespace SMT.Models.DB
             [Display(Name = "Criterios de Evaluación")]
             public string Criterio5 { get; set; }
 
+
         }
         #endregion
 
@@ -90,7 +91,7 @@ namespace SMT.Models.DB
             SMTDevEntities db = new SMTDevEntities();
 
 
-            if (db.TipoPortafolio.Any(a => a.IDTipoPortafolio == IDTipoPortafolio && a.Nombre == "Proyecto") && 
+            if (db.TipoPortafolio.Any(a => a.IDTipoPortafolio == IDTipoPortafolio && a.Nombre == "Proyecto") &&
                 db.Portafolio.Any(a => a.IDBimestre == IDBimestre && a.IDGrupo == IDGrupo && a.TipoPortafolio.Nombre == "Proyecto"))
                 throw new Exception("No se puede crear otro portafolio de tipo proyecto porque solo puede existir uno");
 
@@ -113,14 +114,20 @@ namespace SMT.Models.DB
                 if (port == null)
                     throw new Exception("No existe este portafolio");
 
-                if (db.TipoPortafolio.Any(a => a.IDTipoPortafolio == IDTipoPortafolio && a.Nombre == "Proyecto") && 
+                if (db.TipoPortafolio.Any(a => a.IDTipoPortafolio == IDTipoPortafolio && a.Nombre == "Proyecto") &&
                     db.Portafolio.Any(a => a.IDPortafolio != port.IDPortafolio && a.IDBimestre == port.IDBimestre && a.IDGrupo == port.IDGrupo && a.TipoPortafolio.Nombre == "Proyecto"))
                     throw new Exception("No se puede crear otro portafolio de tipo proyecto porque solo puede existir uno");
 
                 port.Nombre = Util.UppercaseFirst(Nombre);
                 port.Descripcion = Descripcion;
                 port.FechaEntrega = FechaEntrega;
-      
+
+                port.Reactivo1 = Reactivo1;
+                port.Reactivo2 = Reactivo2;
+                port.Reactivo3 = Reactivo3;
+                port.Reactivo4 = Reactivo4;
+                port.Reactivo5 = Reactivo5;
+                port.Reactivo6 = Reactivo6;
                 port.FechaActualizacion = DateTime.Now;
                 port.FechaSync = DateTime.Now;
                 port.Activo1 = Activo1;
@@ -139,6 +146,7 @@ namespace SMT.Models.DB
                 port.Aspecto5 = Aspecto5;
                 port.Criterio5 = Criterio5;
                 port.IDTipoPortafolio = IDTipoPortafolio;
+
 
                 db.SaveChanges();
 
@@ -176,7 +184,14 @@ namespace SMT.Models.DB
                     Observacion4 = port.Observacion4,
                     Observacion5 = port.Observacion5,
 
-                    entrega = port.PortafolioAlumno.Select(i => new EntregaPortafolio {
+                    Reactivo1 = port.Reactivo1,
+                    Reactivo2 = port.Reactivo2,
+                    Reactivo3 = port.Reactivo3,
+                    Reactivo4 = port.Reactivo4,
+                    Reactivo5 = port.Reactivo5,
+
+                    entrega = port.PortafolioAlumno.Select(i => new EntregaPortafolio
+                    {
                         id = i.IDAlumno,
                         estado = i.Estado,
                         Aspecto1 = i.Aspecto1,
@@ -184,7 +199,7 @@ namespace SMT.Models.DB
                         Aspecto3 = i.Aspecto3,
                         Aspecto4 = i.Aspecto4,
                         Aspecto5 = i.Aspecto5,
-                        
+                        Calificacion = i.Calificacion,
                     })
                     .ToList()
                 };
@@ -211,10 +226,6 @@ namespace SMT.Models.DB
 
             }
         }
-
-        
-    
-
 
         public static void actualizarObservacion(Guid id, string aspecto, string observacion, string usuario)
         {
@@ -298,6 +309,13 @@ namespace SMT.Models.DB
                                         Observacion4 = i.Observacion4,
                                         Observacion5 = i.Observacion5,
 
+                                        Reactivo1 = i.Reactivo1,
+                                        Reactivo2 = i.Reactivo2,
+                                        Reactivo3 = i.Reactivo3,
+                                        Reactivo4 = i.Reactivo4,
+                                        Reactivo5 = i.Reactivo5,
+
+                                      
                                     })
                                     .ToList();
 
@@ -324,16 +342,52 @@ namespace SMT.Models.DB
             return portafolio;
         }
 
-
-        public static Portafolio getPortafolio(Guid ID)
+        public static void calificacion(Guid id, Guid portafolio, Guid grupo)
         {
-            var db = new SMTDevEntities();
-            return db.Portafolio.Where(i => i.IDPortafolio == ID).FirstOrDefault();
+            using (SMTDevEntities db = new SMTDevEntities())
+            {
+                PortafolioSimple result = new PortafolioSimple();
+
+                Portafolio port = db.Portafolio.FirstOrDefault(i => i.IDPortafolio == portafolio && i.IDGrupo == grupo);
+
+                PortafolioAlumno alumno = db.PortafolioAlumno.FirstOrDefault(i => i.IDAlumno == id && i.IDPortafolio == port.IDPortafolio);
+                if (port == null)
+                    throw new Exception("No existe este portafolio");
+
+                var TotalReactivos = port.Reactivo1 + port.Reactivo2 + port.Reactivo3 + port.Reactivo4 + port.Reactivo5;
+                var aciertos = Double.Parse(alumno.Aspecto1) + Double.Parse(alumno.Aspecto2) + Double.Parse(alumno.Aspecto3) + Double.Parse(alumno.Aspecto4) + Double.Parse(alumno.Aspecto5);
+                var operacion = (aciertos / TotalReactivos) * 10;
+                alumno.Calificacion = Convert.ToInt16(operacion);
+
+                db.SaveChanges();
+
+            }
+
         }
 
 
 
-        public static void actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int cantidad,int suma)
+        public static void reactivos(Guid id)
+        {
+            using (SMTDevEntities db = new SMTDevEntities())
+            {
+                PortafolioSimple result = new PortafolioSimple();
+
+                Portafolio port = db.Portafolio.FirstOrDefault(i => i.IDPortafolio == id );
+
+                PortafolioAlumno alumno = db.PortafolioAlumno.FirstOrDefault(i => i.IDAlumno == id && i.IDPortafolio == port.IDPortafolio);
+                if (port == null)
+                    throw new Exception("No existe este portafolio");
+
+                var TotalReactivos = port.Reactivo1 + port.Reactivo2 + port.Reactivo3 + port.Reactivo4 + port.Reactivo5;
+
+               
+
+            }
+
+        }
+
+        public static void actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int cantidad, int suma)
         {
 
             try
@@ -377,7 +431,11 @@ namespace SMT.Models.DB
         }
 
 
-
+        public static Portafolio getPortafolio(Guid ID)
+        {
+            var db = new SMTDevEntities();
+            return db.Portafolio.Where(i => i.IDPortafolio == ID).FirstOrDefault();
+        }
 
         public class PortafolioSimple
         {
@@ -414,6 +472,14 @@ namespace SMT.Models.DB
             public string Observacion4 { get; set; }
             public string Observacion5 { get; set; }
 
+            public double? Reactivo1 { get; set; }
+            public double? Reactivo2 { get; set; }
+            public double? Reactivo3 { get; set; }
+            public double? Reactivo4 { get; set; }
+            public double? Reactivo5 { get; set; }
+            public double? Reactivo6 { get; set; }
+
+            public int? Califiacion { get; set; }
 
         }
 
@@ -427,6 +493,7 @@ namespace SMT.Models.DB
             public string Aspecto4 { get; set; }
             public string Aspecto5 { get; set; }
             public string Semaforo { get; set; }
+            public int? Calificacion { get;  set; }
         }
 
         public class ImpresionHeaderPortafolio
@@ -446,7 +513,7 @@ namespace SMT.Models.DB
 
             public ImpresionHeaderPortafolio(Portafolio portafolio, string tipo)
             {
-                this.portafolios = new List<Portafolio>() { portafolio};
+                this.portafolios = new List<Portafolio>() { portafolio };
                 this.tipo = tipo;
             }
 

@@ -1,4 +1,5 @@
-﻿var Portafolio = new function () {
+﻿var tInstrumento = 0;
+var Portafolio = new function () {
     var _a = this;
 
     var tdsCaptura = '',
@@ -242,7 +243,11 @@
 
             return;
         }
-
+        var sumatoria = 0;
+        var selector = $('[data-tabla="portafolio"]');
+       
+        
+     
 
         var input = $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="' + aspecto + '"] input');
 
@@ -289,6 +294,26 @@
                 portafolio: portafolio,
                 grupo: grupo
              
+            },
+            success: function (response) {
+
+            }
+        })
+        $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
+
+            sumatoria += parseInt($(this).attr('data-real'));
+
+        });
+        $.ajax({
+            url: '/Instrumentos/actualizarSemaforo',
+            type: 'post',
+            data: {
+                alumno: alumno,
+                grupo: grupo,
+                bimestre: _bimestre,
+                cantidad: tInstrumento,
+                suma: sumatoria
+
             },
             success: function (response) {
 
@@ -341,19 +366,7 @@
                     $(this).html(falsa < 5 ? 5 : falsa > 10 ? 10 : falsa + (falsa != promedio ? '(' + promedio.toFixed(2) + ')' : ''));
                 });
 
-                // Aprobados y reprobados
-                $(selector).find('[data-alumno-aprobado]').each(function () {
-                    var alumno = this.getAttribute('data-alumno-aprobado');
-                    var aprobados = 0, reprobados = 0;
-                    $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
-
-                        aprobados += parseFloat($(this).attr('data-real')) >= 6 ? 1 : 0;
-                        reprobados += parseFloat($(this).attr('data-real')) < 6 ? 1 : 0;
-                    });
-
-                    $(selector).find('[data-alumno-aprobado="' + alumno + '"]').html(aprobados);
-                    $(selector).find('[data-alumno-reprobado="' + alumno + '"]').html(reprobados);
-                })
+               
 
                 // Calificaciones de todos los aspectos de cada alumno en el proyecto
                 $(selector).find('[data-portafolio-id="' + sesion + '"][data-total-agregado] [data-alumno-total]').each(function () {
@@ -368,18 +381,30 @@
 
                     var promedio = ((calificacion / x) * 10);
                     var promedioFixed = promedio.toFixed(2);
-                    console.log(promedio);
+                  
                     $(this).html(promedioFixed < 5 || promedioFixed > 10 ? (promedioFixed > 10 ? 10 : 5) + ' (' + promedioFixed + ')' : promedio.toFixed(1)).attr('data-real', promedioFixed < 5 ? 5 : promedioFixed > 10 ? 10 : promedio.toFixed(1));
 
 
                 });
+                // Aprobados y reprobados
+                $(selector).find('[data-alumno-aprobado]').each(function () {
+                    var alumno = this.getAttribute('data-alumno-aprobado');
+                    var aprobados = 0, reprobados = 0;
+                    $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
+
+                        aprobados += parseFloat($(this).attr('data-real')) >= 6 ? 1 : 0;
+                        reprobados += parseFloat($(this).attr('data-real')) < 6 ? 1 : 0;
+                    });
+                    tInstrumento= aprobados + reprobados;
+                    $(selector).find('[data-alumno-aprobado="' + alumno + '"]').html(aprobados);
+                    $(selector).find('[data-alumno-reprobado="' + alumno + '"]').html(reprobados);
+                })
 
 
             }
 
         })
-       
-
+    
       
     }
 

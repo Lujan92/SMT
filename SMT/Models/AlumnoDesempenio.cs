@@ -1372,7 +1372,7 @@ namespace SMT.Models.DB
                 int noexisten = 0;
                 ResumenCalificacionViewModel resumenBimestre = new ResumenCalificacionViewModel()
                 {
-                    totalAlumnos = calificaciones.GroupBy(a => a.id).Count(),
+                    totalAlumnos = calificaciones.GroupBy(a => a.id ).Count(),
                     bimestre = bimestres[bimestre]
                 };
 
@@ -1393,11 +1393,11 @@ namespace SMT.Models.DB
                 {
                     double caliAnterior = 0, caliActual = 0;
 
-                    if(alum.GetType().GetProperties().Any(a => a.Name == "promedioExamenBimestre" + (bimestre - 1)))
-                        caliAnterior = (double)alum.GetType().GetProperty("promedioExamenBimestre" + (bimestre - 1)).GetValue(alum);
                    
-                    caliActual = caliAnterior = (double)alum.GetType().GetProperty("promedioExamenBimestre" + bimestre).GetValue(alum);
+                        caliAnterior = alum.promedioExamenParcial;
 
+                        caliActual = alum.promedioExamenBimestral;
+                   
                     if (caliActual == 0)
                     {
                         noexisten++;

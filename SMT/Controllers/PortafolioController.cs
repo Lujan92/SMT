@@ -265,6 +265,20 @@ namespace SMT.Controllers
 
 
         [HttpPost]
+        public JsonResult actualizarSemaforo(Guid alumno, Guid grupo, int bimestre, int cantidad, int suma)
+        {
+            try
+            {
+                Portafolio.actualizarSemaforo(alumno,grupo,bimestre,cantidad,suma);
+                return Json(new ResultViewModel(true, null, null));
+            }
+            catch (Exception e)
+            {
+                return Json(new ResultViewModel(e));
+            }
+        }
+
+        [HttpPost]
         public JsonResult reactivos(Guid id)
         {
             try

@@ -269,6 +269,7 @@ var Portafolio = new function () {
             },
             success: function (response) {
                 if (response.result == true) {
+
                     // Se despliega la sesion actualizada con efecto
                     $('[data-portafolio-id="' + portafolio + '"] [data-alumno-id="' + alumno + '"][data-alumno-aspecto="' + aspecto + '"]')
                         .html(input)
@@ -296,7 +297,8 @@ var Portafolio = new function () {
              
             },
             success: function (response) {
-
+                
+              
             }
         })
         $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
@@ -316,7 +318,10 @@ var Portafolio = new function () {
 
             },
             success: function (response) {
+                actualizaDataEnCache();
 
+                actualizarTotales(portafolio);
+                Alumnos.cargarSemaforo('portafolio', alumno);
             }
         })
     }
@@ -384,7 +389,7 @@ var Portafolio = new function () {
                   
                     $(this).html(promedioFixed < 5 || promedioFixed > 10 ? (promedioFixed > 10 ? 10 : 5) + ' (' + promedioFixed + ')' : promedio.toFixed(1)).attr('data-real', promedioFixed < 5 ? 5 : promedioFixed > 10 ? 10 : promedio.toFixed(1));
 
-
+                   
                 });
                 // Aprobados y reprobados
                 $(selector).find('[data-alumno-aprobado]').each(function () {
@@ -405,7 +410,7 @@ var Portafolio = new function () {
 
         })
     
-      
+
     }
 
     var obtenerPosicion = function (selector, fecha) {

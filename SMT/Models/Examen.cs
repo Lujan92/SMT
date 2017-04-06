@@ -5,13 +5,15 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Helpers;
 
 namespace SMT.Models.DB
 {
     public partial class Examen
     {
-
+        private static int tamanioImgByte = 2248576;
         public static List<ExamenResult> listar(Guid grupo, long bimestre, string usuario)
         {
             using (SMTDevEntities db = new SMTDevEntities())
@@ -128,11 +130,22 @@ namespace SMT.Models.DB
                 {
                     m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
 
-                    if (m.file != null)
+                    if (m.file != null && m.file != null && m.file.ContentLength <= tamanioImgByte)
                     {
-                        m.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                        Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                        AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
+
+
+                        if (m.file.ContentLength <= tamanioImgByte)
+                        {
+                            m.Archivo = Guid.NewGuid().ToString() + ".jpg";
+                            Stream imagen = Util.convertirJPGNew(m.file.InputStream, 800, 800);
+                            AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
+                        }
+                        else
+                        {
+                            throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                        }
+
+
                     }
 
                 }
@@ -202,14 +215,24 @@ namespace SMT.Models.DB
                 {
                     ExamenTema tema = original.ExamenTema.FirstOrDefault(a => a.IDTema == m.IDTema);
 
+
                     if (tema == null)
                     {
                         if (m.file != null)
                         {
-                            m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
-                            m.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                            Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                            AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
+                            if (m.file.ContentLength <= tamanioImgByte)
+                            {
+                                m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
+                                m.Archivo = Guid.NewGuid().ToString() + ".jpg";
+
+                                Stream imagen = Util.convertirJPGNew(m.file.InputStream, 800, 800);
+                                AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/examenes");
+                            }
+                            else
+                            {
+                                throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                            }
+
                         }
 
                         m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
@@ -230,12 +253,23 @@ namespace SMT.Models.DB
                         tema.Respuesta2 = m.Respuesta2;
                         tema.Instrucciones = m.Instrucciones;
 
+
+
+
                         if (m.file != null)
                         {
-                            tema.IDTema = tema.IDTema == default(Guid) ? Guid.NewGuid() : tema.IDTema;
-                            tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                            Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                            AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/examenes");
+                            if (m.file.ContentLength <= tamanioImgByte)
+                            {
+                                tema.IDTema = tema.IDTema == default(Guid) ? Guid.NewGuid() : tema.IDTema;
+                                tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
+                                Stream imagen = Util.convertirJPGNew(m.file.InputStream, 800, 800);
+                                AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/examenes");
+                            }
+                            else
+                            {
+                                throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                            }
+
                         }
 
                         db.SaveChanges();

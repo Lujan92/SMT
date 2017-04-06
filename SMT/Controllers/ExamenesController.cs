@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace SMT.Controllers
@@ -103,7 +104,7 @@ namespace SMT.Controllers
 
                     db.SaveChanges();
 
-        
+
 
                     AlumnoDesempenio.actualizarAlumno(alumno, grupo, db.ExamenTema.Where(b => b.IDTema == tema).Select(b => b.Examen.Bimestres.Bimestre.Value).FirstOrDefault(), new { examen = true });
 
@@ -131,7 +132,7 @@ namespace SMT.Controllers
         }
 
         [HttpPost]
-        public JsonResult Editar(Examen examen)
+        public JsonResult Editar(Examen examen, HttpPostedFileBase file)
         {
             try
             {
@@ -169,6 +170,8 @@ namespace SMT.Controllers
                 string usuario = User.Identity.GetUserId();
                 Usuario usr = Usuario.GetByName(User.Identity.Name);
                 Examen exa = db.Examen.FirstOrDefault(i => i.IDExamen == examen && i.Bimestres.Grupos.IDUsuario == usuario);
+                var ListaExa = db.Examen.OrderBy(i => i.IDExamen == examen && i.Bimestres.Grupos.IDUsuario == usuario).ToList();
+
                 Grupos grupo = exa.Bimestres.Grupos;
                 MemoryStream ms = new MemoryStream();
                 var doc = DocX.Create(ms, DocumentTypes.Document);
@@ -232,7 +235,7 @@ namespace SMT.Controllers
                     doc.InsertParagraph(Environment.NewLine);
 
                     int index = 0;
-                    foreach (var m in exa.ExamenTema.ToArray())
+                    foreach (var m in exa.ExamenTema.OrderBy(c => c.Pregunta).ToArray())
                     {
 
                         if (String.IsNullOrWhiteSpace(m.Instrucciones))

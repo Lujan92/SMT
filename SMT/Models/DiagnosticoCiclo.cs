@@ -6,19 +6,21 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 
 namespace SMT.Models.DB
 {
     public partial class DiagnosticoCiclo
     {
+        private static int tamanioImgByte = 2248576;
 
         public static List<DiagnosticoCicloResult> listar(Guid grupo, string usuario)
         {
             using (SMTDevEntities db = new SMTDevEntities())
             {
-                List<DiagnosticoCiclo> DiagnosticoCicloes = db.DiagnosticoCiclo.Where(i => i.Bimestres.IDGrupo == grupo  && i.Bimestres.Grupos.IDUsuario == usuario).ToList();
+                List<DiagnosticoCiclo> DiagnosticoCicloes = db.DiagnosticoCiclo.Where(i => i.Bimestres.IDGrupo == grupo && i.Bimestres.Grupos.IDUsuario == usuario).ToList();
 
-                string url = ConfigurationManager.AppSettings["AWSUrl"] + "/" +usuario + "/DiagnosticoCicloes/";
+                string url = ConfigurationManager.AppSettings["AWSUrl"] + "/" + usuario + "/DiagnosticoCicloes/";
 
                 List<DiagnosticoCicloResult> result = DiagnosticoCicloes.OrderByDescending(i => i.FechaEntrega).Select(i => new DiagnosticoCicloResult()
                 {
@@ -95,7 +97,7 @@ namespace SMT.Models.DB
         public Guid crear(string usuario)
         {
 
-            using(var db = new SMTDevEntities())
+            using (var db = new SMTDevEntities())
             {
 
                 IDDiagnosticoCiclo = Guid.NewGuid();
@@ -104,10 +106,20 @@ namespace SMT.Models.DB
                 {
                     m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
 
-                    if(m.file != null) {
-                        m.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                        Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                        AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+                    if (m.file != null)
+                    {
+                        if (m.file.ContentLength <= tamanioImgByte)
+                        {
+                            m.Archivo = Guid.NewGuid().ToString() + ".jpg";
+                            Stream imagen = Util.convertirJPGNew(m.file.InputStream, 800, 800);
+                            AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+                        }
+                        else
+                        {
+                            throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                        }
+
+
                     }
 
                 }
@@ -136,14 +148,14 @@ namespace SMT.Models.DB
 
                 original.FechaActualizacion = DateTime.Now;
                 original.FechaEntrega = FechaEntrega;
-       
+
                 original.Titulo = Util.UppercaseFirst(Titulo);
-                
+
 
                 db.SaveChanges();
 
                 // Agregar/actualizar temas
-                foreach(var m in this.DiagnosticoCicloTema.ToList())
+                foreach (var m in this.DiagnosticoCicloTema.ToList())
                 {
                     DiagnosticoCicloTema tema = original.DiagnosticoCicloTema.FirstOrDefault(a => a.IDTema == m.IDTema);
 
@@ -151,12 +163,27 @@ namespace SMT.Models.DB
                     {
                         m.IDTema = m.IDTema == default(Guid) ? Guid.NewGuid() : m.IDTema;
 
+
                         if (m.file != null)
                         {
-                            m.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                            m.FechaSync = DateTime.Now;
-                            Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                            AmazonS3.SubirArchivo(imagen, m.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+
+
+
+                            if (m.file.ContentLength <= tamanioImgByte)
+                            {
+
+
+                                Stream file = m.file.InputStream;
+                                tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
+                                Stream imagen = Util.convertirJPGNew(file, 800, 800);
+                                AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+
+
+                            }
+                            else
+                            {
+                                throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                            }
                         }
 
                         original.DiagnosticoCicloTema.Add(m);
@@ -176,9 +203,24 @@ namespace SMT.Models.DB
 
                         if (m.file != null)
                         {
-                            tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                            Stream imagen = Util.convertirJPG(m.file.InputStream, 800, 800);
-                            AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+
+
+
+                            if (m.file.ContentLength <= tamanioImgByte)
+                            {
+
+
+                                Stream file = m.file.InputStream;
+                                tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
+                                Stream imagen = Util.convertirJPGNew(file, 800, 800);
+                                AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/DiagnosticoCiclos");
+
+
+                            }
+                            else
+                            {
+                                throw new System.ArgumentException("Error: el tamaño maximo de la imagen es de 2mb", "");
+                            }
                         }
 
                         db.SaveChanges();
@@ -186,9 +228,9 @@ namespace SMT.Models.DB
                 }
 
                 // Elilminar temas que no esten en la lista
-                foreach(var tema in original.DiagnosticoCicloTema.ToList())
+                foreach (var tema in original.DiagnosticoCicloTema.ToList())
                 {
-                    if(!this.DiagnosticoCicloTema.Any(a => a.IDTema == tema.IDTema))
+                    if (!this.DiagnosticoCicloTema.Any(a => a.IDTema == tema.IDTema))
                     {
                         db.DiagnosticoCicloTema.Remove(tema);
                         db.SaveChanges();
@@ -200,13 +242,13 @@ namespace SMT.Models.DB
 
         public static void actualizarAlumnos(Guid id)
         {
-            using(SMTDevEntities db = new SMTDevEntities())
+            using (SMTDevEntities db = new SMTDevEntities())
             {
                 DiagnosticoCiclo exa = db.DiagnosticoCiclo.FirstOrDefault(i => i.IDDiagnosticoCiclo == id);
 
                 var alumnos = exa.Bimestres.Grupos.Alumno.Select(i => i.IDAlumno).ToList();
 
-                foreach(var tema in exa.DiagnosticoCicloTema.ToList())
+                foreach (var tema in exa.DiagnosticoCicloTema.ToList())
                 {
                     foreach (var a in alumnos)
                     {
@@ -215,7 +257,7 @@ namespace SMT.Models.DB
                             tema.DiagnosticoCicloAlumno.Add(new DiagnosticoCicloAlumno()
                             {
                                 IDAlumno = a,
-                                IDTema= tema.IDTema,
+                                IDTema = tema.IDTema,
                                 FechaSync = DateTime.Now,
                                 Calificacion = 0
                             });
@@ -229,13 +271,13 @@ namespace SMT.Models.DB
 
 
         }
-    
+
         public static void eliminar(Guid id, string usuario)
         {
             using (SMTDevEntities db = new SMTDevEntities())
             {
                 DiagnosticoCiclo exa = db.DiagnosticoCiclo.FirstOrDefault(a => a.IDDiagnosticoCiclo == id && a.Bimestres.Grupos.IDUsuario == usuario);
-                if(exa == null)
+                if (exa == null)
                 {
                     throw new Exception("No se encontro el Diagnostico por ciclo");
                 }

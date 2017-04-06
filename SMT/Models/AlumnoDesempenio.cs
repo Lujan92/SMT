@@ -80,10 +80,12 @@ namespace SMT.Models.DB
                             .Where(i => i.IDAlumno == id && i.Sesion.Bimestres.Bimestre == bimestre)
                             .Select(i => i.Estado).ToList();
                         var faltas = asistencias.Count(i => i == 0) + (asistencias.Count(i => i == 2) / 2.0);
-
                         desempenio.TotalAsistencias = asistencias.Count - (int)Math.Round(faltas);
                         desempenio.TotalFaltas = (int)Math.Round(faltas);
-                        desempenio.PromedioAsistencia = asistencias.Count == 0 ? 0 : (desempenio.TotalAsistencias * 100.0) / asistencias.Count;
+                        var falta = desempenio.TotalFaltas;
+                        var asistencia = desempenio.TotalAsistencias;
+                        var totalAsistencias = faltas + asistencia;
+                        desempenio.PromedioAsistencia = (asistencia/totalAsistencias)*100;
                         desempenio.ColorAsistencia =
                             faltas <= 2 ? colores[0] :
                             faltas <= 4 ? colores[1] :
@@ -367,7 +369,7 @@ namespace SMT.Models.DB
                             reactivos += t.DiagnosticoCicloTema.Reactivos;
                         }
 
-                        desempenio.PromedioDiagnostico = examenes.Count == 0 || reactivos == 0 ? 0 : ((sumatoria * 100) / examenes.Count) / reactivos;
+                        desempenio.PromedioDiagnostico = examenes.Count == 0 || reactivos == 0 ? 0 : ((sumatoria * 100) / reactivos);
 
                         desempenio.ColorDiagnostico =
                             desempenio.PromedioDiagnostico <= 60 ? colores[2] :
@@ -411,7 +413,7 @@ namespace SMT.Models.DB
                         alumno.PromedioBimestre5 = 0;
 
                     int totalBimestre = 0;
-
+               
                     Func<double?, bool> exists = n => n.HasValue && !double.IsNaN(n.Value);
                     Func<double, double> normalize = n => {
                         var val = (double.IsNaN(n) ? 0 : n);
@@ -422,11 +424,11 @@ namespace SMT.Models.DB
                     {
                         double sumatoria = new [] {
                             m.PromedioExamen, m.PromedioTrabajo, m.PromedioPortafolio, m.PromedioDiagnostico }.Sum(o => normalize(o ?? 0));
-
+                   
                         int total = new [] {
                             m.PromedioExamen, m.PromedioTrabajo, m.PromedioPortafolio, m.PromedioDiagnostico }.Sum(o => exists(o) ? 1 : 0);
 
-                        double promedio = sumatoria / (total == 0 ? 1 : total);
+                        double promedio = sumatoria / 4;
                       
                         switch (m.Bimestre)
                         {
@@ -672,12 +674,28 @@ namespace SMT.Models.DB
                     var esquema = califPortafolio(a.Key.IDAlumno, "Esquema");
                     var cartel = califPortafolio(a.Key.IDAlumno, "Cartel");
                     var triptico = califPortafolio(a.Key.IDAlumno, "Triptico");
+                    var exposicion = califPortafolio(a.Key.IDAlumno, "Exposición");
+                    var guiaObservacion = califPortafolio(a.Key.IDAlumno, "Guía de Observación");
+                    var mapaAprendizaje = califPortafolio(a.Key.IDAlumno, "Mapa de Aprendizaje");
+                    var revisionCuadernos = califPortafolio(a.Key.IDAlumno, "Revisión de Cuadernos");
+                    var esquemasMapas = califPortafolio(a.Key.IDAlumno, "Esquema y Mapas Conceptuales");
+                    var linea = califPortafolio(a.Key.IDAlumno, "Línea de tiempo");
 
+
+
+                    cali.promedioInvestigacionImpresa = calcularPromedioSEP(investigacionImpresa, investigacionImpresa.Count*10);
                     cali.promedioPresentacionOralInternet = calcularPromedioSEP(oralInternet, oralInternet.Count * 10);
+                    cali.promedioGuia = calcularPromedioSEP(guiaObservacion, guiaObservacion.Count * 10);
+                     
+                    //  cali.promedioTriptico = calcularPromedioSEP(a.Select);
+                    cali.promedioExposicion = calcularPromedioSEP(exposicion,exposicion.Count * 10);
+                    cali.promedioMapaAprendisaje = calcularPromedioSEP(mapaAprendizaje, mapaAprendizaje.Count * 10);
+                     cali.promedioRevisionCuadernos = calcularPromedioSEP(revisionCuadernos, revisionCuadernos.Count * 10);
+                    cali.promedioLineaTiempo = calcularPromedioSEP(linea, linea.Count * 10);
                     cali.promedioCuadroComparativo = calcularPromedioSEP(cuadroComparativo, cuadroComparativo.Count * 10);
                     cali.promedioManualidad = calcularPromedioSEP(manualidad, manualidad.Count * 10);
                     cali.promedioPrueba = calcularPromedioSEP(prueba, prueba.Count * 10);
-                    cali.promedioInvestigacionImpresa = calcularPromedioSEP(investigacionImpresa, investigacionImpresa.Count * 10);
+                    //cali.promedioInvestigacionImpresa = calcularPromedioSEP(investigacionImpresa, investigacionImpresa.Count * 10);
                     cali.promedioExposicionInternet = calcularPromedioSEP(exposicionInternet, exposicionInternet.Count * 10);
                     cali.promedioLineaTiempoInternet = calcularPromedioSEP(lineaTiempoInternet, lineaTiempoInternet.Count * 10);
                     cali.promedioCuadroDobleEntrada = calcularPromedioSEP(cuadroDobleEntrada, cuadroDobleEntrada.Count * 10);
@@ -693,17 +711,17 @@ namespace SMT.Models.DB
                     cali.promedioCartel = calcularPromedioSEP(cartel, cartel.Count * 10);
                     cali.promedioTriptico = calcularPromedioSEP(triptico, triptico.Count * 10);
 
-                    cali.promedioExposicion = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioExposicion).ToList(), a.Where(m => m.PromedioPortafolioExposicion != 0).Count() * 10);
-                    cali.promedioEsquema = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioEsquemaMapa).ToList(), a.Where(m => m.PromedioPortafolioEsquemaMapa != 0).Count() * 10);
-                    cali.promedioGuia = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioGuiaObservacion).ToList(), a.Where(m => m.PromedioPortafolioGuiaObservacion != 0).Count() * 10);
-                    cali.promedioLineaTiempo = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioLineaTiempo).ToList(), a.Where(m => m.PromedioPortafolioLineaTiempo != 0).Count() * 10);
+                    //cali.promedioExposicion = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioExposicion).ToList(), a.Where(m => m.PromedioPortafolioExposicion != 0).Count() * 10);
+                 //   cali.promedioEsquema = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioEsquemaMapa).ToList(), a.Where(m => m.PromedioPortafolioEsquemaMapa != 0).Count() * 10);
+                   // cali.promedioGuia = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioGuiaObservacion).ToList(), a.Where(m => m.PromedioPortafolioGuiaObservacion != 0).Count() * 10);
+                   // cali.promedioLineaTiempo = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioLineaTiempo).ToList(), a.Where(m => m.PromedioPortafolioLineaTiempo != 0).Count() * 10);
                     cali.promedioListaCotejo = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioListaCotejo).ToList(), a.Where(m => m.PromedioPortafolioListaCotejo != 0).Count() * 10);
-                    cali.promedioMapaAprendisaje = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioMapaAprendisaje).ToList(), a.Where(m => m.PromedioPortafolioMapaAprendisaje != 0).Count() * 10);
+                  //  cali.promedioMapaAprendisaje = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioMapaAprendisaje).ToList(), a.Where(m => m.PromedioPortafolioMapaAprendisaje != 0).Count() * 10);
                     cali.promedioPortafolio = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioPortafolio).ToList(), a.Where(m => m.PromedioPortafolioPortafolio != 0).Count() * 10);
                     cali.promedioProduccionesEscritas = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioProducciones).ToList(), a.Where(m => m.PromedioPortafolioProducciones != 0).Count() * 10);
                     cali.promedioProyecto = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioProyecto).ToList(), a.Where(m => m.PromedioPortafolioProyecto != 0).Count() * 10);
                     cali.promedioRegistroAnecdotico = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioRegistroAnecdotico).ToList(), a.Where(m => m.PromedioPortafolioRegistroAnecdotico != 0).Count() * 10);
-                    cali.promedioRevisionCuadernos = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioRevisionCuadernos).ToList(), a.Where(m => m.PromedioPortafolioRevisionCuadernos != 0).Count() * 10);
+                    //cali.promedioRevisionCuadernos = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioRevisionCuadernos).ToList(), a.Where(m => m.PromedioPortafolioRevisionCuadernos != 0).Count() * 10);
                     cali.promedioRubrica = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioRubrica).ToList(), a.Where(m => m.PromedioPortafolioRubrica != 0).Count() * 10);
                     cali.promedioTrabajo = calcularPromedioSEP(a.Select(m => m.PromedioTrabajo).ToList(), 100);
                     cali.promedioAutoevaluacion = calcularPromedioSEP(a.Select(m => m.PromedioHabilidadAutoevaluacion).ToList());
@@ -759,13 +777,15 @@ namespace SMT.Models.DB
                             var cal = calcularPromedioSEP(
                                 examenes.Where(b => b.ExamenTema.Examen.IDExamen == idEx).Select(b => b.Calificacion).ToList(),
                                 listaParciales[0].reactivos);
-
+                            
+            
                             switch(bim) {
                                 case 1:
                                     cali.promedioExamenParcial1Bimestre1 = cal;
                                     break;
                                 case 2:
                                     cali.promedioExamenParcial1Bimestre2 = cal;
+                                  
                                     break;
                                 case 3:
                                     cali.promedioExamenParcial1Bimestre3 = cal;
@@ -908,12 +928,12 @@ namespace SMT.Models.DB
                     totalTrabajoNoCumplidos = a.Select(m => m.TotalTrabajosNoCumplidos == null ? 0 : m.TotalTrabajosNoCumplidos.Value).Sum(),
                     totalTrabajosMedios = a.Select(m => m.TotalTrabajosMedios == null ? 0 : m.TotalTrabajosMedios.Value).Sum(),
                 };
-
-                //cali.promedioDiagnosticoCiclo = calcularPromedioSEP(a.Select(m => m.PromedioDiagnostico).ToList());
+                /*
+                cali.promedioDiagnosticoCiclo = calcularPromedioSEP(a.Select(m => m.PromedioDiagnostico).ToList());
                 cali.promedioExamenBimestral = calcularPromedioSEP(a.Select(m => m.PromedioExamenBimestral).ToList());
-                //cali.promedioExamenDiagnostico = calcularPromedioSEP(a.Select(m => m.PromedioExamenDiagnostico).ToList());
+                cali.promedioExamenDiagnostico = calcularPromedioSEP(a.Select(m => m.PromedioExamenDiagnostico).ToList());
                 cali.promedioExamenParcial = calcularPromedioSEP(a.Select(m => m.PromedioExamenParcial).ToList());
-                //cali.promedioExamenRecuperacion = calcularPromedioSEP(a.Select(m => m.PromedioExamenRecuperacion).ToList());
+                cali.promedioExamenRecuperacion = calcularPromedioSEP(a.Select(m => m.PromedioExamenRecuperacion).ToList());
                 cali.promedioExposicion = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioExposicion).ToList(), a.Where(m => m.PromedioPortafolioExposicion != 0).Count() * 10);
                 cali.promedioEsquema = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioEsquemaMapa).ToList(), a.Where(m => m.PromedioPortafolioEsquemaMapa != 0).Count() * 10);
                 cali.promedioGuia = calcularPromedioSEP(a.Select(m => m.PromedioPortafolioGuiaObservacion).ToList(), a.Where(m => m.PromedioPortafolioGuiaObservacion != 0).Count() * 10);
@@ -929,7 +949,7 @@ namespace SMT.Models.DB
                 cali.promedioTrabajo = calcularPromedioSEP(a.Select(m => m.PromedioTrabajo).ToList(), a.Where(m => m.PromedioTrabajo != 0).Count() * 10);
                 cali.promedioAutoevaluacion = calcularPromedioSEP(a.Select(m => m.PromedioHabilidadAutoevaluacion).ToList());
                 cali.promedioCoevaluacion = calcularPromedioSEP(a.Select(m => m.PromedioHabilidadCoevaluacion).ToList());
-
+                */
                 if (double.IsNaN(cali.promedioDiagnosticoCiclo))
                     cali.promedioDiagnosticoCiclo = 0;
                 if (double.IsNaN(cali.promedioExamenDiagnostico))
@@ -1392,19 +1412,101 @@ namespace SMT.Models.DB
                 foreach (var alum in calificaciones)
                 {
                     double caliAnterior = 0, caliActual = 0;
+                
+                    if (bimestre == 1) {
+                        if (alum.promedioExamenParcial2Bimestre1 > 0 ) {
+                            caliAnterior = alum.promedioExamenParcial2Bimestre1;
+                            caliActual = alum.promedioExamenBimestre1;
+                        } else {
+                        caliAnterior = alum.promedioExamenParcial1Bimestre1;
+                        caliActual = alum.promedioExamenBimestre1;
+                        }
+                    }
+                    if (bimestre == 2) {
+                        if (alum.promedioExamenParcial2Bimestre2 > 0)
+                        {
+                            caliAnterior = alum.promedioExamenParcial2Bimestre2;
+                            caliActual = alum.promedioExamenBimestre2;
+                        }
+                        else
+                        {
+                            caliAnterior = alum.promedioExamenParcial1Bimestre2;
+                            caliActual = alum.promedioExamenBimestre2;
+                        }
+                    }
+                    if (bimestre ==3) {
+                        if (alum.promedioExamenParcial2Bimestre3 > 0)
+                        {
+                            caliAnterior = alum.promedioExamenParcial2Bimestre3;
+                            caliActual = alum.promedioExamenBimestre3;
+                        }
+                        else
+                        {
+                            caliAnterior = alum.promedioExamenParcial1Bimestre3;
+                            caliActual = alum.promedioExamenBimestre3;
+                        }
+                    }
+                    if (bimestre ==4) {
+                        if (alum.promedioExamenParcial2Bimestre4 > 0)
+                        {
+                            caliAnterior = alum.promedioExamenParcial2Bimestre4;
+                            caliActual = alum.promedioExamenBimestre4;
+                        }
+                        else
+                        {
+                            caliAnterior = alum.promedioExamenParcial1Bimestre4;
+                            caliActual = alum.promedioExamenBimestre4;
+                        }
+                    }
+                    if (bimestre ==5){
+                        if (alum.promedioExamenParcial2Bimestre5 > 0)
+                        {
+                            caliAnterior = alum.promedioExamenParcial2Bimestre5;
+                            caliActual = alum.promedioExamenBimestre5;
+                        }
+                        else
+                        {
+                            caliAnterior = alum.promedioExamenParcial1Bimestre5;
+                            caliActual = alum.promedioExamenBimestre5;
+                        }
+                    }
 
-                   
-                        caliAnterior = alum.promedioExamenParcial;
-
-                        caliActual = alum.promedioExamenBimestral;
-                   
                     if (caliActual == 0)
                     {
                         noexisten++;
                         continue; // Si es 0 es porque no se ha calificado
                     }
 
-                    if(caliActual > caliAnterior)
+                     
+                          
+                
+                 
+                    
+                  
+
+                    if (caliActual > caliAnterior) {
+                        lalumnosSubieron.Add(alum.id);
+                    }
+                    if (caliActual<6) {
+                        lalumnosReprobaronBimestre.Add(alum.id);
+                        lalumnosBajaron.Add(alum.id);
+                    }
+                  
+                    if (caliActual >= caliAnterior && caliActual <= 5) {
+                        lalumnosSubieronYReprobaron.Add(alum.id);
+                    }
+                    if (caliActual <= caliAnterior && caliActual > 5)
+                    {
+                        lalumnosBajaronYAprobaron.Add(alum.id);
+                    }
+                    if (caliActual <= caliAnterior && caliActual <= 5)
+                    {
+                        lalumnosBajaronYReprobaron.Add(alum.id);
+                    }
+
+
+                    /*
+                    if (caliActual > caliAnterior)
                     {
                         lalumnosSubieron.Add(alum.id);
                         if (caliActual < 6)
@@ -1435,7 +1537,7 @@ namespace SMT.Models.DB
                         lalumnos9.Add(alum.id);
                     if (caliActual >= 9)
                         lalumnos10.Add(alum.id);
-
+    */
                     sum += caliActual;
                 }
 

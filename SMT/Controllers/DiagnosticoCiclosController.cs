@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace SMT.Controllers
@@ -17,14 +18,14 @@ namespace SMT.Controllers
     [Authorize, Credencial]
     public class DiagnosticoCiclosController : Controller
     {
-        public JsonResult Listar(Guid grupo,long bimestre)
+        public JsonResult Listar(Guid grupo, long bimestre)
         {
-            return Json(DiagnosticoCiclo.listar(grupo,Usuario.getIDVisor(User.Identity.GetUserId())),JsonRequestBehavior.AllowGet);
+            return Json(DiagnosticoCiclo.listar(grupo, Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Get(Guid diagnostico)
         {
-            return Json(DiagnosticoCiclo.buscar(diagnostico,Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
+            return Json(DiagnosticoCiclo.buscar(diagnostico, Usuario.getIDVisor(User.Identity.GetUserId())), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Nuevo()
@@ -53,9 +54,9 @@ namespace SMT.Controllers
                 Guid id = DiagnosticoCiclo.crear(User.Identity.GetUserId());
                 DiagnosticoCiclo.actualizarAlumnos(id);
 
-                return Json(new ResultViewModel(true,null, DiagnosticoCiclo.buscar(id, User.Identity.GetUserId()).FirstOrDefault()));
+                return Json(new ResultViewModel(true, null, DiagnosticoCiclo.buscar(id, User.Identity.GetUserId()).FirstOrDefault()));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -72,7 +73,7 @@ namespace SMT.Controllers
                     string usuario = User.Identity.GetUserId();
                     DiagnosticoCicloAlumno a = db.DiagnosticoCicloAlumno.FirstOrDefault(i => i.IDAlumno == alumno && i.IDTema == tema);
 
-                    if(!db.Grupos.Any(i => i.IDGrupo == grupo && i.IDUsuario == usuario && i.Alumno.Any(b =>b.IDAlumno == alumno)))
+                    if (!db.Grupos.Any(i => i.IDGrupo == grupo && i.IDUsuario == usuario && i.Alumno.Any(b => b.IDAlumno == alumno)))
                     {
                         throw new Exception("No tienes registrado este alumno");
                     }
@@ -133,6 +134,8 @@ namespace SMT.Controllers
         {
             try
             {
+
+
                 DiagnosticoCiclo.editar(User.Identity.GetUserId());
                 return Json(new ResultViewModel(true, null, DiagnosticoCiclo.buscar(DiagnosticoCiclo.IDDiagnosticoCiclo, User.Identity.GetUserId())[0]));
             }
@@ -149,11 +152,11 @@ namespace SMT.Controllers
             {
                 string archivo = Guid.NewGuid().ToString() + ".jpg";
                 string usuario = User.Identity.GetUserId();
-                AmazonS3.SubirArchivo(file.InputStream, archivo, "/"+ usuario + "/DiagnosticoCiclos/");
+                AmazonS3.SubirArchivo(file.InputStream, archivo, "/" + usuario + "/DiagnosticoCiclos/");
 
-                return Json(new ResultViewModel(true,null, archivo));
+                return Json(new ResultViewModel(true, null, archivo));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new ResultViewModel(e));
             }
@@ -219,12 +222,12 @@ namespace SMT.Controllers
 
 
                     }
-                    
-                    doc.InsertParagraph(Environment.NewLine);
 
-                    foreach (var m in exa.DiagnosticoCicloTema.ToArray())
+                    doc.InsertParagraph(Environment.NewLine);
+                    // foreach (var m in exa.ExamenTema.OrderBy(c => c.Instrucciones).ToArray())
+                    foreach (var m in exa.DiagnosticoCicloTema.OrderBy(c => c.Pregunta).ToArray())
                     {
-                        
+
 
                         Paragraph pregunta;
                         Paragraph instrucciones;
@@ -238,7 +241,7 @@ namespace SMT.Controllers
                         {
                             default:
                             case "Sin personalizar":
-                                
+
                                 doc.InsertParagraph(Environment.NewLine);
                                 break;
                             case "Multiple":
@@ -265,15 +268,15 @@ namespace SMT.Controllers
                                 break;
                             case "Abierta":
                                 if (m.Archivo != null)
-                                {    
+                                {
                                     Novacode.Image img = doc.AddImage(AmazonS3.DescargarArchivo(m.Archivo, "/" + usuario + "/DiagnosticoCiclos"));
 
                                     Paragraph p = doc.InsertParagraph("", false);
                                     Picture pic1 = img.CreatePicture();
-                                    
+
                                     p.InsertPicture(pic1);
                                     p.Alignment = Alignment.center;
-                                    
+
                                 }
 
                                 doc.InsertParagraph(Environment.NewLine);
@@ -286,18 +289,18 @@ namespace SMT.Controllers
                         pregunta.FontSize(14D);
 
                         doc.InsertParagraph(Environment.NewLine);
-                        
+
                         index++;
 
                     }
 
-                    
+
                     doc.Save();
-                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document",exa.Titulo + ".docx");
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", exa.Titulo + ".docx");
                 }
 
-                
-               
+
+
             }
         }
 
@@ -337,7 +340,7 @@ namespace SMT.Controllers
 
             SMTDevEntities db = new SMTDevEntities();
 
-            foreach (DiagnosticoCiclo exa in db.DiagnosticoCiclo.Where(i => i.Bimestres.IDGrupo == grupo ).OrderBy(i => i.FechaEntrega).ToList())
+            foreach (DiagnosticoCiclo exa in db.DiagnosticoCiclo.Where(i => i.Bimestres.IDGrupo == grupo).OrderBy(i => i.FechaEntrega).ToList())
             {
                 examenes.Add(new ExamenViewModel()
                 {

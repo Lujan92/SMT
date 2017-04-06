@@ -50,15 +50,15 @@
                     @Html.ValidationMessageFor(i => i.Criterio1)
                 </td>
                 <td>
-                    @Html.TextBoxFor(i => i.Reactivo1, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.TextBoxFor(i => i.Reactivo1, new { @class = "form-control", min = 0, max = 10, type = "number", Value = "0" })
                     @Html.ValidationMessageFor(i => i.Reactivo1)
-                    @*<input type="number" id="requerimiento1" name="requerimiento1" max="10" min="0" required class="form-control" />*@
+                    @*<input type="number" id="requerimiento1" name="requerimiento1" max="10" min="0" />*@
                 </td>
                 <td>@Html.CheckBoxFor(i => i.Activo1, new { data_aspecto = "1" })</td>
             </tr>
             <tr class="resaltar">
                 <td>
-                    @Html.TextBoxFor(i => i.Aspecto2, new { @class = "form-control form-control-oculto", placeholder = "Aspecto 2", required = "required" })
+                    @Html.TextBoxFor(i => i.Aspecto2, new { @class = "form-control form-control-oculto", placeholder = "Aspecto 2" })
                     @Html.ValidationMessageFor(i => i.Aspecto2)
                 </td>
                 <td>
@@ -67,9 +67,9 @@
 
                 </td>
                 <td>
-                    @Html.TextBoxFor(i => i.Reactivo2, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.TextBoxFor(i => i.Reactivo2, new { @class = "form-control", min = 0, max = 10, type = "number", Value = "0" })
                     @Html.ValidationMessageFor(i => i.Reactivo2)
-                    @*<input type="number" id="requerimiento2" name="requerimiento2" max="10" min="0" required class="form-control" />*@
+                    @*<input type="number" id="requerimiento2" name="requerimiento2" max="10" min="0" />*@
                 </td>
                 <td>@Html.CheckBoxFor(i => i.Activo2)</td>
             </tr>
@@ -83,9 +83,9 @@
                     @Html.ValidationMessageFor(i => i.Criterio3)
                 </td>
                 <td>
-                    @Html.TextBoxFor(i => i.Reactivo3, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.TextBoxFor(i => i.Reactivo3, new { @class = "form-control", min = 0, max = 10, type = "number", Value = "0" })
                     @Html.ValidationMessageFor(i => i.Reactivo3)
-                    @*<input type="number" id="requerimiento3" name="requerimiento3" max="10" min="0" required class="form-control" />*@
+                    @*<input type="number" id="requerimiento3" name="requerimiento3" max="10" min="0"  />*@
                 </td>
                 <td>@Html.CheckBoxFor(i => i.Activo3)</td>
             </tr>
@@ -99,9 +99,9 @@
                     @Html.ValidationMessageFor(i => i.Criterio4)
                 </td>
                 <td>
-                    @Html.TextBoxFor(i => i.Reactivo4, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.TextBoxFor(i => i.Reactivo4, new { @class = "form-control", min = 0, max = 10, type = "number", Value = "0" })
                     @Html.ValidationMessageFor(i => i.Reactivo4)
-                    @*<input type="number" id="requerimiento4" name="requerimiento4" max="10" min="0" required class="form-control" />*@
+                    @*<input type="number" id="requerimiento4" name="requerimiento4" max="10" min="0"   />*@
                 </td>
                 <td>@Html.CheckBoxFor(i => i.Activo4)</td>
             </tr>
@@ -115,9 +115,9 @@
                     @Html.ValidationMessageFor(i => i.Criterio5)
                 </td>
                 <td>
-                    @Html.TextBoxFor(i => i.Reactivo5, new { @class = "form-control", min = 0, max = 10, type = "number", required = "required" })
+                    @Html.TextBoxFor(i => i.Reactivo5, new { @class = "form-control", min = 0, max = 10, type = "number", Value = "0" })
                     @Html.ValidationMessageFor(i => i.Reactivo5)
-                    @*<input type="number" id="requerimiento5" name="requerimiento5" max="10" min="0" required class="form-control" />*@
+                    @*<input type="number" id="requerimiento5" name="requerimiento5" max="10" min="0"  />*@
                 </td>
                 <td>@Html.CheckBoxFor(i => i.Activo5)</td>
             </tr>

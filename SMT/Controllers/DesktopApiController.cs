@@ -594,7 +594,7 @@ namespace SMT.Controllers
         public JsonResult SincronizarInstrumentos(ICollection<InstrumentoViewModel> instrumentos) {
             foreach (var instrumento in (instrumentos ?? new List<InstrumentoViewModel>())) {
                 var dbInstrumento = db.Portafolio.FirstOrDefault(o => o.IDPortafolio == instrumento.IDPortafolio);
-
+              
                 if (dbInstrumento != null) {
                     if(instrumento.FechaSync > dbInstrumento.FechaSync) {
                         if (instrumento.Deleted) {
@@ -622,18 +622,23 @@ namespace SMT.Controllers
                         dbInstrumento.Activo1 = instrumento.Activo1;
                         dbInstrumento.Aspecto1 = instrumento.Aspecto1;
                         dbInstrumento.Criterio1 = instrumento.Criterio1;
+                        dbInstrumento.Reactivo1 = instrumento.Reactivo1;
                         dbInstrumento.Activo2 = instrumento.Activo2;
                         dbInstrumento.Aspecto2 = instrumento.Aspecto2;
                         dbInstrumento.Criterio2 = instrumento.Criterio2;
+                        dbInstrumento.Reactivo2 = instrumento.Reactivo2;
                         dbInstrumento.Activo3 = instrumento.Activo3;
                         dbInstrumento.Aspecto3 = instrumento.Aspecto3;
                         dbInstrumento.Criterio3 = instrumento.Criterio3;
+                        dbInstrumento.Reactivo3 = instrumento.Reactivo3;
                         dbInstrumento.Activo4 = instrumento.Activo4;
                         dbInstrumento.Aspecto4 = instrumento.Aspecto4;
                         dbInstrumento.Criterio4 = instrumento.Criterio4;
+                        dbInstrumento.Reactivo4 = instrumento.Reactivo4;
                         dbInstrumento.Activo5 = instrumento.Activo5;
                         dbInstrumento.Aspecto5 = instrumento.Aspecto5;
                         dbInstrumento.Criterio5 = instrumento.Criterio5;
+                        dbInstrumento.Reactivo5 = instrumento.Reactivo5;
                         dbInstrumento.IDTipoPortafolio = instrumento.IDTipoPortafolio;
 
                         try {
@@ -715,17 +720,22 @@ namespace SMT.Controllers
                         Activo1 = instrumento.Activo1,
                         Aspecto1 = instrumento.Aspecto1,
                         Criterio1 = instrumento.Criterio1,
+                        Reactivo1 = instrumento.Reactivo1,
                         Activo2 = instrumento.Activo2,
                         Aspecto2 = instrumento.Aspecto2,
                         Criterio2 = instrumento.Criterio2,
+                        Reactivo2 = instrumento.Reactivo2,
                         Activo3 = instrumento.Activo3,
                         Aspecto3 = instrumento.Aspecto3,
                         Criterio3 = instrumento.Criterio3,
+                        Reactivo3 = instrumento.Reactivo3,
                         Activo4 = instrumento.Activo4,
                         Aspecto4 = instrumento.Aspecto4,
                         Criterio4 = instrumento.Criterio4,
+                        Reactivo4 = instrumento.Reactivo4,
                         Activo5 = instrumento.Activo5,
                         Aspecto5 = instrumento.Aspecto5,
+                        Reactivo5 = instrumento.Reactivo5,
                         Criterio5 = instrumento.Criterio5,
                         IDTipoPortafolio = instrumento.IDTipoPortafolio
                     };
@@ -1659,6 +1669,11 @@ namespace SMT.Controllers
             public string Observacion3 { get; set; }
             public string Observacion4 { get; set; }
             public string Observacion5 { get; set; }
+            public double Reactivo1 { get; set; }
+            public double Reactivo2 { get; set; }
+            public double Reactivo3 { get; set; }
+            public double Reactivo4 { get; set; }
+            public double Reactivo5 { get; set; }
             public string TipoTrabajo { get; set; }
             public DateTime? FechaSync { get; set; }
             public bool Deleted { get; set; }

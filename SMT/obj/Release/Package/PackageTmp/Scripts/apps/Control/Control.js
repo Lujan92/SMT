@@ -67,25 +67,27 @@
                             lsDataPorc[header.key] !== void 0 ?
                             lsDataPorc[header.key] :
                         (lsDataPorc[header.key] = 10);
-
+                   
                     return '<td><input data-porcentaje="' + header.key + '" style="width:30px;" value=' + porcentaje + '><label for="myalue">%</label></td>';
                 });
                 porcentajes.pop();
-
+               
                 var trPorcentajes = '' +
                     '<tr>' +
-                        '<td>Ponderación</td>' + porcentajes.join('') + '<td><label id="totalValue"></label></td>'
+                        '<td>Ponderación</td>' + porcentajes.join('') + '<td colspan ="2"><label id="totalValue">su porcentaje es </label></td>'
                 '</tr>';
                 // console.log('trPorcentajes: ' + trPorcentajes);
                 $(trPorcentajes).prependTo($(selector).find('#tControl thead'));
 
                 var headerKeys = _control.data.headers.map(function (h) { return h.key });//TRAE LOS ENCABEZADOS
-                console.log('headerKeys: ' + headerKeys);
+                var promedioFinal = 0;
+                var totalBimestre = 0;
                 var calcular = function (alum) {
                     for (var a in _control.data.alumnos) {
                         var reporte = _control.data.alumnos[a];
-                        var promedioFinal = 0;
+                        
                         var promedioFinalCalificaciones = 0;
+                       
 
                         if (reporte.id == alum.id) {
                             reporte.nombre = alum.apellidoPaterno + ' ' + alum.apellidoMaterno + ' ' + alum.nombre;
@@ -96,10 +98,9 @@
                                     //if (reporte[m] < 5) {
                                     //    reporte[m] = 5;
                                     //}
-                                    console.log('lsDataPorc[m]: ' + lsDataPorc[m]);
-                                    console.log('reporte[m]: ' + reporte[m]);
+                                    
                                     promedioFinal += reporte[m] * lsDataPorc[m] / 100.0;
-
+                              
                                 }
 
                                 if (typeof (reporte[m]) == 'number' && reporte[m] % 1 !== 0) {
@@ -108,14 +109,15 @@
                                 }
 
                             }
-
+                            
                             reporte.promedioFinal = promedioFinal > 10 ? 10 : promedioFinal.toFixed(1);
-
+                            totalBimestre = totalBimestre + reporte.promedioFinal;
+                          
                             _control.data.promediosFinales.filter(function (v) { return v.id == reporte.id }).map(function (e) {
                                 e.promedioFinal = promedioFinal > 10 ? 10 : promedioFinal;
                                 return e;
                             })
-
+                         
                             var tr = $('<tr>' + row.format(reporte) + '</tr>').appendTo($(selector).find('#tControl tbody'));
 
                             $(' <span class="fa fa-pie-chart" title="Ver grafica"></span>').appendTo(tr.find('td:first'))
@@ -126,6 +128,25 @@
                             break;
                         }
                     }//FIN DEL PRIMER FOR
+                    console.log(totalBimestre);
+                    var Porcentajes = $('[data-porcentaje]').map(function () {
+                        return this.value;
+                    }).get();
+                    var totalPorc = 0;
+                    //EL FOR ME PERMITE RECORRER EL ARREGLO Y REALIZAR LA SUMA
+                    for (var i = 0; i < Porcentajes.length; i++) {
+                        totalPorc += Porcentajes[i] << 0;
+                    }
+                    if (totalPorc > 100) {
+                        jQuery("label[for='myalue']").html("%").css("color", "red");
+                        $("#totalValue").text('El total de porcentaje es: ' + totalPorc + '%');
+                        jQuery("#totalValue").html('El total de porcentaje es: ' + totalPorc).css("color", "red");
+                    }
+                    else {
+                        jQuery("label[for='myalue']").css("color", "black");
+                        $("#totalValue").text('El total de porcentaje es: ' + totalPorc + '%');
+                        jQuery("#totalValue").html('El total de porcentaje es: ' + totalPorc).css("color", "black");
+                    }
                 };
 
                 Alumnos.data.map(calcular);
@@ -143,7 +164,7 @@
                     $("[data-porcentaje]").each(function () {
                         map[$(this).attr("[data-porcentaje]")] = $(this).val();
                     });
-                    console.log(map);
+
                     ///////////////////////////////////////////////////////////////
                     localStorage.setItem(lsPorcName, JSON.stringify(lsDataPorc));
                     $(selector).find('#tControl tbody').empty();
@@ -156,22 +177,23 @@
                     // SE CREA UNA VARIABLE LLAMADA TOTAL QUE VA A GUARDAR LA SUMA
                     var total = 0;
                     //SE CREA EL ARREGLO QUE CONTENDRA LOS VALUE DE CADA INPUT
-                    var myArray = $('[data-porcentaje]').map(function () {
+                    var Porcentaje = $('[data-porcentaje]').map(function () {
                         return this.value;
                     }).get();
                     //EL FOR ME PERMITE RECORRER EL ARREGLO Y REALIZAR LA SUMA
-                    for (var i = 0; i < myArray.length; i++) {
-                        total += myArray[i] << 0;
+                    for (var i = 0; i < Porcentaje.length; i++) {
+                        total += Porcentaje[i] << 0;
                     }
                     //VALIDO EL TOTAL EN CASO DE PASAR LOS 100 EL LABEL CAMBIA DE COLOR
                     if (total > 100) {
                         jQuery("label[for='myalue']").html("%").css("color", "red");
-                        $("#totalValue").text('El total de porcentaje es: ' + total);
+                        $("#totalValue").text('El total de porcentaje es: ' + total) + '%';
                         jQuery("#totalValue").html('El total de porcentaje es: ' + total).css("color", "red");
                     }
                     else {
                         jQuery("label[for='myalue']").css("color", "black");
-                        $("#totalValue").text('');
+                        $("#totalValue").text('El total de porcentaje es: ' + total + '%');
+                        jQuery("#totalValue").html('El total de porcentaje es: ' + total).css("color", "black");
                     }
                 })
 
@@ -198,7 +220,7 @@
         Templates.load('tablaResumen', '/scripts/apps/control/views/tablaResumen.html').then(function (tabla) {
             Templates.load('rowResumen', '/scripts/apps/control/views/rowResumen.html').then(function (row) {
                 var t = $(tabla);
-                console.log($(selector).find('#tControl').parent().after(t));
+                
                 $(selector).find('#tControl').parent().after(t);
                 var alumnos7 = _control.data.alumnos.filter(estaEnRango(6)).length,
                 alumnos8 = _control.data.alumnos.filter(estaEnRango(7)).length,
@@ -259,6 +281,7 @@
             alumnosBajaronYAprobaron = 0,
             alumnosSubieronYReprobaron = 0,
             alumnosReprobaronBimestre = 0,
+            
             alumnos7 = _control.data.alumnos.filter(estaEnRango(6)).length,
             alumnos8 = _control.data.alumnos.filter(estaEnRango(7)).length,
             alumnos9 = _control.data.alumnos.filter(estaEnRango(8)).length,

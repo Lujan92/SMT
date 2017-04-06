@@ -199,9 +199,10 @@ namespace SMT.Models
 
 
 
-        public static Stream convertirJPG(Stream file, int maxWidth =800, int maxHeight = 800)
+        public static Stream convertirJPG(Stream file, int maxWidth = 800, int maxHeight = 800)
         {
             // Load the image.
+
             System.Drawing.Image image = System.Drawing.Image.FromStream(file);
 
             image = ScaleImage(image, maxWidth, maxHeight);
@@ -213,7 +214,25 @@ namespace SMT.Models
 
             return file;
         }
+        public static Stream convertirJPGNew(Stream file, int maxWidth = 800, int maxHeight = 800)
+        {
+            // Load the image.
 
+            System.Drawing.Image image = System.Drawing.Image.FromStream(file);
+
+            if (image.Size.Width > 800 || image.Size.Height > 800)
+            {
+                throw new System.ArgumentException("Error: las dimensiones máximas permitidas son de  800 de ancho y 800 de alto", "");
+            }
+            image = ScaleImage(image, maxWidth, maxHeight);
+
+            // Save the image in JPEG format.
+            image.Save(file, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+
+
+            return file;
+        }
         public static Image ScaleImage(Image image, int maxWidth, int maxHeight)
         {
             var ratioX = (double)maxWidth / image.Width;
@@ -266,7 +285,7 @@ namespace SMT.Models
         }
 
         public static string UpperTitle(string text)
-        {            
+        {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
         }
 
@@ -308,13 +327,13 @@ namespace SMT.Models
 
         public static string substring(string texto, int caracteres)
         {
-            return texto.Substring(0,(texto.Length < caracteres ? texto.Length:caracteres)) + (texto.Length > caracteres ? "..." : "");
+            return texto.Substring(0, (texto.Length < caracteres ? texto.Length : caracteres)) + (texto.Length > caracteres ? "..." : "");
         }
 
 
         public static DateTime toHoraMexico(DateTime fecha)
         {
-            return fecha.AddHours(-5); 
+            return fecha.AddHours(-5);
         }
 
         public static DateTime toHoraUTC(DateTime fecha)

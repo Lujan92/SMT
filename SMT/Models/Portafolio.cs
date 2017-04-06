@@ -417,10 +417,10 @@ namespace SMT.Models.DB
                         db.AlumnoDesempenio.Add(desempenio);
                         db.SaveChanges();
                     }
-                    desempenio.PromedioPortafolio = suma / cantidad;
+                    desempenio.PromedioPortafolio = (suma / cantidad)*10;
                     desempenio.ColorPortafolio =
-                            desempenio.PromedioPortafolio <= 6 ? colores[2] :
-                            desempenio.PromedioPortafolio < 9 ? colores[1] : colores[0];
+                            desempenio.PromedioPortafolio <= 60 ? colores[2] :
+                            desempenio.PromedioPortafolio < 90 ? colores[1] : colores[0];
                     db.SaveChanges();
                 }
             }

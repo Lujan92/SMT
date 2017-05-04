@@ -96,7 +96,7 @@
                                     promedioFinalCalificaciones++;
                                     promedioFinal += reporte[m] * lsDataPorc[m] / 100.0;
                                 }
-
+                                
                                 if (typeof (reporte[m]) == 'number' && reporte[m] % 1 !== 0) {
                                     reporte[m] = reporte[m].toFixed(1);
                                 }

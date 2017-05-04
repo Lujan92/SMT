@@ -3063,7 +3063,7 @@ namespace SMT.Models.DB
                         lalumnosBajaronYReprobaron.Add(alum.id);
                     }
 
-
+                    
                     /*
                     if (caliActual > caliAnterior)
                     {

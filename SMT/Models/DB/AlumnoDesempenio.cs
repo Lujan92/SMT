@@ -52,6 +52,25 @@ namespace SMT.Models.DB
         public Nullable<double> PromedioHabilidadCoevaluacion { get; set; }
         public Nullable<int> TotalTrabajosMedios { get; set; }
         public System.DateTimeOffset FechaSync { get; set; }
+        public Nullable<double> PromedioPortafolioEsquema { get; set; }
+        public Nullable<double> PromedioPortafolioManualidad { get; set; }
+        public Nullable<double> PromedioPortafolioMapaConceptual { get; set; }
+        public Nullable<double> PromedioPortafolioGlosario { get; set; }
+        public Nullable<double> PromedioPortafolioCartel { get; set; }
+        public Nullable<double> PromedioPortafolioExposicionInternet { get; set; }
+        public Nullable<double> PromedioPortafolioTrabajoColborativo { get; set; }
+        public Nullable<double> PromedioPortafolioPresenracionOralInternet { get; set; }
+        public Nullable<double> PromedioPortafolioPresentacionElectronica { get; set; }
+        public Nullable<double> PromedioPortafolioCuadroSinoptico { get; set; }
+        public Nullable<double> PromedioPortafolioMapaMental { get; set; }
+        public Nullable<double> PromedioPortafolioEnsayo { get; set; }
+        public Nullable<double> PromedioPortafolioCuadroComparativo { get; set; }
+        public Nullable<double> PromedioPortafolioTriptico { get; set; }
+        public Nullable<double> PromedioPortafolioLineaTiempoInternet { get; set; }
+        public Nullable<double> PromedioPortafolioPrueba { get; set; }
+        public Nullable<double> PromedioPortafolioResumen { get; set; }
+        public Nullable<double> PromedioPortafolioCuadroDoble { get; set; }
+        public Nullable<double> PromedioPortafolioInvestigacionImpresa { get; set; }
     
         public virtual Alumno Alumno { get; set; }
         public virtual Grupos Grupos { get; set; }

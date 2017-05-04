@@ -37,6 +37,7 @@ namespace SMT.Controllers
                     {
                         List<string> ids = adb.Users.Where(a => a.Email == busqueda || (a.Nombre + " " + a.ApellidoPaterno + " " + a.ApellidoMaterno).Contains(busqueda)).Select(a => a.Id).ToList();
                         cuenstas = cuenstas.Where(a => ids.Contains(a.IDUsuarioBeneficiario));
+                       
                     }
                 }
 
@@ -55,7 +56,8 @@ namespace SMT.Controllers
                                             fecha = a.FechaCreacion.ToString("dd/MM/yyyy"),
                                             vigencia = a.FechaVigencia.ToString("dd/MM/yyyy"),
                                             activo = a.Activo,
-                                            tipo = a.Tipo
+                                            tipo = a.Tipo,
+                                           
                                         })
                                         .ToList()
                 };
@@ -94,17 +96,22 @@ namespace SMT.Controllers
             {
 
                 string benficiario = "";
-                using(ApplicationDbContext db = new ApplicationDbContext())
+      
+                
+                using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    benficiario = db.Users.Where(i => i.Email == email).Select(a => a.Id).FirstOrDefault();
-                }
+                    benficiario = db.Users.Where(i => i.Email == email  ).Select(a => a.Id).FirstOrDefault();
+                   
 
-                if (string.IsNullOrEmpty(benficiario))
-                {
-                    Invitacion.asignarLicenciaYEnviarInvitacion(email, id);
                 }
-                else
-                    Credencial.asignar(User.Identity.GetUserId(), id, benficiario);
+                
+                    if (string.IsNullOrEmpty(benficiario))
+                    {
+                    throw new Exception("Correo no valido o no registrado en la plataforma");
+                    // Invitacion.asignarLicenciaYEnviarInvitacion(email, id);
+                }
+                    else
+                        Credencial.asignar(User.Identity.GetUserId(), id, benficiario);
 
 
                 return Json(new ResultViewModel(true, null, null));
@@ -162,5 +169,22 @@ namespace SMT.Controllers
                 return Json(new ResultViewModel(e));
             }
         }
+
+        [HttpPost]
+        public JsonResult Eliminar2(string id)
+        {
+            try
+            {
+                Credencial.eliminarbeneficiario2(User.Identity.GetUserId(), id);
+
+                return Json(new ResultViewModel(true, null, null));
+            }
+            catch (Exception e)
+            {
+                return Json(new ResultViewModel(e));
+            }
+        }
+
+
     }
 }

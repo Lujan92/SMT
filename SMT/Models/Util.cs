@@ -199,7 +199,7 @@ namespace SMT.Models
 
 
 
-        public static Stream convertirJPG(Stream file, int maxWidth = 800, int maxHeight = 800)
+        public static Stream convertirJPG(Stream file, int maxWidth = 700, int maxHeight = 400)
         {
             // Load the image.
 
@@ -214,7 +214,7 @@ namespace SMT.Models
 
             return file;
         }
-        public static Stream convertirJPGNew(Stream file, int maxWidth = 800, int maxHeight = 800)
+        public static Stream convertirJPGNew(Stream file, int maxWidth = 700, int maxHeight = 400)
         {
             // Load the image.
 

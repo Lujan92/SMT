@@ -18,6 +18,7 @@ namespace SMT.Models.DB
         public ExamenTema()
         {
             this.ExamenAlumno = new HashSet<ExamenAlumno>();
+            this.PreguntaExamen = new HashSet<PreguntaExamen>();
         }
     
         public System.Guid IDExamen { get; set; }
@@ -36,5 +37,7 @@ namespace SMT.Models.DB
         public virtual Examen Examen { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExamenAlumno> ExamenAlumno { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PreguntaExamen> PreguntaExamen { get; set; }
     }
 }

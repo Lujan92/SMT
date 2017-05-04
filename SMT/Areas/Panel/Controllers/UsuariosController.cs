@@ -175,6 +175,7 @@ namespace SMT.Areas.Panel.Controllers
         public JsonResult Get(string id)
         {
             ApplicationUser user = UserManager.FindById(id);
+           
             if (id != null)
             {
                 return Json(new Usuario()
@@ -183,6 +184,7 @@ namespace SMT.Areas.Panel.Controllers
                     Username = user.UserName,
                     Nombre = user.Nombre,
                     Email = user.Email,
+                   
                     ApellidoPaterno = user.ApellidoPaterno,
                     ApellidoMaterno = user.ApellidoMaterno,
                     IdRoles = user.Roles.Select(i => i.RoleId).ToList()

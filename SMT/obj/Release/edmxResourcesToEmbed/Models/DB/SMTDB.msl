@@ -85,6 +85,25 @@
     <EntitySetMapping Name="AlumnoDesempenio">
       <EntityTypeMapping TypeName="SMTDevModel.AlumnoDesempenio">
         <MappingFragment StoreEntitySet="AlumnoDesempenio">
+          <ScalarProperty Name="PromedioPortafolioInvestigacionImpresa" ColumnName="PromedioPortafolioInvestigacionImpresa" />
+          <ScalarProperty Name="PromedioPortafolioCuadroDoble" ColumnName="PromedioPortafolioCuadroDoble" />
+          <ScalarProperty Name="PromedioPortafolioResumen" ColumnName="PromedioPortafolioResumen" />
+          <ScalarProperty Name="PromedioPortafolioPrueba" ColumnName="PromedioPortafolioPrueba" />
+          <ScalarProperty Name="PromedioPortafolioLineaTiempoInternet" ColumnName="PromedioPortafolioLineaTiempoInternet" />
+          <ScalarProperty Name="PromedioPortafolioTriptico" ColumnName="PromedioPortafolioTriptico" />
+          <ScalarProperty Name="PromedioPortafolioCuadroComparativo" ColumnName="PromedioPortafolioCuadroComparativo" />
+          <ScalarProperty Name="PromedioPortafolioEnsayo" ColumnName="PromedioPortafolioEnsayo" />
+          <ScalarProperty Name="PromedioPortafolioMapaMental" ColumnName="PromedioPortafolioMapaMental" />
+          <ScalarProperty Name="PromedioPortafolioCuadroSinoptico" ColumnName="PromedioPortafolioCuadroSinoptico" />
+          <ScalarProperty Name="PromedioPortafolioPresentacionElectronica" ColumnName="PromedioPortafolioPresentacionElectronica" />
+          <ScalarProperty Name="PromedioPortafolioPresenracionOralInternet" ColumnName="PromedioPortafolioPresenracionOralInternet" />
+          <ScalarProperty Name="PromedioPortafolioTrabajoColborativo" ColumnName="PromedioPortafolioTrabajoColborativo" />
+          <ScalarProperty Name="PromedioPortafolioExposicionInternet" ColumnName="PromedioPortafolioExposicionInternet" />
+          <ScalarProperty Name="PromedioPortafolioCartel" ColumnName="PromedioPortafolioCartel" />
+          <ScalarProperty Name="PromedioPortafolioGlosario" ColumnName="PromedioPortafolioGlosario" />
+          <ScalarProperty Name="PromedioPortafolioMapaConceptual" ColumnName="PromedioPortafolioMapaConceptual" />
+          <ScalarProperty Name="PromedioPortafolioManualidad" ColumnName="PromedioPortafolioManualidad" />
+          <ScalarProperty Name="PromedioPortafolioEsquema" ColumnName="PromedioPortafolioEsquema" />
           <ScalarProperty Name="FechaSync" ColumnName="FechaSync" />
           <ScalarProperty Name="TotalTrabajosMedios" ColumnName="TotalTrabajosMedios" />
           <ScalarProperty Name="PromedioHabilidadCoevaluacion" ColumnName="PromedioHabilidadCoevaluacion" />
@@ -550,6 +569,15 @@
           <ScalarProperty Name="IDAlumno" ColumnName="IDAlumno" />
           <ScalarProperty Name="IDPortafolio" ColumnName="IDPortafolio" />
           <ScalarProperty Name="IDPortafolioAlumno" ColumnName="IDPortafolioAlumno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PreguntaExamen">
+      <EntityTypeMapping TypeName="SMTDevModel.PreguntaExamen">
+        <MappingFragment StoreEntitySet="PreguntaExamen">
+          <ScalarProperty Name="Pregunta" ColumnName="Pregunta" />
+          <ScalarProperty Name="IDTema" ColumnName="IDTema" />
+          <ScalarProperty Name="IDPregunta" ColumnName="IDPregunta" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

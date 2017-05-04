@@ -75,6 +75,7 @@ namespace SMT.Models
             public List<string> IdRoles { get; set; }
             public bool? EsEscuela { get; set; }
             public int? TotalCuentas { get; set; }
+            public string vigencia { get; internal set; }
         }
 
         public static async Task ActualizarRoles() {
@@ -181,6 +182,17 @@ namespace SMT.Models
             var roles = context.Roles.Where(i => i.Users.Any(a => a.UserId == id)).Select(i => i.Name).ToList();
             return roles;
         }
+        public static string getVigencia(string id)
+        {
+            string vigencia = "";
+            using (DB.SMTDevEntities db = new DB.SMTDevEntities())
+            {
+                vigencia = db.Credencial.Where(a=>a.IDUsuarioPaga==id).Select(a=> a.FechaVigencia ).ToString();
+    
+
+            }
+            return vigencia;
+        }
 
         public static ResultPaginado<UsuarioResult> buscar(FiltroUsuario filtro) {
             using (ApplicationDbContext db = new ApplicationDbContext()) {
@@ -208,6 +220,7 @@ namespace SMT.Models
                                     Username = i.UserName,
                                     Nombre = string.Format("{1} {2} {0}", i.Nombre, i.ApellidoPaterno, i.ApellidoMaterno),
                                     Email = i.Email,
+                                    vigencia = getVigencia(i.Id),
                                     Roles = i.Roles != null ? string.Join(", ", getRolesForUser(i.Id)) : "",
                                     Disabled = i.Disabled != null ? i.Disabled.Value : false,
                                     EsEscuela = i.EsEscuela

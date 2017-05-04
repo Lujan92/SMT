@@ -262,7 +262,8 @@ namespace SMT.Models.DB
                             {
                                 tema.IDTema = tema.IDTema == default(Guid) ? Guid.NewGuid() : tema.IDTema;
                                 tema.Archivo = Guid.NewGuid().ToString() + ".jpg";
-                                Stream imagen = Util.convertirJPGNew(m.file.InputStream, 800, 800);
+                                Stream imagen = Util.convertirJPGNew(m.file.InputStream, 700, 400);
+
                                 AmazonS3.SubirArchivo(imagen, tema.Archivo, "/" + usuario + "/examenes");
                             }
                             else

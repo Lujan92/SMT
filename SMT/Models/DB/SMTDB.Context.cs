@@ -52,5 +52,6 @@ namespace SMT.Models.DB
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<PortafolioAlumno> PortafolioAlumno { get; set; }
+        public virtual DbSet<PreguntaExamen> PreguntaExamen { get; set; }
     }
 }

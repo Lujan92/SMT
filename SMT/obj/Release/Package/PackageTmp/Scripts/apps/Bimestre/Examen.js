@@ -79,19 +79,18 @@ var Examen = new function () {
     }
 
     this.generar = function (selector, examen, focus, autoOrdenar) {
-        
+
         var elementosExamen = $(selector).find('tbody');
         var regAnterior = undefined;
         if (autoOrdenar == true)
             regAnterior = obtenerPosicion(selector, examen.FechaEntregaDesplegable);
-            
-            
+
+
         examen.Temas.map(function (tema) {
             tema.num = 0;
             tema.IDExamen = examen.IDExamen;
             tema.Tipo = examen.Tipo;
             tema.Titulo = examen.Titulo;
-            console.log("nombre?" + " " + tema.Nombre);
             tema.FechaEntregaDesplegable = examen.FechaEntregaDesplegable;
             tema.FechaEntrega = examen.FechaEntrega;
             tema.tds = tdsCaptura.format(tema);
@@ -355,7 +354,7 @@ var Examen = new function () {
         });
 
     }
-    
+
     this.nuevo = function (selector, estado) {
         Loading('Cargando formulario');
         Templates.load('nuevoExamen', '/examenes/nuevo').then(function (template) {
@@ -749,7 +748,7 @@ var Examen = new function () {
     });
 
     $('body:not(.visualizando)').delegate('[data-option="download"]', 'click', function () {
-        
+
         open('/examenes/download?examen=' + $(this).parents('[data-examen-id]').attr('data-examen-id'));
     });
 

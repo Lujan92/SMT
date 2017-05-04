@@ -162,7 +162,7 @@ $('#frmBusqueda').submit(function (e) {
                     e.opciones += '<button class="btn btn-danger" data-opcion="eliminar">Eliminar</button>';
                     e.opciones += '</div>';
 
-                    t.append('<tr data-id="{Id}"><td>{Username}</td><td>{Nombre}</td><td>{Email}</td><td>{Roles}</td><td>{opciones}</td></tr>'.format(e));
+                    t.append('<tr data-id="{Id}"><td>{Username}</td><td>{Nombre}</td><td>{Email}</td><td>{Vigencia}</td><td>{Roles}</td><td>{opciones}</td></tr>'.format(e));
                 });
             }
 

@@ -40,7 +40,7 @@ namespace SMT.Areas.Panel.Controllers
                 {
                     id = id,
                     total = cuenstas.Count(),
-                    cuentas = cuenstas.OrderBy(a => a.IDCredencial)
+                    cuentas = cuenstas.OrderBy(a => a.FechaVigencia)
                                     .Skip((page-1) *pageSize)
                                     .Take(pageSize)
                                     .ToList().Select(a => new

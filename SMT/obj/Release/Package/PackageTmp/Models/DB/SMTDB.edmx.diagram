@@ -72,6 +72,8 @@
         <EntityTypeShape EntityType="SMTDevModel.PortafolioAlumno" Width="1.5" PointX="23.125" PointY="39.25" />
         <AssociationConnector Association="SMTDevModel.FK_PortAlumno" />
         <AssociationConnector Association="SMTDevModel.FK_PortPortAlumno" />
+        <EntityTypeShape EntityType="SMTDevModel.PreguntaExamen" Width="1.5" PointX="16.375" PointY="58.875" />
+        <AssociationConnector Association="SMTDevModel.Fk_tema" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

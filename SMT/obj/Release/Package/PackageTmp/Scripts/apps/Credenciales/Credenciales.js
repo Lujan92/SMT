@@ -153,10 +153,12 @@
             callback: function (result) {
                 if (result == true) {
                     $.ajax({
-                        url: '/licencia/eliminar',
+                        url: '/licencia/eliminar2',
                         type: 'post',
                         data: { id: id },
+                        
                         beforeSend: function () {
+                            console.log(id);
                             Loading('Removiendo licencia');
                         },
                         complete: function () {

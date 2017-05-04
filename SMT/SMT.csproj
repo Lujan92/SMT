@@ -317,6 +317,9 @@
     <Compile Include="Models\DB\PortafolioAlumno.cs">
       <DependentUpon>SMTDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\PreguntaExamen.cs">
+      <DependentUpon>SMTDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\Sesion.cs">
       <DependentUpon>SMTDB.tt</DependentUpon>
     </Compile>

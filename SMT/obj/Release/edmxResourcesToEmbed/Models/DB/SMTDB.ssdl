@@ -69,6 +69,25 @@
     <Property Name="PromedioHabilidadCoevaluacion" Type="float8" />
     <Property Name="TotalTrabajosMedios" Type="int4" />
     <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
+    <Property Name="PromedioPortafolioEsquema" Type="float8" />
+    <Property Name="PromedioPortafolioManualidad" Type="float8" />
+    <Property Name="PromedioPortafolioMapaConceptual" Type="float8" />
+    <Property Name="PromedioPortafolioGlosario" Type="float8" />
+    <Property Name="PromedioPortafolioCartel" Type="float8" />
+    <Property Name="PromedioPortafolioExposicionInternet" Type="float8" />
+    <Property Name="PromedioPortafolioTrabajoColborativo" Type="float8" />
+    <Property Name="PromedioPortafolioPresenracionOralInternet" Type="float8" />
+    <Property Name="PromedioPortafolioPresentacionElectronica" Type="float8" />
+    <Property Name="PromedioPortafolioCuadroSinoptico" Type="float8" />
+    <Property Name="PromedioPortafolioMapaMental" Type="float8" />
+    <Property Name="PromedioPortafolioEnsayo" Type="float8" />
+    <Property Name="PromedioPortafolioCuadroComparativo" Type="float8" />
+    <Property Name="PromedioPortafolioTriptico" Type="float8" />
+    <Property Name="PromedioPortafolioLineaTiempoInternet" Type="float8" />
+    <Property Name="PromedioPortafolioPrueba" Type="float8" />
+    <Property Name="PromedioPortafolioResumen" Type="float8" />
+    <Property Name="PromedioPortafolioCuadroDoble" Type="float8" />
+    <Property Name="PromedioPortafolioInvestigacionImpresa" Type="float8" />
   </EntityType>
   <EntityType Name="AlumnoSesion">
     <Key>
@@ -458,6 +477,22 @@
     <Property Name="IDUsuario" Type="varchar" MaxLength="8000" Nullable="false" />
     <Property Name="FechaSync" Type="timestamptz" Precision="6" Nullable="false" />
   </EntityType>
+  <EntityType Name="PreguntaExamen">
+    <Key>
+      <PropertyRef Name="IDPregunta" />
+    </Key>
+    <Property Name="IDPregunta" Type="uuid" Nullable="false" />
+    <Property Name="IDTema" Type="uuid" Nullable="false" />
+    <Property Name="Pregunta" Type="varchar" MaxLength="8000" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'SMTs.dbo.RevisionRapida' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="RevisionRapida">
+          <Property Name="id" Type="int4" />
+          <Property Name="cadena" Type="bpchar" MaxLength="1" />
+          <Property Name="idExamen" Type="bpchar" MaxLength="1" />
+          <Property Name="Longitud" Type="int4" />
+        </EntityType>-->
   <EntityType Name="Sesion">
     <Key>
       <PropertyRef Name="IDSesion" />
@@ -925,6 +960,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="Fk_tema">
+    <End Role="ExamenTema" Type="Self.ExamenTema" Multiplicity="1" />
+    <End Role="PreguntaExamen" Type="Self.PreguntaExamen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamenTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="PreguntaExamen">
+        <PropertyRef Name="IDTema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TemaAlumno">
     <End Role="ExamenTema" Type="Self.ExamenTema" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -1125,6 +1172,7 @@
     <EntitySet Name="Portafolio" EntityType="Self.Portafolio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PortafolioAlumno" EntityType="Self.PortafolioAlumno" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PortafolioDefecto" EntityType="Self.PortafolioDefecto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PreguntaExamen" EntityType="Self.PreguntaExamen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoPortafolio" EntityType="Self.TipoPortafolio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Trabajo" EntityType="Self.Trabajo" Schema="dbo" store:Type="Tables" />
@@ -1241,6 +1289,10 @@
     <AssociationSet Name="FK_SesionS" Association="Self.FK_SesionS">
       <End Role="Sesion" EntitySet="Sesion" />
       <End Role="AlumnoSesion" EntitySet="AlumnoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_tema" Association="Self.Fk_tema">
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+      <End Role="PreguntaExamen" EntitySet="PreguntaExamen" />
     </AssociationSet>
     <AssociationSet Name="FK_TemaAlumno" Association="Self.FK_TemaAlumno">
       <End Role="ExamenTema" EntitySet="ExamenTema" />

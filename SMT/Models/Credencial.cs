@@ -152,6 +152,18 @@ namespace SMT.Models.DB
             }
         }
 
+        public static void eliminarbeneficiario2(string usuario, string crendencial)
+        {
+            using (SMT.Models.DB.SMTDevEntities db = new Models.DB.SMTDevEntities())
+            {
+                var escuela = db.Credencial.FirstOrDefault(i => i.IDUsuarioPaga == usuario && i.IDCredencial == crendencial && i.EsPrincipal == false);
+                if (escuela != null)
+                {
+                    escuela.IDUsuarioBeneficiario = null;
+                    db.SaveChanges();
+                }
+            }
+        }
         public static void eliminarPrincipal(string crendencial)
         {
             using (SMT.Models.DB.SMTDevEntities db = new Models.DB.SMTDevEntities())

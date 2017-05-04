@@ -188,6 +188,11 @@
       <End Role="Portafolio" EntitySet="Portafolio" />
       <End Role="PortafolioAlumno" EntitySet="PortafolioAlumno" />
     </AssociationSet>
+    <EntitySet Name="PreguntaExamen" EntityType="SMTDevModel.PreguntaExamen" />
+    <AssociationSet Name="Fk_tema" Association="SMTDevModel.Fk_tema">
+      <End Role="ExamenTema" EntitySet="ExamenTema" />
+      <End Role="PreguntaExamen" EntitySet="PreguntaExamen" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Credencial">
     <Key>
@@ -327,6 +332,25 @@
     <NavigationProperty Name="Alumno" Relationship="SMTDevModel.FK_AlumnoDesempenio" FromRole="AlumnoDesempenio" ToRole="Alumno" />
     <NavigationProperty Name="Grupos" Relationship="SMTDevModel.FK_DesGrupo" FromRole="AlumnoDesempenio" ToRole="Grupos" />
     <NavigationProperty Name="AspNetUsers" Relationship="SMTDevModel.FK_UsuarioDesempenio" FromRole="AlumnoDesempenio" ToRole="AspNetUsers" />
+    <Property Name="PromedioPortafolioEsquema" Type="Double" />
+    <Property Name="PromedioPortafolioManualidad" Type="Double" />
+    <Property Name="PromedioPortafolioMapaConceptual" Type="Double" />
+    <Property Name="PromedioPortafolioGlosario" Type="Double" />
+    <Property Name="PromedioPortafolioCartel" Type="Double" />
+    <Property Name="PromedioPortafolioExposicionInternet" Type="Double" />
+    <Property Name="PromedioPortafolioTrabajoColborativo" Type="Double" />
+    <Property Name="PromedioPortafolioPresenracionOralInternet" Type="Double" />
+    <Property Name="PromedioPortafolioPresentacionElectronica" Type="Double" />
+    <Property Name="PromedioPortafolioCuadroSinoptico" Type="Double" />
+    <Property Name="PromedioPortafolioMapaMental" Type="Double" />
+    <Property Name="PromedioPortafolioEnsayo" Type="Double" />
+    <Property Name="PromedioPortafolioCuadroComparativo" Type="Double" />
+    <Property Name="PromedioPortafolioTriptico" Type="Double" />
+    <Property Name="PromedioPortafolioLineaTiempoInternet" Type="Double" />
+    <Property Name="PromedioPortafolioPrueba" Type="Double" />
+    <Property Name="PromedioPortafolioResumen" Type="Double" />
+    <Property Name="PromedioPortafolioCuadroDoble" Type="Double" />
+    <Property Name="PromedioPortafolioInvestigacionImpresa" Type="Double" />
   </EntityType>
   <EntityType Name="AlumnoSesion">
     <Key>
@@ -526,6 +550,7 @@
     <Property Name="FechaSync" Type="DateTimeOffset" Nullable="false" Precision="7" />
     <NavigationProperty Name="Examen" Relationship="SMTDevModel.FK_TemaExamen" FromRole="ExamenTema" ToRole="Examen" />
     <NavigationProperty Name="ExamenAlumno" Relationship="SMTDevModel.FK_TemaAlumno" FromRole="ExamenTema" ToRole="ExamenAlumno" />
+    <NavigationProperty Name="PreguntaExamen" Relationship="SMTDevModel.Fk_tema" FromRole="ExamenTema" ToRole="PreguntaExamen" />
   </EntityType>
   <EntityType Name="Grupos">
     <Key>
@@ -1335,6 +1360,27 @@
       </Principal>
       <Dependent Role="PortafolioAlumno">
         <PropertyRef Name="IDPortafolio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PreguntaExamen">
+    <Key>
+      <PropertyRef Name="IDPregunta" />
+    </Key>
+    <Property Name="IDPregunta" Type="Guid" Nullable="false" />
+    <Property Name="IDTema" Type="Guid" Nullable="false" />
+    <Property Name="Pregunta" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ExamenTema" Relationship="SMTDevModel.Fk_tema" FromRole="PreguntaExamen" ToRole="ExamenTema" />
+  </EntityType>
+  <Association Name="Fk_tema">
+    <End Type="SMTDevModel.ExamenTema" Role="ExamenTema" Multiplicity="1" />
+    <End Type="SMTDevModel.PreguntaExamen" Role="PreguntaExamen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExamenTema">
+        <PropertyRef Name="IDTema" />
+      </Principal>
+      <Dependent Role="PreguntaExamen">
+        <PropertyRef Name="IDTema" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

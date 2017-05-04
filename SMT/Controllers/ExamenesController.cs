@@ -193,8 +193,7 @@ namespace SMT.Controllers
                         exa.Bimestres.Grupos.Escuela,
                         exa.Bimestres.Grupos.Materia + " " + exa.Bimestres.Grupos.Grado + exa.Bimestres.Grupos.Grupo,
                         usr.Nombre + " " + usr.ApellidoPaterno + " " + usr.ApellidoMaterno,
-                        exa.Tipo,
-                        exa.Titulo
+                        exa.Tipo
                     };
 
                     doc.AddHeaders();
@@ -288,10 +287,11 @@ namespace SMT.Controllers
                                 if (m.Archivo != null)
                                 {
                                     Novacode.Image img = doc.AddImage(AmazonS3.DescargarArchivo(m.Archivo, "/" + usuario + "/examenes"));
-
+                                    
                                     Paragraph p = doc.InsertParagraph("", false);
                                     Picture pic1 = img.CreatePicture();
-
+                                    pic1.Width = (int)(600);
+                                    pic1.Height = (int)(400);
                                     p.InsertPicture(pic1);
                                     p.Alignment = Alignment.center;
 

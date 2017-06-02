@@ -224,9 +224,11 @@ namespace SMT.Controllers
                     ApellidoPaterno = model.ApellidoPaterno,
                     ApellidoMaterno = model.ApellidoMaterno,
                     EsEscuela = model.EsEscuela,
-                    Entidad = model.Entidad
+                    Entidad = model.Entidad,
+                   
                 };
-
+                user.FechaRegistro = DateTime.Now;
+                user.Disabled = true;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -236,7 +238,7 @@ namespace SMT.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var url = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     Util.SendEmailWithTemplate(user.Email, "Confirmar cuenta", "ConfirmarCuenta.html", new { url });
-
+                   
                     return Json(true);
 
                 }

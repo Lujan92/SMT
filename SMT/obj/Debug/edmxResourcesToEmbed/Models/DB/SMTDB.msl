@@ -522,6 +522,7 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="SMTDevModel.AspNetUsers">
         <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
           <ScalarProperty Name="Entidad" ColumnName="Entidad" />
           <ScalarProperty Name="ViendoUsuario" ColumnName="ViendoUsuario" />
           <ScalarProperty Name="TotalCuentas" ColumnName="TotalCuentas" />

@@ -18,7 +18,7 @@
                 <option value="Parcial">Parcial</option>
                 <option value="Bimestral">Bimestral</option>
                 <option value="Recuperación">Recuperación</option>
-                <option value="Diagnostico">Diagnostico</option>
+                <option value="Diagnostico">Diagnóstico</option>
                 <option value="Examen de revisión rápida">Examen de revisión rápida</option>
             </select>
         </div>
@@ -35,7 +35,7 @@
     <div class="form-group">
         <button class="btn btn-primary" data-option="pregunta" type="button">Agregar instrucción</button>
     </div>
-    
+
 }
 
 <div data-template="pregunta" class="hide">
@@ -59,27 +59,27 @@
                     <label>Tipo de pregunta</label>
                     <select name="ExamenTema[{index}].TipoTema" class="form-control">
                         <option value="Sin personalizar">Sin personalizar</option>
-                        <option value="Multiple">Multiple</option>
+                        <option value="Multiple">Múltiple</option>
                         <option value="Columnas">Columnas</option>
                         <option value="Laguna">Laguna</option>
                         <option value="Abierta">Abierta</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Instrucciones</label> 
+                    <label>Instrucciones</label>
                     <label class="pull-right">
                         Sin instrucciones
                         <input data-no-instrucciones="ExamenTema[{index}].Instrucciones" type="checkbox" />
                     </label>
                     <input type="text" name="ExamenTema[{index}].Instrucciones" class="form-control" />
                 </div>
-                
-                
+
+
                 <div class="form-group">
                     <label id="pregunta">Pregunta</label>
                     <textarea id="tApregunta" name="ExamenTema[{index}].Pregunta" minlength="3" required class="form-control"></textarea>
                 </div>
-               
+
 
                 <div data-respuesta="Multiple,Laguna" class="hide">
                     <div class="form-group">
@@ -98,14 +98,14 @@
                 </div>
 
                 <div data-respuesta="Abierta" class="hide">
-                   <label>Archivo</label>
-                   <input type="file" name="ExamenTema[{index}].file" />
+                    <label>Archivo</label>
+                    <input type="file" name="ExamenTema[{index}].file" />
                 </div>
                 <div class="form-group">
                     <label>Aciertos</label>
                     <input type="number" name="ExamenTema[{index}].Reactivos" max="100" min="0" required class="form-control" />
                 </div>
-             
+
             </div>
         </div>
     </div>

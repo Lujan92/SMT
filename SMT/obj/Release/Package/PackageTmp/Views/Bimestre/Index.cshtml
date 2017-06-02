@@ -76,13 +76,13 @@
         <a href="#asistencia" class="btn btn-violeta" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencias</a>
         <a href="#trabajos" class="btn btn-vino" aria-controls="trabajos" role="tab" data-toggle="tab">Trabajos</a>
         <a href="#instrumentos" class="btn btn-rosa" aria-controls="instrumentos" role="tab" data-toggle="tab">Instrumentos</a>
-        <a href="#examenes" class="btn btn-naranja" aria-controls="examenes" role="tab" data-toggle="tab">Examenes</a>
+        <a href="#examenes" class="btn btn-naranja" aria-controls="examenes" role="tab" data-toggle="tab">Exámenes</a>
         @*<a href="#proyectos" class="btn btn-info" aria-controls="proyectos" role="tab" data-toggle="tab">Proyectos</a>*@
         <a href="#habilidades" class="btn btn-amarillo" aria-controls="habilidades" role="tab" data-toggle="tab">Habilidades</a>
         <a href="#control" class="btn btn-verdelimon" aria-controls="control" role="tab" data-toggle="tab">Control</a>
         <a href="#reporte" class="btn btn-verde" aria-controls="reporte" role="tab" data-toggle="tab">Reporte General</a>
         @*<a href="#diagnostico-bimestral" class="btn btn-default" aria-controls="diagnostico-bimestral" role="tab" data-toggle="tab">Diagnostico Bimestral</a>*@
-        <a href="#diagnostico-ciclo" class="btn btn-turquesa" aria-controls="diagnostico-ciclo" role="tab" data-toggle="tab">Diagnostico por Ciclo</a>
+        <a href="#diagnostico-ciclo" class="btn btn-turquesa" aria-controls="diagnostico-ciclo" role="tab" data-toggle="tab">Diagnóstico por Ciclo</a>
     </div>
     <div id="ContenedorImpresion" class="hidden">
         <div id="divInternoImpresion"></div>
@@ -179,8 +179,8 @@
                    
                 </div>
                 <div class="panel-body">
-                    <button type="button" data-asistencia="nuevo" class="btn btn-violeta-claro">Agregar dia</button>
-                    <button type="button" data-asistencia="suspencion" class="btn btn-violeta-claro">Suspencion de clases</button>
+                    <button type="button" data-asistencia="nuevo" class="btn btn-violeta-claro">Agregar día</button>
+                    <button type="button" data-asistencia="suspencion" class="btn btn-violeta-claro">Suspensión de clases</button>
                     <a class="btn btn-danger" onclick="Asistencia.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
                 </div>
             </div>
@@ -254,7 +254,7 @@
 
         <div role="tabpanel" class="tab-pane" id="examenes">
             <div class="panel panel-default visor-oculto">
-                <div class="panel-heading">Acciones de examenes
+                <div class="panel-heading">Acciones de exámenes
                 </div>
                 <div class="panel-body">
                     <button type="button" data-examen="nuevo" class="btn btn-naranja-claro">Agregar examen</button>
@@ -336,10 +336,10 @@
         
         <div role="tabpanel" class="tab-pane" id="diagnostico-ciclo">
             <div class="panel panel-default visor-oculto">
-                <div class="panel-heading">Acciones de diagnosticos por ciclo
+                <div class="panel-heading">Acciones de diagnósticos por ciclo
                 </div>
                 <div class="panel-body">
-                    <button type="button" data-diagnostico-ciclo="nuevo" class="btn btn-turquesa-claro">Agregar diagnostico</button>
+                    <button type="button" data-diagnostico-ciclo="nuevo" class="btn btn-turquesa-claro">Agregar diagnóstico</button>
                     <a class="btn  btn-danger" onclick="DiagnosticoCiclo.Imprimir()"><i class="fa fa-print fa-fw"></i> Imprimir</a>
                 </div>
             </div>

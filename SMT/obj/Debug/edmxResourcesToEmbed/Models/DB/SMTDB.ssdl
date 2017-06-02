@@ -159,6 +159,7 @@
     <Property Name="TotalCuentas" Type="int4" />
     <Property Name="ViendoUsuario" Type="varchar" MaxLength="8000" />
     <Property Name="Entidad" Type="int4" />
+    <Property Name="FechaRegistro" Type="timestamp" />
   </EntityType>
   <EntityType Name="Bimestres">
     <Key>

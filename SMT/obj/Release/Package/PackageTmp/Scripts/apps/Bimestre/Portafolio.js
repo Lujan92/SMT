@@ -287,43 +287,16 @@ var Portafolio = new function () {
                 }
             }
         })
-        $.ajax({
-            url: '/Instrumentos/calificacion',
-            type: 'post',
-            data: {
-                id: alumno,
-                portafolio: portafolio,
-                grupo: grupo
-             
-            },
-            success: function (response) {
-                
-              
-            }
-        })
+
         $(selector).find('[data-portafolio-id][data-total-agregado] [data-alumno-total="' + alumno + '"]').each(function () {
 
             sumatoria += parseInt($(this).attr('data-real'));
 
         });
-        $.ajax({
-            url: '/Instrumentos/actualizarSemaforo',
-            type: 'post',
-            data: {
-                alumno: alumno,
-                grupo: grupo,
-                bimestre: _bimestre,
-                cantidad: tInstrumento,
-                suma: sumatoria
-
-            },
-            success: function (response) {
-                actualizaDataEnCache();
-
-                actualizarTotales(portafolio);
-                Alumnos.cargarSemaforo('portafolio', alumno);
-            }
-        })
+        actualizaDataEnCache();
+            actualizarTotales(portafolio);
+        Alumnos.cargarSemaforo('portafolio', alumno);
+        
     }
 
     var actualizaDataEnCache = function () {

@@ -1,0 +1,359 @@
+﻿@model List<SMT.Models.DB.DiagnosticoPsicologico>
+@{
+    ViewBag.Title = "Diagnósticos psicológicos";
+    int index = 1;
+}
+
+
+<style>
+   table{
+       width:100%;
+   }
+   .vertical{
+        padding:1px !important;
+       overflow:visible;
+
+       line-height: 8px;
+    }
+
+   .vertical .ajustar{
+        
+       width:50px ;
+       margin-left:0;
+    }
+
+   .tabla1 .vertical{
+       height:81px;
+
+   }
+
+   .tabla1 .ajustar{
+        
+        width: 62px;
+        margin-left: -17px;
+    }
+
+    .tabla2 .vertical{
+       height:98px;
+   }
+
+    .tabla2 .ajustar{
+        margin-left: -20px;
+    }
+
+    
+    .tabla3 .vertical{
+       height:107px;
+   }
+
+    .tabla3 .ajustar {
+        width: 75px;
+        margin-left: -20px;
+    }
+
+    .tabla4 .vertical{
+       height:63px;
+   }
+
+    td, th {
+        font-size: 8px;
+        padding: 1px;
+        text-overflow: ellipsis;
+    }
+
+    td[data-respuesta]{
+        text-align:center;
+    }
+
+    .break {
+        page-break-after: always;
+    }
+</style>
+
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+<table border="1" class="tabla1">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center" style="width:20px">#</th>
+            <th rowspan="2" class="text-center" style="vertical-align:middle;width:100px">Indicadores / Nombres</th>
+            <th colspan="7" class="text-center" style="vertical-align:middle">Entorno familiar</th>
+            <th colspan="5" class="text-center" style="vertical-align:middle">Entorno social-cultural, convivencia escolar</th>
+            <th colspan="5" class="text-center" style="vertical-align:middle">Entorno Económico</th>
+        </tr>
+        <tr>
+            <th class="vertical"><span class="ajustar">Familia completa</span></th>
+            <th class="vertical"><span class="ajustar">Familia Monoparental</span></th>
+            <th class="vertical"><span class="ajustar">Vive con abuelos tíos etc.</span></th>
+            <th class="vertical"><span class="ajustar">Numero de hermanos</span></th>
+            <th class="vertical"><span class="ajustar">Lugar que ocupa en la familia</span></th>
+            <th class="vertical"><span class="ajustar">Muestra interés en la educación de su hijo-a</span></th>
+            <th class="vertical"><span class="ajustar">Participa en las actividades de la escuela</span></th>
+
+            <th class="vertical"><span class="ajustar">Reconoce su propia valía</span></th>
+            <th class="vertical"><span class="ajustar">Expresa emociones o ideas</span></th>
+            <th class="vertical"><span class="ajustar">Respeta a sí mismo y a los demás</span></th>
+            <th class="vertical"><span class="ajustar">Maneja y resuelve conflictos: dialogo y acuerdos</span></th>
+            <th class="vertical"><span class="ajustar"> reglas y acuerdos de convivencia</span></th>
+
+            <th class="vertical"><span class="ajustar">Cuenta con casa y servicios básicos</span></th>
+            <th class="vertical"><span class="ajustar">Tiene acceso a computadora e internet</span></th>
+            <th class="vertical"><span class="ajustar">Como se traslada a la escuela</span></th>
+            <th class="vertical"><span class="ajustar">Cuenta con servicio médico</span></th>
+            <th class="vertical"><span class="ajustar">La escolaridad de los padres es</span></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (SMT.Models.DB.Alumno.AlumnoSimple alumno in ViewBag.alumnos)
+    {
+        long id = long.Parse(alumno.id);
+        var diag = Model.FirstOrDefault(a => a.IDAlumno == id);
+        <tr>
+            <td class="text-center">@(index++)</td>
+            <td><div >@alumno.apellidoPaterno @alumno.apellidoMaterno @alumno.nombre</div></td>
+
+            <td  data-campo="FamiliaCompleta" data-respuesta="1"><div>@(diag != null ? diag.FamiliaCompleta:"")</div></td>
+            <td  data-campo="FamiliaMonoparental" data-respuesta="1"><div>@(diag != null ? diag.FamiliaMonoparental:"")</div></td>
+            <td  data-campo="ViveOtros" data-respuesta="2"><div>@(diag != null ? diag.ViveOtros:"")</div></td>
+            <td  data-campo="Hermanos" data-respuesta="3"><div>@(diag != null ? diag.Hermanos != null ? diag.Hermanos.ToString() : "":"")</div></td>
+            <td  data-campo="LugarFamilia" data-respuesta=""><div>@(diag != null ? diag.LugarFamilia:"")</div></td>
+            <td  data-campo="MuestraInteresHijo" data-respuesta="4"><div>@(diag != null ? diag.MuestraInteresHijo:"")</div></td>
+            <td  data-campo="ParticipaActividadesEscuela" data-respuesta="4"><div>@(diag != null ? diag.ParticipaActividadesEscuela:"")</div></td>
+
+            <td  data-campo="ReconoceValia" data-respuesta="4"><div>@(diag != null ? diag.ReconoceValia:"")</div></td>
+            <td  data-campo="ExpresaEmociones" data-respuesta="4"><div>@(diag != null ? diag.ExpresaEmociones:"")</div></td>
+            <td  data-campo="RespetaAsiMismo" data-respuesta="4"><div>@(diag != null ? diag.RespetaAsiMismo:"")</div></td>
+            <td  data-campo="ResuelveConfilctos" data-respuesta="4"><div>@(diag != null ? diag.ResuelveConfilctos:"")</div></td>
+            <td  data-campo="RespetaReglas" data-respuesta="4"><div>@(diag != null ? diag.RespetaReglas:"")</div></td>
+
+            <td  data-campo="CuentaConCasa" data-respuesta="1"><div>@(diag != null ? diag.CuentaConCasa:"")</div></td>
+            <td  data-campo="TieneComputadora" data-respuesta="4"><div>@(diag != null ? diag.TieneComputadora:"")</div></td>
+            <td  data-campo="ComoSeTranslada" data-respuesta="5"><div>@(diag != null ? diag.ComoSeTranslada:"")</div></td>
+            <td  data-campo="ServicioMedico" data-respuesta="1"><div>@(diag != null ? diag.ServicioMedico:"")</div></td>
+            <td  data-campo="EscolaridadPadres" data-respuesta="6"><div>@(diag != null ? diag.EscolaridadPadres:"")</div></td>
+        </tr>
+
+    }
+    </tbody>
+</table>
+<div class="break"></div>
+@{
+    index = 1;
+}
+
+
+
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+<table border="1" class="tabla2">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center" style="width:20px">#</th>
+            <th rowspan="2" class="text-center" style="vertical-align:middle;width:100px"">Indicadores / Nombres</th>
+            <th colspan="7" class="text-center">Caracterizacion general del alumno</th>
+            <th colspan="7" class="text-center">Inteligencias Multiples</th>
+            <th colspan="7" class="text-center">Entorno Grupal</th>
+        </tr>
+        <tr>
+            <th class="vertical"><span class="ajustar">Edad</span></th>
+            <th class="vertical"><span class="ajustar">Sexo</span></th>
+            <th class="vertical"><span class="ajustar">Regular</span></th>
+            <th class="vertical"><span class="ajustar">N.E.E</span></th>
+            <th class="vertical"><span class="ajustar">Actitudes sobresalientes y talentos específicos</span></th>
+            <th class="vertical"><span class="ajustar">Situación de riesgo / rechazo</span></th>
+            <th class="vertical"><span class="ajustar">Necesidades especificas</span></th>
+
+            <th class="vertical"><span class="ajustar">Linguística verbal</span></th>
+            <th class="vertical"><span class="ajustar">Lógico matemática</span></th>
+            <th class="vertical"><span class="ajustar">Visual / espacial</span></th>
+            <th class="vertical"><span class="ajustar">Kinestésica corporal</span></th>
+            <th class="vertical"><span class="ajustar">Musical rítmica/auditivo</span></th>
+            <th class="vertical"><span class="ajustar">Intrapersonal</span></th>
+            <th class="vertical"><span class="ajustar">Interpersonal</span></th>
+
+            <th class="vertical"><span class="ajustar">Muestra iniciativa</span></th>
+            <th class="vertical"><span class="ajustar">Requiere apoyo constante</span></th>
+            <th class="vertical"><span class="ajustar">Motivado</span></th>
+            <th class="vertical"><span class="ajustar">Aburrimiento</span></th>
+            <th class="vertical"><span class="ajustar">Indiferencia</span></th>
+            <th class="vertical"><span class="ajustar">Temeroso(a)</span></th>
+            <th class="vertical"><span class="ajustar">Conducta inadecuada</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno.AlumnoSimple alumno in ViewBag.alumnos)
+        {
+            long id = long.Parse(alumno.id);
+            var diag = Model.FirstOrDefault(a => a.IDAlumno == id);
+            <tr>
+                <td class="text-center">@(index++)</td>
+                <td><div style="width:100px">@alumno.apellidoPaterno @alumno.apellidoMaterno @alumno.nombre</div></td>
+                <td  data-campo="Edad" data-respuesta="7"><div>@(diag != null ? diag.Edad != null ? diag.Edad.ToString() : "" :"")</div></td>
+                <td  data-campo="Sexo" data-respuesta="8"><div>@(diag != null ? diag.Sexo:"")</div></td>
+                <td  data-campo="Regular" data-respuesta=""><div>@(diag != null ? diag.Regular:"")</div></td>
+                <td  data-campo="NEE" data-respuesta="1"><div>@(diag != null ? diag.NEE:"")</div></td>
+                <td  data-campo="Talentos" data-respuesta=""><div>@(diag != null ? diag.Talentos:"")</div></td>
+                <td  data-campo="SituacionRiesgo" data-respuesta="1"><div>@(diag != null ? diag.SituacionRiesgo:"")</div></td>
+                <td  data-campo="Necesidades" data-respuesta=""><div>@(diag != null ? diag.Necesidades:"")</div></td>
+
+                <td  data-campo="Linguistica" data-respuesta="10"><div>@(diag != null ? diag.Linguistica:"")</div></td>
+                <td  data-campo="LogicoMatematica" data-respuesta="10"><div>@(diag != null ? diag.LogicoMatematica:"")</div></td>
+                <td  data-campo="VisualEspacial" data-respuesta="10"><div>@(diag != null ? diag.VisualEspacial:"")</div></td>
+                <td  data-campo="KinestesicaCorporal" data-respuesta="10"><div>@(diag != null ? diag.KinestesicaCorporal:"")</div></td>
+                <td  data-campo="Musical" data-respuesta="10"><div>@(diag != null ? diag.Musical:"")</div></td>
+                <td  data-campo="Interpersonal" data-respuesta="10"><div>@(diag != null ? diag.Interpersonal:"")</div></td>
+                <td  data-campo="Intrapersonal" data-respuesta="10"><div>@(diag != null ? diag.Intrapersonal:"")</div></td>
+
+                <td  data-campo="MuestraIniciativa" data-respuesta="4"><div>@(diag != null ? diag.MuestraIniciativa:"")</div></td>
+                <td  data-campo="RequiereApoyo" data-respuesta="1"><div>@(diag != null ? diag.RequiereApoyo:"")</div></td>
+                <td  data-campo="Motivado" data-respuesta="4"><div>@(diag != null ? diag.Motivado:"")</div></td>
+                <td  data-campo="Aburrimiento" data-respuesta="4"><div>@(diag != null ? diag.Aburrimiento:"")</div></td>
+                <td  data-campo="Indiferencia" data-respuesta="4"><div>@(diag != null ? diag.Indiferencia:"")</div></td>
+                <td  data-campo="Temeroso" data-respuesta="4"><div>@(diag != null ? diag.Temeroso:"")</div></td>
+                <td  data-campo="ConductaInadecuada" data-respuesta="4"><div>@(diag != null ? diag.ConductaInadecuada:"")</div></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<div class="break"></div>
+@{
+    index = 1;
+}
+
+
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+<table border="1" class="tabla3">
+    <thead>
+        <tr>
+            <th rowspan="2"  class="text-center"  style="width:20px">#</th>
+            <th rowspan="2" class="text-center" style="vertical-align:middle;width:100px"">Indicadores / Nombres</th>
+            <th colspan="4" class="text-center" style="vertical-align:middle">Desarrollo evolutivo según Piaget</th>
+            <th colspan="3" class="text-center" style="vertical-align:middle">Desarrollo evolutivo según Kohlberg</th>
+            <th colspan="8" class="text-center" style="vertical-align:middle">Desarrollo evolutivo según Erikson</th>
+        </tr>
+        <tr>
+            <th class="vertical"><span class="ajustar">Etapa sensoriomotora 0-2 años</span></th>
+            <th class="vertical"><span class="ajustar">Etapa preconvencional 2-7 años</span></th>
+            <th class="vertical"><span class="ajustar">Operaciones concretas 7-12 años</span></th>
+
+            <th class="vertical"><span class="ajustar">Operaciones formales 12 años en adelante</span></th>
+            <th class="vertical"><span class="ajustar">Nivel 1: Moralidad preconvencional (4 a 10 años)</span></th>
+            <th class="vertical"><span class="ajustar">Nivel 2: Moralidad convencional</span></th>
+            <th class="vertical"><span class="ajustar">Nivel 3: Moralidad de los principios morales autónomos</span></th>
+
+
+            <th class="vertical"><span class="ajustar">Etapa 1 (infante 0-1):<br /> Confianza vs. Desconfianza</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 2 (bebe 2-3):<br /> Autonomía vs vergüenza y duda</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 3 (prescolar 3-6):<br />Iniciativa vs Culpa</span></th>
+            <th class="vertical"><span class="ajustar"> 4 (escolar 7-12):<br />Laboriosidad vs Inferioridad</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 5 (Adolecensia 12-18 o mas):<br /> Identidad vs Confusión de roles</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 6 (Adulto joven desde los 20 años):<br /> Intimidad vs aislamiento</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 7 (Desde los 40):<br /> Generabilidad vs autoabsorción</span></th>
+            <th class="vertical"><span class="ajustar">Etapa 8 (Desde los 60):<br />Integridad vs Desesperación</span></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno.AlumnoSimple alumno in ViewBag.alumnos)
+        {
+            long id = long.Parse(alumno.id);
+            var diag = Model.FirstOrDefault(a => a.IDAlumno == id);
+            <tr>
+                <td class="text-center">@(index++)</td>
+                <td><div style="width:100px">@alumno.apellidoPaterno @alumno.apellidoMaterno @alumno.nombre</div></td>
+
+                <td  data-campo="EtapaSesioromotora" data-respuesta="1"><div>@(diag != null ? diag.EtapaSesioromotora:"")</div></td>
+                <td  data-campo="EtapaPreconvencional" data-respuesta="1"><div>@(diag != null ? diag.EtapaPreconvencional:"")</div></td>
+                <td  data-campo="OperacionesContretas" data-respuesta="1"><div>@(diag != null ? diag.OperacionesContretas:"")</div></td>
+                <td  data-campo="OperacionesFormales" data-respuesta="1"><div>@(diag != null ? diag.OperacionesFormales:"")</div></td>
+
+                <td  data-campo="MoralidadPreconvencional" data-respuesta="1"><div>@(diag != null ? diag.MoralidadPreconvencional:"")</div></td>
+                <td  data-campo="MoralidadConvencional" data-respuesta="1"><div>@(diag != null ? diag.MoralidadConvencional:"")</div></td>
+                <td  data-campo="MoralidadPrincipiosAutonomos" data-respuesta="1"><div>@(diag != null ? diag.MoralidadPrincipiosAutonomos:"")</div></td>
+
+                <td  data-campo="ConfianzaDesconfianza" data-respuesta="1"><div>@(diag != null ? diag.ConfianzaDesconfianza:"")</div></td>
+                <td  data-campo="AutonomiaVerguenza" data-respuesta="1"><div>@(diag != null ? diag.AutonomiaVerguenza:"")</div></td>
+                <td  data-campo="IniciativaCulpa" data-respuesta="1"><div>@(diag != null ? diag.IniciativaCulpa:"")</div></td>
+                <td  data-campo="Laboriosidad" data-respuesta="1"><div>@(diag != null ? diag.Laboriosidad:"")</div></td>
+                <td  data-campo="IdentidadConfusion" data-respuesta="1"><div>@(diag != null ? diag.IdentidadConfusion:"")</div></td>
+                <td  data-campo="IntimidadAislamiento" data-respuesta="1"><div>@(diag != null ? diag.IntimidadAislamiento:"")</div></td>
+                <td  data-campo="Generabilidad" data-respuesta="1"><div>@(diag != null ? diag.Generabilidad:"")</div></td>
+                <td  data-campo="Integridad" data-respuesta="1"><div>@(diag != null ? diag.Integridad:"")</div></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<div class="break"></div>
+@{
+    index = 1;
+}
+
+
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+<table border="1" class="tabla4">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center" style="width:20px">#</th>
+            <th rowspan="2" class="text-center" style="vertical-align:middle;width:100px"">Indicadores / Nombres</th>
+            <th colspan="5" class="text-center" style="vertical-align:middle">Evaluación de Diagnóstico</th>
+            <th colspan="5" class="text-center" style="vertical-align:middle">Programa de intervención</th>
+            <th colspan="3" class="text-center" style="vertical-align:middle">CTE clasificación</th>
+        </tr>
+        <tr>
+            <th class="vertical"><span class="ajustar">Bloque I</span></th>
+            <th class="vertical"><span class="ajustar">Bloque II</span></th>
+            <th class="vertical"><span class="ajustar">Bloque III</span></th>
+            <th class="vertical"><span class="ajustar">Bloque VI</span></th>
+            <th class="vertical"><span class="ajustar">Bloque V</span></th>
+
+            <th class="vertical"><span class="ajustar">Bloque I</span></th>
+            <th class="vertical"><span class="ajustar">Bloque II</span></th>
+            <th class="vertical"><span class="ajustar">Bloque III</span></th>
+            <th class="vertical"><span class="ajustar">Bloque VI</span></th>
+            <th class="vertical"><span class="ajustar">Bloque V</span></th>
+
+            <th class="vertical"><span class="ajustar">9 y 10</span></th>
+            <th class="vertical"><span class="ajustar">7 y 8</span></th>
+            <th class="vertical"><span class="ajustar">5 y 6</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno.AlumnoSimple alumno in ViewBag.alumnos)
+        {
+            long id = long.Parse(alumno.id);
+            var diag = Model.FirstOrDefault(a => a.IDAlumno == id);
+            <tr>
+                <td class="text-center">@(index++)</td>
+                <td><div style="width:100px">@alumno.apellidoPaterno @alumno.apellidoMaterno @alumno.nombre</div></td>
+
+                <td  data-campo="EvaluacionBloque1" data-respuesta="11"><div>@(diag != null ? diag.EvaluacionBloque1:"")</div></td>
+                <td  data-campo="EvaluacionBloque2" data-respuesta="11"><div>@(diag != null ? diag.EvaluacionBloque2:"")</div></td>
+                <td  data-campo="EvaluacionBloque3" data-respuesta="11"><div>@(diag != null ? diag.EvaluacionBloque3:"")</div></td>
+                <td  data-campo="EvaluacionBloque4" data-respuesta="11"><div>@(diag != null ? diag.EvaluacionBloque4:"")</div></td>
+                <td  data-campo="EvaluacionBloque5" data-respuesta="11"><div>@(diag != null ? diag.EvaluacionBloque5:"")</div></td>
+
+                <td  data-campo="ProgramaBloque1" data-respuesta=""><div>@(diag != null ? diag.ProgramaBloque1:"")</div></td>
+                <td  data-campo="ProgramaBloque2" data-respuesta=""><div>@(diag != null ? diag.ProgramaBloque2:"")</div></td>
+                <td  data-campo="ProgramaBloque3" data-respuesta=""><div>@(diag != null ? diag.ProgramaBloque3:"")</div></td>
+                <td  data-campo="ProgramaBloque4" data-respuesta=""><div>@(diag != null ? diag.ProgramaBloque4:"")</div></td>
+                <td  data-campo="ProgramaBloque5" data-respuesta=""><div>@(diag != null ? diag.ProgramaBloque5:"")</div></td>
+
+                <td  data-campo="CTE10" data-respuesta=""><div>@(diag != null ? diag.CTE10:"")</div></td>
+                <td  data-campo="CTE8" data-respuesta=""><div>@(diag != null ? diag.CTE8:"")</div></td>
+                <td  data-campo="CTE5" data-respuesta=""><div>@(diag != null ? diag.CTE5:"")</div></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    
+    <script>
+        print();
+    </script>
+    }

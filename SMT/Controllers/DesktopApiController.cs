@@ -1185,6 +1185,12 @@ namespace SMT.Controllers
                     Observacion4 = i.Observacion4,
                     Observacion5 = i.Observacion5,
 
+                    Reactivo1 = i.Reactivo1,
+                    Reactivo2 = i.Reactivo2,
+                    Reactivo3 = i.Reactivo3,
+                    Reactivo4 = i.Reactivo4,
+                    Reactivo5 = i.Reactivo5,
+
                     entrega = i.PortafolioAlumno.Select(p => new {
                         id = p.IDAlumno,
                         estado = p.Estado,
@@ -1207,6 +1213,7 @@ namespace SMT.Controllers
                     i.Aspecto5,i.Criterio1,i.Criterio2,i.Criterio3,i.Criterio4,i.Criterio5,
                     i.Activo1,i.Activo2,i.Activo3,i.Activo4,i.Activo5,i.Observacion1,
                     i.Observacion2,i.Observacion3,i.Observacion4,i.Observacion5,i.entrega,
+                     i.Reactivo1,i.Reactivo2,i.Reactivo3,i.Reactivo4,i.Reactivo5,
                 });
         }
         private dynamic RetrieveTrabajos(string userid) {
@@ -1293,7 +1300,7 @@ namespace SMT.Controllers
                     }.Where(s => s.Any).ToList();
                     var promedioParcial = secciones.Sum(s => s.Semaforo ?? 0) / (secciones.Count * 10.0);
                     var colorPromedio =
-                        promedioParcial < 5 ? AlumnoDesempenioStatus.APOYO :
+                        promedioParcial < 6 ? AlumnoDesempenioStatus.APOYO :
                         promedioParcial < 8.5 ? AlumnoDesempenioStatus.REGULAR :
                         promedioParcial >= 8.5 ? AlumnoDesempenioStatus.BIEN : "";
 

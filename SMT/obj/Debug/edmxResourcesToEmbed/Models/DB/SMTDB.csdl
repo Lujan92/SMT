@@ -1203,6 +1203,7 @@
     <NavigationProperty Name="PortafolioDefecto" Relationship="SMTDevModel.FK_UsuarioPortafolioDefecto" FromRole="AspNetUsers" ToRole="PortafolioDefecto" />
     <NavigationProperty Name="Grupos" Relationship="SMTDevModel.Grupos_IDUsuario_fkey" FromRole="AspNetUsers" ToRole="Grupos" />
     <NavigationProperty Name="AspNetRoles" Relationship="SMTDevModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="6" />
   </EntityType>
   <Association Name="FK_UsuarioDesempenio">
     <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">

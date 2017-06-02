@@ -1,0 +1,167 @@
+﻿@using SMT.Models
+@{
+    ViewBag.Title = "Activación";
+    var tutor = User.IsInRole("Tutor");
+    var maestro = User.IsInRole("Maestro");
+    var licencias = User.GetSecciones().Licencias;
+}
+
+<div class="container-fluid" style="position: absolute;">
+    <div class="row-fluid">
+        <div class="centering">
+
+            <div class="col-lg-12">
+                <h1 class="text-center">
+                    Bienvenido a SMT 
+                </h1>
+            </div>
+
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div class="col-lg-12 text-center">
+                    <h2>Activación</h2>
+                </div>
+                <div class="col-lg-12 text-center white" style="font-size:1.5em;">
+                    Para utilizar S.M.T. debe especificar que es:
+                </div>
+                <div class="col-lg-12">
+                    <br />
+                    <form method="post">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn @(tutor ? "btn-warning" : "bg-navy-active") cbx big" data-default="bg-navy-active">
+                            <input @(tutor ? "checked purchased" : "non-purchased") type="checkbox" name="Tutor" id="Tutor" value="true" /> Soy padre de familia / tutor
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn @(maestro ? "btn-warning" : "bg-navy-active") cbx big" data-default="bg-navy-active">
+                            <input @(maestro ? "checked purchased" : "non-purchased") type="checkbox" name="Maestro" id="Maestro" value="true" /> Soy maestro
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn @(licencias ? "btn-warning" : "bg-navy-active") cbx big text-center" data-default="bg-navy-active">
+                            <input @(licencias ? "checked purchased" : "non-purchased") type="checkbox" name="Escuela" id="Escuela" value="true" /> Soy administrador de escuela
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12">
+                            <br />
+                            <div class="alert alert-info">
+                                <i class="icon fa fa-info"></i>
+                                Siempre puede regresar a esta sección para activar mas opciones
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-lg-12 text-center">
+                        <input value="Guardar" type="button" id="save" class="btn btn-primary" />
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var toBuy = [];
+        var $tutor = $("input#Tutor");
+
+        $(".cbx").click(function (ev) {
+            $(this).find("input").click();
+        });
+        $("input[type=checkbox]").change(function (ev) {
+            var checked = $(this).is(":checked");
+            var nonPurchased = $(this).is("[non-purchased]");
+
+            if (nonPurchased && toBuy.length && toBuy.indexOf(this) == -1) {
+                var $active = $(toBuy[0]);
+                var activeName = $active.is("#Tutor") ? "tutor" : $active.is("#Maestro") ? "maestro" : "escuela";
+
+                PNotify.removeAll();
+                AlertError("No puede activar dos paquetes a la vez. Active el paquete de " + activeName + " primero, despues regrese a esta página para activar/desactivar algún otro", "Ocurrió un problema");
+                $(this).prop("checked", false);
+                return ev.preventDefault();
+            }
+
+            var wrapper = $(this).parents(".cbx");
+            var def = wrapper.data("default");
+
+            wrapper[checked ? "addClass" : "removeClass"]("btn-warning");
+            wrapper[!checked ? "addClass" : "removeClass"](def);
+
+            if (nonPurchased) {
+                if (checked) toBuy.push(this);
+                else toBuy.splice(toBuy.indexOf(this), 1);
+            }
+        });
+        $("#save").click(function () {
+            if ($("input[type=checkbox]:checked").length) {
+                if (
+                    $("input[type=checkbox][non-purchased]:checked").length == 1 ||
+                    $("input[type=checkbox][purchased]").not(":checked").length > 0
+                ) {
+                    $("form").submit();
+                }
+            } else {
+                AlertError("Debe seleccionar al menos una opción", "Ocurrió un problema")
+            }
+        })
+    </script>
+}
+
+@section styles {
+<style>
+    body {
+        background: #040617;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h2, .white, label[for] {
+        color: #E2E2E2;
+    }
+
+    .row-fluid {
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .small-box {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .container-fluid {
+        height: 100%;
+        display: table;
+        width: 100%;
+        padding: 0;
+    }
+
+    .cbx input {
+        display: none;
+    }
+
+    .cbx {
+        padding: 20px;
+        cursor: pointer;
+        margin: 5px 0;
+    }
+
+        .cbx.activated {
+            text-shadow: 0 0 10px white;
+        }
+
+    .centering {
+        float: none;
+        margin: 0 auto;
+    }
+
+    .big {
+        font-size: 1.5em;
+    }
+</style>
+}

@@ -49,6 +49,7 @@ namespace SMT.Models.DB
         public Nullable<int> TotalCuentas { get; set; }
         public string ViendoUsuario { get; set; }
         public Nullable<int> Entidad { get; set; }
+        public Nullable<System.DateTime> FechaRegistro { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlumnoDesempenio> AlumnoDesempenio { get; set; }

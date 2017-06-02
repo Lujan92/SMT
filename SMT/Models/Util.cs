@@ -220,7 +220,7 @@ namespace SMT.Models
 
             System.Drawing.Image image = System.Drawing.Image.FromStream(file);
 
-            if (image.Size.Width > 800 || image.Size.Height > 800)
+            if (image.Size.Width > 800 || image.Size.Height > 600)
             {
                 throw new System.ArgumentException("Error: las dimensiones máximas permitidas son de  800 de ancho y 800 de alto", "");
             }

@@ -50,9 +50,10 @@ namespace SMT.Models.DB
                             Sintesis = i.Sintesis,
                             Argumentacion = i.Argumentacion,
                             ApoyoLectura = i.ApoyoLectura,
+                            SeInvolucraClase = i.SeInvolucraClase,
                             ApoyoEscritura = i.ApoyoEscritura,
                             ApoyoMatematicas = i.ApoyoMatematicas,
-                            SeInvolucraClase = i.SeInvolucraClase,
+                           
                         })
                         .ToList();
                 }

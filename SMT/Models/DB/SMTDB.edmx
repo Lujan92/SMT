@@ -164,6 +164,7 @@
           <Property Name="TotalCuentas" Type="int4" />
           <Property Name="ViendoUsuario" Type="varchar" MaxLength="8000" />
           <Property Name="Entidad" Type="int4" />
+          <Property Name="FechaRegistro" Type="timestamp" />
         </EntityType>
         <EntityType Name="Bimestres">
           <Key>
@@ -2559,6 +2560,7 @@ advertencia 6013: La tabla o vista 'SMTs.dbo.RevisionRapida' no tiene definida u
           <NavigationProperty Name="PortafolioDefecto" Relationship="SMTDevModel.FK_UsuarioPortafolioDefecto" FromRole="AspNetUsers" ToRole="PortafolioDefecto" />
           <NavigationProperty Name="Grupos" Relationship="SMTDevModel.Grupos_IDUsuario_fkey" FromRole="AspNetUsers" ToRole="Grupos" />
           <NavigationProperty Name="AspNetRoles" Relationship="SMTDevModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="6" />
         </EntityType>
         <Association Name="FK_UsuarioDesempenio">
           <End Type="SMTDevModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -3267,6 +3269,7 @@ advertencia 6013: La tabla o vista 'SMTs.dbo.RevisionRapida' no tiene definida u
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="SMTDevModel.AspNetUsers">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
                 <ScalarProperty Name="Entidad" ColumnName="Entidad" />
                 <ScalarProperty Name="ViendoUsuario" ColumnName="ViendoUsuario" />
                 <ScalarProperty Name="TotalCuentas" ColumnName="TotalCuentas" />

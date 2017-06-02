@@ -19,6 +19,7 @@ var getUsuario = function (id, callback) {
             Loading();
         },
         success: function (data) {
+            
             if (callback)
                 callback(data);
         }
@@ -144,13 +145,13 @@ $('#frmBusqueda').submit(function (e) {
         },
         success: function (response) {
             var t = $('#tResults tbody').empty();
-
+            
             if (response.total == 0) {
                 t.html('<tr><td class="text-center" colspan="10">No se encontraron resultados</td></tr>');
             }
             else {
                 response.data.map(function (e) {
-
+                    console.log(response);
                     e.opciones = '<div class="btn-group pull-right">';
 
                     e.opciones += '<button class="btn btn-default" data-opcion="editar">Editar</button>';
@@ -162,7 +163,7 @@ $('#frmBusqueda').submit(function (e) {
                     e.opciones += '<button class="btn btn-danger" data-opcion="eliminar">Eliminar</button>';
                     e.opciones += '</div>';
 
-                    t.append('<tr data-id="{Id}"><td>{Username}</td><td>{Nombre}</td><td>{Email}</td><td>{Vigencia}</td><td>{Roles}</td><td>{opciones}</td></tr>'.format(e));
+                    t.append('<tr data-id="{Id}"><td>{Username}</td><td>{Nombre}</td><td>{Email}</td><td>{vigencia}</td><td>{Roles}</td><td>{opciones}</td></tr>'.format(e));
                 });
             }
 

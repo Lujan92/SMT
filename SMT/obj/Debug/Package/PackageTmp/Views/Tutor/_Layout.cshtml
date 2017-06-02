@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNet.Identity
+@using SMT.Models
+@{
+    Layout = null;
+    var secciones = User.GetSecciones();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="language" content="spanish" />
+    <meta http-equiv="content-language" content="es" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMT Padre de Familia @(ViewBag.Title?.Insert(0, ":: "))</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/tutor/bundles/css")
+    <link href="~/Content/theme/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated) { 
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a href="@Url.Content("~/")"><img class="img-responsive" style="padding:5px;" src="~/Content/SMTLogo.png" /></a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i><span class="hidden-xs"> @User.Identity.GetUserName()</span> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    @if (secciones.TotalEnabled > 1) {
+                        if (SMT.Models.DB.Credencial.tieneCredenciales(User.Identity.GetUserId())) {
+                            <li>
+                                <a href="@Url.Content("~/Licencia")"> <i class="fa fa-users fa-fw"></i> Ver Licencias</a>
+                            </li>
+                            <li class="divider"></li>
+                        }
+                        if (secciones.Panel) {
+                            <li>
+                                <a href="@Url.Action("Index", "Home", new { area = "Panel" })"> <i class="fa fa-gear fa-fw"></i>Panel de Control</a>
+                            </li>
+                        }
+                        if (secciones.Tutor) {
+                            <li>
+                                <a href="@Url.Action("Index", "Tutor")"> <i class="fa fa-eye fa-fw"></i>Padre de Familia</a>
+                            </li>
+                        }
+                        if (secciones.Grupos) {
+                            <li>
+                                <a href="@Url.Action("Index", "Grupos")"> <i class="fa fa-clipboard fa-fw"></i>Grupos</a>
+                            </li>
+                        }
+                        <li class="divider"></li>
+                        <li>
+                            <a href="@Url.Content("~/Account/EditarCuenta")"> <i class="fa fa-sign-out fa-fw"></i>Editar Cuenta</a>
+                        </li>
+                    }
+                    <li>
+                        <a href="@Url.Content("~/Account/LogOff")"> <i class="fa fa-sign-out fa-fw"></i>Cerrar sesion</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    }
+    <div class="col-lg-12">
+        @RenderBody()
+    </div>
+
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/tutor/bundles/js")
+@RenderSection("scripts", required: false)
+<script>$('[data-link^="/Tutor"],[href^="/Tutor"]').not(".print").click(function () { Loading(" ") })</script>
+</body>
+</html>

@@ -334,7 +334,7 @@ namespace SMT.Models.DB
                         }.Where(s => s.Any).ToList();
                         var promedioParcial = secciones.Sum(s => s.Semaforo ?? 0) / (secciones.Count * 10.0);
                         var colorPromedio =
-                            promedioParcial < 5 ? AlumnoDesempenioStatus.APOYO :
+                            promedioParcial < 6 ? AlumnoDesempenioStatus.APOYO :
                             promedioParcial < 8.5 ? AlumnoDesempenioStatus.REGULAR :
                             promedioParcial >= 8.5 ? AlumnoDesempenioStatus.BIEN : "";
 

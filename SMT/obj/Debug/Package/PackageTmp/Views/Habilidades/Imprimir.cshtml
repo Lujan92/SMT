@@ -1,0 +1,139 @@
+﻿@model List<SMT.Models.DB.HabilidadesAlumnoSimple>
+@{
+    ViewBag.Title = "Habilidades";
+    int index = 1;
+    List<int> totales = new List<int>()
+    {
+        0,0,0,0,0,0,0,0,0
+    };
+
+    List<double> contadores = new List<double>()
+    {
+        0,0,0,0,0,0,0,0,0
+    };
+
+    List<string> conocimiento = new List<string>(),
+sintensis = new List<string>(),
+argumentacion = new List<string>();
+    List<bool> involucra = new List<bool>();
+}
+
+
+<style>
+   table {
+        width: 100%;
+    }
+
+   th.vertical{
+       white-space:normal;
+   }
+    td, th {
+        font-size:8px;
+        padding: 1px;
+        
+        text-overflow:ellipsis;
+    }
+
+    ul{
+        font-size:12px;
+        page-break-after:always;
+    }
+</style>
+
+@Html.Partial("_HeaderGrupo", (SMT.Models.DB.HeaderGrupoReporte)ViewBag.header)
+<table border="1">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="11">Habilidades</th>
+        </tr>
+        <tr>
+            <th class="text-center" style="vertical-align:bottom" rowspan="2">#</th>
+            <th class="text-center" style="vertical-align:bottom" rowspan="2">Alumno</th>
+            <th class="text-center" colspan="2">Evaluación</th>
+            <th class="text-center" colspan="2">Comprensión de Lectora</th>
+            <th class="text-center" colspan="5">Apoyo</th>
+        </tr>
+        <tr>
+            <th class="vertical">Autoevaluación</th>
+            <th class="vertical">Coevaluación </th>
+
+            <th class="vertical">Conocimiento </th>
+            <th class="vertical">Síntesis </th>
+            <th class="vertical">Argumentación </th>
+
+            <th class="vertical">Requiere Apoyo Lectura </th>
+            <th class="vertical">Requiere Apoyo Escritura </th>
+            <th class="vertical">Requiere Apoyo Matemáticas </th>
+            <th class="vertical">Se involucra en clase </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SMT.Models.DB.Alumno al in ViewBag.alumnos)
+        {
+            var data = Model.Where(i => i.IDAlumno == al.IDAlumno).FirstOrDefault();
+
+            totales[0] += data.Autoevaluacin != null ? data.Autoevaluacin.Value : 0;
+            contadores[0] += data.Autoevaluacin != null ? 1 : 0;
+            totales[1] += data.Coevaluacion != null ? data.Coevaluacion.Value : 0;
+            contadores[1] += data.Coevaluacion != null ? 1 : 0;
+
+            conocimiento.Add( data.Conocimiento);
+            sintensis.Add(data.Sintesis);
+            argumentacion.Add(data.Argumentacion );
+
+            totales[5] += data.ApoyoLectura != null ? data.ApoyoLectura.Value : 0;
+            contadores[5] += data.ApoyoLectura != null ? 1 : 0;
+            totales[6] += data.ApoyoEscritura != null ? data.ApoyoEscritura.Value : 0;
+            contadores[6] += data.ApoyoEscritura != null ? 1 : 0;
+            totales[7] += data.ApoyoMatematicas != null ? data.ApoyoMatematicas.Value : 0;
+            contadores[7] += data.ApoyoMatematicas != null ? 1 : 0;
+            involucra.Add(data.SeInvolucraClase == true);
+
+            <tr>
+                <td class="text-center">@(index++)</td>
+                <td>@al.ApellidoPaterno @al.ApellidoMaterno @al.Nombre</td>
+                <td class="text-center">@data.Autoevaluacin</td>
+                <td class="text-center">@data.Coevaluacion</td>
+                <td class="text-center">@data.Conocimiento</td>
+                <td class="text-center">@data.Sintesis</td>
+                <td class="text-center">@data.Argumentacion</td>
+                <td class="text-center">@data.ApoyoLectura</td>
+                <td class="text-center">@data.ApoyoEscritura</td>
+                <td class="text-center">@data.ApoyoMatematicas</td>
+                <td class="text-center">@(data.SeInvolucraClase  != null ? data.SeInvolucraClase == true ? "Si" : "No" :"")</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2" class="text-right">Promedio</th>
+            @for (int i = 0; i < totales.Count; i++)
+            {
+                switch (i)
+                {
+                    case 2:
+                        <td class="text-center">@conocimiento.GroupBy(a => a).OrderByDescending(a =>a.Count()).Select(a => a.Key).FirstOrDefault()</td>
+                        break;
+                    case 3:
+                        <td class="text-center">@sintensis.GroupBy(a => a).OrderByDescending(a =>a.Count()).Select(a => a.Key).FirstOrDefault()</td>
+                        break;
+                    case 4:
+                        <td class="text-center">@argumentacion.GroupBy(a => a).OrderByDescending(a =>a.Count()).Select(a => a.Key).FirstOrDefault()</td>
+                        break;
+                    case 8:
+                        <td class="text-center">@(involucra.GroupBy(a => a).OrderByDescending(a => a.Count()).Select(a => a.Key).FirstOrDefault() == true ? "Si" : "No")</td>
+                            break;
+                    default:
+                        <td class="text-center">@((totales[i]/(contadores[i] == 0 ? 1 : contadores[i])).ToString("#.#"))</td>
+                        break;
+                }
+
+            }
+            
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    setTimeout(print, 800);
+</script>

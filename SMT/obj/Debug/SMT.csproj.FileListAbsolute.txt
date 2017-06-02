@@ -304,6 +304,6 @@ C:\Users\lujan\Desktop\Trabajo\SMT\bin\fi\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\fr\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\ja\Npgsql.resources.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\bin\zh-CN\Npgsql.resources.dll
+C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.csprojResolveAssemblyReference.cache
 C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.dll
 C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.pdb
-C:\Users\lujan\Desktop\Trabajo\SMT\obj\Debug\SMT.csprojResolveAssemblyReference.cache

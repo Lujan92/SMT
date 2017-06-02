@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System;
 namespace SMT.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -25,6 +25,7 @@ namespace SMT.Models
         public int? TotalCuentas { get; set; }
         public string ViendoUsuario { get; set; }
         public int? Entidad { get; set; }
+        public DateTime? FechaRegistro { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

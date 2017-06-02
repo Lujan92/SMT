@@ -74,7 +74,7 @@
                
                 var trPorcentajes = '' +
                     '<tr>' +
-                        '<td>Ponderación</td>' + porcentajes.join('') + '<td colspan ="2"><label id="totalValue" style="color:red;">su porcentaje es </label></td>'
+                        '<td>Ponderación</td>' + porcentajes.join('') + '<td colspan ="2"><label id="totalValue" >su porcentaje es </label></td>'
                 '</tr>';
 
                 $(trPorcentajes).prependTo($(selector).find('#tControl thead'));
@@ -101,22 +101,22 @@
                                     reporte[m] = reporte[m].toFixed(1);
                                 }
                             }
-                            
+
                             reporte.promedioFinal = promedioFinal > 10 ? 10 : promedioFinal.toFixed(1);
-                            totalBimestre = totalBimestre + reporte.promedioFinal;
-                           
-                            _control.data.promediosFinales.filter(function (v) { return v.id == reporte.id }).map(function (e) {
+
+                            _control.data.promediosFinales.filter(v => v.id == reporte.id).map(e => {
                                 e.promedioFinal = promedioFinal > 10 ? 10 : promedioFinal;
                                 return e;
                             })
-                         
+
                             var tr = $('<tr>' + row.format(reporte) + '</tr>').appendTo($(selector).find('#tControl tbody'));
 
                             $(' <span class="fa fa-pie-chart" title="Ver grafica"></span>').appendTo(tr.find('td:first'))
-                                                                                          .addData(reporte)
-                                                                                          .click(function () {
-                                                                                              graficarExamen($(this).getDataAsObject());
-                                                                                          });
+                                                                                            .addData(reporte)
+                                                                                            .click(function () {
+                                                                                                graficarExamen($(this).getDataAsObject());
+                                                                                            });
+
                             break;
                         }
                     }//FIN DEL PRIMER FOR
@@ -129,10 +129,10 @@
                     for (var i = 0; i < Porcentajes.length; i++) {
                         totalPorc += Porcentajes[i] << 0;
                     }
-                    if (totalPorc > 100) {
-                        jQuery("label[for='myalue']").html("%").css("color", "red");
+                    if (totalPorc == 100) {
+                        jQuery("label[for='myalue']").html("%").css("color", "green");
                         $("#totalValue").text('El total de porcentaje es: ' + totalPorc + '%');
-                        jQuery("#totalValue").html('El total de porcentaje es: ' + totalPorc).css("color", "red");
+                        jQuery("#totalValue").html('El total de porcentaje es: ' + totalPorc).css("color", "green");
                     }
                     else {
                         jQuery("label[for='myalue']").css("color", "red");
@@ -172,21 +172,8 @@
                     var Porcentaje = $('[data-porcentaje]').map(function () {
                         return this.value;
                     }).get();
-                    //EL FOR ME PERMITE RECORRER EL ARREGLO Y REALIZAR LA SUMA
-                    for (var i = 0; i < Porcentaje.length; i++) {
-                        total += Porcentaje[i] << 0;
-                    }
-                    //VALIDO EL TOTAL EN CASO DE PASAR LOS 100 EL LABEL CAMBIA DE COLOR
-                    if (total > 100) {
-                        jQuery("label[for='myalue']").html("%").css("color", "red");
-                        $("#totalValue").text('El total de porcentaje es: ' + total) + '%';
-                        jQuery("#totalValue").html('El total de porcentaje es: ' + total).css("color", "red");
-                    }
-                    else {
-                        jQuery("label[for='myalue']").css("color", "red");
-                        $("#totalValue").text('El total de porcentaje es: ' + total + '%');
-                        jQuery("#totalValue").html('El total de porcentaje es: ' + total).css("color", "red");
-                    }
+                   
+               
                 })
 
                 //FIN DEL BLOQUE
@@ -290,7 +277,7 @@
             alumnosSubieronYReprobaron += ~~e.alumnosSubieronYReprobaron;
             alumnosReprobaronBimestre += ~~e.alumnosReprobaronBimestre;
         });
-
+        
         var series = [{
             name: 'Alumnos',
             data: [
@@ -327,7 +314,7 @@
 
         }];
 
-
+       
         $(control).highcharts({
             chart: {
                 type: 'column'

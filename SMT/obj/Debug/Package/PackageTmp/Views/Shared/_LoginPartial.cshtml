@@ -1,0 +1,144 @@
+﻿@using Microsoft.AspNet.Identity
+@using SMT.Models
+@{
+    var secciones = User.GetSecciones();
+}
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-top-links navbar-right">              
+        @if (secciones.Grupos && secciones.Licencias) {
+            <li class="navbar-top-search hidden-xs" style="width: 260px; float: left;margin-top: 9px;">
+                <div class="input-group custom-search-form">
+                    <form onsubmit="return busquedaAlm()">
+                        <input type="text" class="form-control busquedanombrealumno" id="bsq_alm_nombre" placeholder="Buscar alumnos">
+                    </form>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" onclick="busquedaAlm()" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li class="navbar-top-search visible-xs" style="width: 160px; float: left;margin-top: 9px;">
+                <div class="input-group custom-search-form">
+                    <form onsubmit="return busquedaAlm()">
+                        <input type="text" class="form-control busquedanombrealumno" id="bsq_alm_nombre" placeholder="Buscar alumnos">
+                    </form>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" onclick="busquedaAlm()" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-tasks fa-fw"></i> <span class="hidden-xs">Grupos Activos</span> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-messages" id="menuGrupos" style="max-height: 500px;overflow-y: scroll;"></ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-book fa-fw"></i><span class="hidden-xs"> Escuela</span> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li>
+                        <a href="@Url.Content("~/Licencia")"><i class="fa fa-user-plus fa-fw"></i> <span class="hidden-xs">Licencias</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Content("~/ReporteEscuela")"><i class="fa fa-bar-chart fa-fw"></i> <span class="hidden-xs">Reporte</span></a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else {
+            if (secciones.Grupos) {
+                <li class="navbar-top-search hidden-xs" style="width: 260px; float: left;margin-top: 9px;">
+                    <div class="input-group custom-search-form">
+                        <form onsubmit="return busquedaAlm()">
+                            <input type="text" class="form-control busquedanombrealumno" id="bsq_alm_nombre" placeholder="Buscar alumnos">
+                        </form>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" onclick="busquedaAlm()" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+                <li class="navbar-top-search visible-xs" style="width: 160px; float: left;margin-top: 9px;">
+                    <div class="input-group custom-search-form">
+                        <form onsubmit="return busquedaAlm()">
+                            <input type="text" class="form-control busquedanombrealumno" id="bsq_alm_nombre" placeholder="Buscar alumnos">
+                        </form>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" onclick="busquedaAlm()" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-tasks fa-fw"></i> <span class="hidden-xs">Grupos Activos</span> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages" id="menuGrupos" style="max-height: 500px;overflow-y: scroll;"></ul>
+                </li>
+
+            }
+            if (secciones.Licencias) {
+                <li>
+                    <a href="@Url.Content("~/Licencia")"><i class="fa fa-user-plus fa-fw"></i> <span class="hidden-xs">Licencias</span></a>
+                </li>
+                <li>
+                    <a href="@Url.Content("~/ReporteEscuela")"><i class="fa fa-bar-chart fa-fw"></i> <span class="hidden-xs">Reporte</span></a>
+                </li>
+            }
+        }
+
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i><span class="hidden-xs"> @User.Identity.GetUserName()</span> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                @if (SMT.Models.DB.Credencial.tieneCredenciales(User.Identity.GetUserId()))
+                {
+                    <li>
+                        <a href="/Licencia"> <i class="fa fa-users fa-fw"></i> Ver Licencias</a>
+                    </li>
+                    <li class="divider"></li>
+                }
+
+                @if (secciones.Panel) {
+                    <li>
+                        <a href="@Url.Action("Index", "Home", new { area = "Panel" })"> <i class="fa fa-gear fa-fw"></i>Panel de Control</a>
+                    </li>
+                }
+                @if (secciones.Tutor) {
+                <li>
+                    <a href="@Url.Action("Index", "Tutor")"> <i class="fa fa-eye fa-fw"></i>Tutor</a>
+                </li>
+                }
+                @if (secciones.Grupos) {
+                    <li>
+                        <a href="@Url.Action("Index", "Grupos")"> <i class="fa fa-clipboard fa-fw"></i>Grupos</a>
+                    </li>
+                }
+                <li class="divider"></li>
+                <li>
+                    <a href="/Account/EditarCuenta"> <i class="fa fa-sign-out fa-fw"></i>Editar Cuenta</a>
+                </li>
+                <li>
+                    <a href="/Account/LogOff"> <i class="fa fa-sign-out fa-fw"></i>Cerrar sesion</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+}

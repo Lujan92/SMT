@@ -246,7 +246,7 @@ namespace SMT.Models.DB
                         double? ExposicionT = 0, MapaMT = 0, EsquemasMapasT = 0, GuiaT = 0, CotejoT = 0, AprendizajeT = 0, PortafolioT = 0, ProduccionET = 0, ProyectoT = 0,
                         RegistroT = 0, CuadernosT = 0, RubricaT = 0, EsquemaT = 0, ManualidadT = 0, MapaConceptualT = 0, GlosarioT = 0, CartelT = 0, ExpoInternetT = 0,
                         ColaborativoT = 0, OralT = 0, ElectronicaT = 0, SinopticoT = 0, EnsayoT = 0, ComparativoT = 0, TripticoT = 0, LineaInternetT = 0, PruebaT = 0,
-                        ResumenT = 0, CuadroDobleT = 0, ImpresaT = 0, LineaTiempoT = 0,acumulador=0;
+                        ResumenT = 0, CuadroDobleT = 0, ImpresaT = 0, LineaTiempoT = 0,acumulador=0,contador=0;
 
                         foreach (var p in portafolios)
                         {
@@ -260,7 +260,7 @@ namespace SMT.Models.DB
                               
                                     exposicion += int.Parse(p.Aspecto1);
                                     sumExposicionR += por.Reactivo1;
-                                    
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -291,12 +291,10 @@ namespace SMT.Models.DB
                                    
                                 }
                                 ExposicionT = (exposicion / sumExposicionR) * 10;
-                        
+                                acumulador += ExposicionT;
                                 reactivos1++;
                             }
-                            else {
-                                ExposicionT = 0;
-                            }
+                           
                             #endregion
                             #region promedioMapaMental
                             if (p.Portafolio.TipoPortafolio.Nombre == "Mapa Mental")
@@ -306,7 +304,7 @@ namespace SMT.Models.DB
                                     reactivos2++;
                                    mapaMental += int.Parse(p.Aspecto1);
                                     sumMapaMR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -340,11 +338,9 @@ namespace SMT.Models.DB
                                
                                 MapaMT = (mapaMental/sumMapaMR)*10 ;
                                 reactivos2++;
+                                acumulador += MapaMT;
                             }
-                            else
-                            {
-                                MapaMT = 0;
-                            }
+                           
                             #endregion
                             #region promedioEsquemasyMapas
                             if (p.Portafolio.TipoPortafolio.Nombre == "Esquema y Mapas Conceptuales")
@@ -354,7 +350,7 @@ namespace SMT.Models.DB
                               
                                     esquemasMapas += int.Parse(p.Aspecto1);
                                     sumEsquemasMapasR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -387,12 +383,10 @@ namespace SMT.Models.DB
                                
                            
                                 EsquemasMapasT = (esquemasMapas / sumEsquemasMapasR) * 10;
+                                acumulador += EsquemasMapasT;
                                 reactivos3++;
                             }
-                            else
-                            {
-                                EsquemasMapasT = 0;
-                            }
+                          
                             #endregion
                             #region promedioGuiaObservacion
                             if (p.Portafolio.TipoPortafolio.Nombre == "Guía de Observación")
@@ -402,7 +396,7 @@ namespace SMT.Models.DB
 
                                     guia += int.Parse(p.Aspecto1);
                                     sumGuiaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -435,11 +429,9 @@ namespace SMT.Models.DB
                                                               
                                 GuiaT = (guia / sumGuiaR) * 10;
                                 reactivos4++;
+                                acumulador += GuiaT;
                             }
-                            else
-                            {
-                                GuiaT = 0;
-                            }
+                           
                             #endregion
                             #region promedioListaCotejo
                             if (p.Portafolio.TipoPortafolio.Nombre == "Lista de Cotejo o Control")
@@ -449,7 +441,7 @@ namespace SMT.Models.DB
 
                                     listaCotejo += int.Parse(p.Aspecto1);
                                     sumCotejoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -483,11 +475,9 @@ namespace SMT.Models.DB
                             
                                 CotejoT = (listaCotejo / sumCotejoR) * 10;
                                 reactivos5++;
+                                acumulador += CotejoT;
                             }
-                            else
-                            {
-                                CotejoT = 0;
-                            }
+                          
                            
                             #endregion
                             #region promedioMapaAprendizaje
@@ -498,7 +488,7 @@ namespace SMT.Models.DB
 
                                     mapaAprendizaje += int.Parse(p.Aspecto1);
                                     sumAprendizajeR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -532,11 +522,9 @@ namespace SMT.Models.DB
                                 
                                 AprendizajeT = (listaCotejo / sumCotejoR) * 10;
                                 reactivos6++;
+                                acumulador += AprendizajeT;
                             }
-                            else
-                            {
-                                AprendizajeT = 0;
-                            }
+                         
                             #endregion
                             #region LineaTiempo
                             if (p.Portafolio.TipoPortafolio.Nombre == "Línea de tiempo")
@@ -546,7 +534,7 @@ namespace SMT.Models.DB
 
                                     lineaTiempo += int.Parse(p.Aspecto1);
                                     sumLineaTiempoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -579,12 +567,10 @@ namespace SMT.Models.DB
                                
                                 LineaTiempoT = (lineaTiempo / sumLineaTiempoR) * 10;
                                 reactivos7++;
+                                acumulador += LineaTiempoT;
 
                             }
-                            else
-                            {
-                                LineaTiempoT = 0;
-                            }
+                         
                             #endregion
                             #region promedioPortafolio
                             if (p.Portafolio.TipoPortafolio.Nombre == "Portafolio")
@@ -594,7 +580,7 @@ namespace SMT.Models.DB
 
                                     portafolio += int.Parse(p.Aspecto1);
                                     sumPortafolioR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -628,11 +614,9 @@ namespace SMT.Models.DB
                            
                                 PortafolioT = (portafolio / sumPortafolioR) * 10;
                                 reactivos8++;
+                                acumulador += PortafolioT;
                             }
-                            else
-                            {
-                                PortafolioT = 0;
-                            }
+                        
                             #endregion
                             #region promedioProducciones Escritas o Gráficas
                             if (p.Portafolio.TipoPortafolio.Nombre == "Producciones Escritas o Gráficas")
@@ -642,7 +626,7 @@ namespace SMT.Models.DB
 
                                     produccionEscrita += int.Parse(p.Aspecto1);
                                     sumProduccionER += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -676,12 +660,9 @@ namespace SMT.Models.DB
                                
                                 ProduccionET = (produccionEscrita / sumProduccionER) * 10;
                                 reactivos9++;
-
+                                acumulador += ProduccionET;
                             }
-                            else
-                            {
-                                ProduccionET = 0;
-                            }
+                            
                             #endregion
                             #region promedioProyecto
                             if (p.Portafolio.TipoPortafolio.Nombre == "Proyecto")
@@ -691,7 +672,7 @@ namespace SMT.Models.DB
 
                                     proyecto += int.Parse(p.Aspecto1);
                                     sumProyectoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -725,12 +706,9 @@ namespace SMT.Models.DB
                                
                                 ProyectoT = (proyecto / sumProyectoR) * 10;
                                 reactivos10++;
-
+                                acumulador += ProyectoT;
                             }
-                            else
-                            {
-                                ProyectoT = 0;
-                            }
+                          
                             #endregion
                             #region promedioRegistro Anecdótico o Anecdotario
                             if (p.Portafolio.TipoPortafolio.Nombre == "Registro Anecdótico o Anecdotario")
@@ -740,7 +718,7 @@ namespace SMT.Models.DB
 
                                     registroAnecdotico += int.Parse(p.Aspecto1);
                                     sumRegistroR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -774,11 +752,9 @@ namespace SMT.Models.DB
                            
                                 RegistroT = (registroAnecdotico / sumRegistroR) * 10;
                                 reactivos11++;
+                                acumulador += RegistroT;
                             }
-                            else
-                            {
-                                RegistroT = 0;
-                            }
+                        
                             #endregion
                             #region promedioRevisión de Cuadernos
                             if (p.Portafolio.TipoPortafolio.Nombre == "Revisión de Cuadernos")
@@ -788,7 +764,7 @@ namespace SMT.Models.DB
 
                                     revisionCuadernos += int.Parse(p.Aspecto1);
                                     sumCuadernosR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -822,11 +798,9 @@ namespace SMT.Models.DB
                                
                                  CuadernosT = (revisionCuadernos / sumCuadernosR) * 10;
                                 reactivos12++;
+                                acumulador += CuadernosT;
                             }
-                            else
-                            {
-                                CuadernosT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Rúbrica o Matriz de Verificación
                             if (p.Portafolio.TipoPortafolio.Nombre == "Rúbrica o Matriz de Verificación")
@@ -836,7 +810,7 @@ namespace SMT.Models.DB
 
                                     rubrica += int.Parse(p.Aspecto1);
                                     sumRubricaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -870,11 +844,9 @@ namespace SMT.Models.DB
                                
                                 RubricaT = (rubrica / sumRubricaR) * 10;
                                 reactivos13++;
+                                acumulador += RubricaT;
                             }
-                            else
-                            {
-                                RubricaT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Esquema
                             if (p.Portafolio.TipoPortafolio.Nombre == "Esquema")
@@ -884,7 +856,7 @@ namespace SMT.Models.DB
 
                                     esquema += int.Parse(p.Aspecto1);
                                     sumEsquemaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -918,11 +890,9 @@ namespace SMT.Models.DB
                                
                                 EsquemaT = (esquema / sumEsquemaR)*10;
                                 reactivos14++;
+                                acumulador += EsquemaT;
                             }
-                            else
-                            {
-                                EsquemaT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Manualidad
                             if (p.Portafolio.TipoPortafolio.Nombre == "Manualidad")
@@ -932,7 +902,7 @@ namespace SMT.Models.DB
 
                                     manualidad += int.Parse(p.Aspecto1);
                                     sumManualidadR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -965,11 +935,9 @@ namespace SMT.Models.DB
                                 
                                 ManualidadT = (manualidad / sumManualidadR) * 10;
                                 reactivos15++;
+                                acumulador += ManualidadT;
                             }
-                            else
-                            {
-                                ManualidadT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Mapa Conceptual
                             if (p.Portafolio.TipoPortafolio.Nombre == "Mapa Conceptual")
@@ -979,7 +947,7 @@ namespace SMT.Models.DB
 
                                     mapaConceptual += int.Parse(p.Aspecto1);
                                     sumMapaConceptualR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1013,11 +981,9 @@ namespace SMT.Models.DB
                               
                                 MapaConceptualT = mapaConceptual / sumMapaConceptualR;
                                 reactivos16++;
+                                acumulador += MapaConceptualT;
                             }
-                            else
-                            {
-                                MapaConceptualT = 0;
-                            }
+                            
                             #endregion
                             #region promedio Glosario
                             if (p.Portafolio.TipoPortafolio.Nombre == "Glosario")
@@ -1027,7 +993,7 @@ namespace SMT.Models.DB
 
                                     glosario += int.Parse(p.Aspecto1);
                                     sumGlosarioR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1061,11 +1027,9 @@ namespace SMT.Models.DB
              
                                 GlosarioT = (glosario / sumGlosarioR)*10;
                                 reactivos17++;
+                                acumulador += GlosarioT;
                             }
-                            else
-                            {
-                                GlosarioT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Cartel
                             if (p.Portafolio.TipoPortafolio.Nombre == "Cartel")
@@ -1075,7 +1039,7 @@ namespace SMT.Models.DB
 
                                     cartel += int.Parse(p.Aspecto1);
                                     sumCartelR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1109,11 +1073,9 @@ namespace SMT.Models.DB
                        
                                 CartelT = cartel / sumCartelR;
                                 reactivos18++;
+                                acumulador += CartelT;
                             }
-                            else
-                            {
-                                CartelT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Exposición Internet
                             if (p.Portafolio.TipoPortafolio.Nombre == "Exposición Internet")
@@ -1123,7 +1085,7 @@ namespace SMT.Models.DB
 
                                     exposicionInternet += int.Parse(p.Aspecto1);
                                     sumExpoInternetR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1157,11 +1119,9 @@ namespace SMT.Models.DB
                                
                                 ExpoInternetT += (exposicionInternet / sumExpoInternetR)*10;
                                 reactivos19++;
+                                acumulador += ExpoInternetT;
                             }
-                            else
-                            {
-                                ExpoInternetT = 0;
-                            }
+                            
                             #endregion
                             #region promedio Trabajo Colaborativo Internet
                             if (p.Portafolio.TipoPortafolio.Nombre == "Trabajo Colaborativo Internet")
@@ -1171,7 +1131,7 @@ namespace SMT.Models.DB
 
                                     trabajoColaborativo += int.Parse(p.Aspecto1);
                                     sumColaborativoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1205,11 +1165,9 @@ namespace SMT.Models.DB
                                 
                                 ColaborativoT = trabajoColaborativo / sumColaborativoR;
                                 reactivos20++;
+                                acumulador += ColaborativoT;
                             }
-                            else
-                            {
-                                ColaborativoT = 0;
-                            }
+                        
                             #endregion
                             #region promedio Presentación Oral Internet
                             if (p.Portafolio.TipoPortafolio.Nombre == "Presentación Oral Internet")
@@ -1219,7 +1177,7 @@ namespace SMT.Models.DB
 
                                     presentacionOral += int.Parse(p.Aspecto1);
                                     sumOralR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1252,11 +1210,9 @@ namespace SMT.Models.DB
                                                                 
                                 OralT = (presentacionOral / sumOralR)*10;
                                 reactivos21++;
+                                acumulador += OralT;
                             }
-                            else
-                            {
-                                OralT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Presentación Electrónica
                             if (p.Portafolio.TipoPortafolio.Nombre == "Presentación Electrónica")
@@ -1266,7 +1222,7 @@ namespace SMT.Models.DB
 
                                     presentacionElectronica += int.Parse(p.Aspecto1);
                                     sumElectronicaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1300,11 +1256,9 @@ namespace SMT.Models.DB
                               
                                 ElectronicaT = (presentacionElectronica / sumElectronicaR)*10;
                                 reactivos22++;
+                                acumulador += ElectronicaT;
                             }
-                            else
-                            {
-                                ElectronicaT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Cuadro Sinóptico
                             if (p.Portafolio.TipoPortafolio.Nombre == "Cuadro Sinóptico")
@@ -1314,7 +1268,7 @@ namespace SMT.Models.DB
 
                                     cuadroSinoptico += int.Parse(p.Aspecto1);
                                     sumSinopticoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1347,11 +1301,9 @@ namespace SMT.Models.DB
                                
                                 SinopticoT = ( cuadroSinoptico / sumSinopticoR)*10;
                                 reactivos23++;
+                                acumulador += SinopticoT;
                             }
-                            else
-                            {
-                                SinopticoT = 0;
-                            }
+                        
                             #endregion
                             #region promedio Ensayo
                             if (p.Portafolio.TipoPortafolio.Nombre == "Ensayo")
@@ -1361,7 +1313,7 @@ namespace SMT.Models.DB
 
                                     ensayo += int.Parse(p.Aspecto1);
                                     sumEnsayoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1395,11 +1347,9 @@ namespace SMT.Models.DB
                             
                                 EnsayoT = ensayo / sumEnsayoR;
                                 reactivos24++;
+                                acumulador += EnsayoT;
                             }
-                            else
-                            {
-                                EnsayoT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Cuadro Comparativo
                             if (p.Portafolio.TipoPortafolio.Nombre == "Cuadro Comparativo")
@@ -1409,7 +1359,7 @@ namespace SMT.Models.DB
 
                                     cuadroComparativo += int.Parse(p.Aspecto1);
                                     sumComparativoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1443,11 +1393,9 @@ namespace SMT.Models.DB
 
                                 ComparativoT = cuadroComparativo / sumComparativoR;
                                 reactivos25++;
+                                acumulador += ComparativoT;
                             }
-                            else
-                            {
-                                ComparativoT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Triptico
                             if (p.Portafolio.TipoPortafolio.Nombre == "Triptico")
@@ -1457,7 +1405,7 @@ namespace SMT.Models.DB
 
                                     triptico += int.Parse(p.Aspecto1);
                                     sumTripticoR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1490,11 +1438,9 @@ namespace SMT.Models.DB
                             
                                 TripticoT = (triptico / sumTripticoR)*10;
                                 reactivos26++;
+                                acumulador += TripticoT;
                             }
-                            else
-                            {
-                                TripticoT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Línea de Tiempo Internet
                             if (p.Portafolio.TipoPortafolio.Nombre == "Línea de Tiempo Internet")
@@ -1504,7 +1450,7 @@ namespace SMT.Models.DB
 
                                     lineaInternet += int.Parse(p.Aspecto1);
                                     sumLineaInternetR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1538,11 +1484,9 @@ namespace SMT.Models.DB
                             
                                 LineaInternetT = (lineaInternet / sumLineaInternetR)*10;
                                 reactivos27++;
+                                acumulador += LineaInternetT;
                             }
-                            else
-                            {
-                                LineaInternetT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Prueba
                             if (p.Portafolio.TipoPortafolio.Nombre == "Prueba")
@@ -1552,7 +1496,7 @@ namespace SMT.Models.DB
 
                                     prueba += int.Parse(p.Aspecto1);
                                     sumPruebaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1585,11 +1529,9 @@ namespace SMT.Models.DB
                        
                                 PruebaT = (prueba / sumPruebaR)*10;
                                 reactivos28++;
+                                acumulador += PruebaT;
                             }
-                            else
-                            {
-                                PruebaT = 0;
-                            }
+                          
                             #endregion
                             #region promedio Resumen
                             if (p.Portafolio.TipoPortafolio.Nombre == "Resumen")
@@ -1599,7 +1541,7 @@ namespace SMT.Models.DB
 
                                     resumen += int.Parse(p.Aspecto1);
                                     sumResumenR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1633,11 +1575,9 @@ namespace SMT.Models.DB
                                
                                 ResumenT = (resumen / sumResumenR)*10;
                                 reactivos29++;
+                                acumulador += ResumenT;
                             }
-                            else
-                            {
-                                ResumenT = 0;
-                            }
+                          
                             #endregion
                             #region Cuadro de Doble Entrada
                             if (p.Portafolio.TipoPortafolio.Nombre == "Cuadro de Doble Entrada")
@@ -1647,7 +1587,7 @@ namespace SMT.Models.DB
 
                                     cuadroDoble += int.Parse(p.Aspecto1);
                                     sumCuadroDobleR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1681,11 +1621,9 @@ namespace SMT.Models.DB
                              
                                 CuadroDobleT = (cuadroDoble / sumCuadroDobleR)*10;
                                 reactivos30++;
+                                acumulador += CuadroDobleT;
                             }
-                            else
-                            {
-                                CuadroDobleT = 0;
-                            }
+                           
                             #endregion
                             #region promedio Investigación Impresa
                             if (p.Portafolio.TipoPortafolio.Nombre == "Investigación Impresa")
@@ -1695,7 +1633,7 @@ namespace SMT.Models.DB
 
                                     investigacionImpresa += int.Parse(p.Aspecto1);
                                     sumImpresaR += por.Reactivo1;
-
+                                    contador++;
                                 }
                                 if (p.Portafolio.Activo2 == true && por.Reactivo2 != null)
                                 {
@@ -1728,15 +1666,14 @@ namespace SMT.Models.DB
                               
                                 ImpresaT = (investigacionImpresa / sumImpresaR) * 10;
                                 reactivos31++;
+                                acumulador += ImpresaT;
                             }
-                            else
-                            {
-                                ImpresaT = 0;
-                            }
+                           
                             #endregion
                         }
+                   
 
-                        //  desempenio.PromedioPortafolio = total == 0 ? 0 : sumatoria / total;
+                         desempenio.PromedioPortafolio = total == 0 ? 0 : (acumulador / contador)*10;
                         desempenio.PromedioPortafolioEsquemaMapa = EsquemasMapasT == 0 ? 0 : EsquemasMapasT;
                         desempenio.PromedioPortafolioExposicion = ExposicionT == 0 ? 0 : ExposicionT;
                         desempenio.PromedioPortafolioGuiaObservacion = GuiaT == 0 ? 0 : GuiaT;
@@ -1769,9 +1706,9 @@ namespace SMT.Models.DB
                         desempenio.PromedioPortafolioCuadroDoble = CuadroDobleT == 0 ? 0 : CuadroDobleT;
                         desempenio.PromedioPortafolioInvestigacionImpresa = ImpresaT == 0 ? 0 :ImpresaT;
 
-                      /*  desempenio.ColorPortafolio =
-                            desempenio.PromedioPortafolio <= 6 ? colores[2] :
-                            desempenio.PromedioPortafolio < 9 ? colores[1] : colores[0];*/
+                        desempenio.ColorPortafolio =
+                            desempenio.PromedioPortafolio <= 60 ? colores[2] :
+                            desempenio.PromedioPortafolio < 90 ? colores[1] : colores[0];
                     }
                     #endregion 
 
@@ -2207,11 +2144,9 @@ namespace SMT.Models.DB
                     var rporta = reactivosPortafolio(a.Key.IDAlumno, "Portafolio");
                     var proyecto = califPortafolio(a.Key.IDAlumno, "Proyecto");
                     var rproyecto= reactivosPortafolio(a.Key.IDAlumno, "Proyecto");
-                    
+                    ;
 
-                    cali.promedioDiagnosticoCiclo = calcularPromedioSEP(a.Select(b => b.PromedioDiagnostico).ToList(), 100);
-                    cali.promedioExamenBimestral = calcularPromedioSEP(a.Select(m => m.PromedioExamenBimestral).ToList());
-                    cali.promedioExamenParcial = calcularPromedioSEP(a.Select(m => m.PromedioExamenParcial).ToList());
+                 
                     cali.promedioInvestigacionImpresa = calcular(investigacionImpresa, rinvestigacionImpresa);
                      cali.promedioPresentacionOralInternet = calcular(oralInternet,roralInternet);
                        cali.promedioGuia = calcular(guiaObservacion,rguiaObservacion);
@@ -2308,19 +2243,24 @@ namespace SMT.Models.DB
                             switch(bim) {
                                 case 1:
                                     cali.promedioExamenParcial1Bimestre1 = cal;
+                                    cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 2:
                                     cali.promedioExamenParcial1Bimestre2 = cal;
-                                  
+                                    cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+
                                     break;
                                 case 3:
                                     cali.promedioExamenParcial1Bimestre3 = cal;
+                                    cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 4:
                                     cali.promedioExamenParcial1Bimestre4 = cal;
+                                    cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 5:
                                     cali.promedioExamenParcial1Bimestre5 = cal;
+                                    cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                             }
 
@@ -2333,22 +2273,70 @@ namespace SMT.Models.DB
                             var cal = calcularPromedioSEP(
                                 examenes.Where(b => b.ExamenTema.Examen.IDExamen == idEx).Select(b => b.Calificacion).ToList(),
                                 listaParciales[1].reactivos);
-
+                            var total = 0;
                             switch (bim) {
                                 case 1:
                                     cali.promedioExamenParcial2Bimestre1 = cal;
+                                    if (cali.promedioExamenParcial2Bimestre1 > 0) {
+                                     total =(int) (cali.promedioExamenParcial  +cal)/2;
+                                        cali.promedioExamenParcial= total < 5 ? 5 : total > 10 ? 10 : total;
+                                    }
+                                    if (cali.promedioExamenParcial1Bimestre1 < 1) {
+                                        cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+                                    }
+                                    total = 0;
                                     break;
                                 case 2:
                                     cali.promedioExamenParcial2Bimestre2 = cal;
+                                    if (cali.promedioExamenParcial2Bimestre1 > 0)
+                                    {
+                                        total = (int)(cali.promedioExamenParcial + cal) / 2;
+                                        cali.promedioExamenParcial = total < 5 ? 5 : total > 10 ? 10 : total;
+                                    }
+                                    if (cali.promedioExamenParcial1Bimestre2 < 1)
+                                    {
+                                        cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+                                    }
+                                    total = 0;
                                     break;
                                 case 3:
                                     cali.promedioExamenParcial2Bimestre3 = cal;
+                                    if (cali.promedioExamenParcial2Bimestre1 > 0)
+                                    {
+                                        total = (int)(cali.promedioExamenParcial + cal) / 2;
+                                        cali.promedioExamenParcial = total < 5 ? 5 : total > 10 ? 10 : total;
+                                    }
+                                    if (cali.promedioExamenParcial1Bimestre3 < 1)
+                                    {
+                                        cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+                                    }
+                                    total = 0;
                                     break;
                                 case 4:
                                     cali.promedioExamenParcial2Bimestre4 = cal;
+                                    if (cali.promedioExamenParcial2Bimestre1 > 0)
+                                    {
+                                        total = (int)(cali.promedioExamenParcial + cal) / 2;
+                                        cali.promedioExamenParcial = total < 5 ? 5 : total > 10 ? 10 : total;
+                                    }
+                                    if (cali.promedioExamenParcial1Bimestre4 < 1)
+                                    {
+                                        cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+                                    }
+                                    total = 0;
                                     break;
                                 case 5:
                                     cali.promedioExamenParcial2Bimestre5 = cal;
+                                    if (cali.promedioExamenParcial2Bimestre1 > 0)
+                                    {
+                                        total = (int)(cali.promedioExamenParcial + cal) / 2;
+                                        cali.promedioExamenParcial = total < 5 ? 5 : total > 10 ? 10 : total;
+                                    }
+                                    if (cali.promedioExamenParcial1Bimestre5 < 1)
+                                    {
+                                        cali.promedioExamenParcial = cal < 5 ? 5 : cal > 10 ? 10 : cal;
+                                    }
+                                    total = 0;
                                     break;
                             }
                             cali.promedioFinal += cal;
@@ -2364,18 +2352,23 @@ namespace SMT.Models.DB
                             switch (bim) {
                                 case 1:
                                     cali.promedioExamenBimestre1 = cal;
+                                    cali.promedioExamenBimestral = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 2:
                                     cali.promedioExamenBimestre2 = cal;
+                                    cali.promedioExamenBimestral = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 3:
                                     cali.promedioExamenBimestre3 = cal;
+                                    cali.promedioExamenBimestral = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 4:
                                     cali.promedioExamenBimestre4 = cal;
+                                    cali.promedioExamenBimestral = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                                 case 5:
                                     cali.promedioExamenBimestre5 = cal;
+                                    cali.promedioExamenBimestral = cal < 5 ? 5 : cal > 10 ? 10 : cal;
                                     break;
                             }
 

@@ -61,6 +61,7 @@ namespace SMT.Models
             public string Nombre { get; set; }
             public string Email { get; set; }
             public string Roles { get; set; }
+            public DateTime FechaRegistro { get; set; }
             public int page { get; set; }
             public int pageSize { get; set; }
         }
@@ -71,6 +72,7 @@ namespace SMT.Models
             public string Nombre { get; set; }
             public string Email { get; set; }
             public string Roles { get; set; }
+            public DateTime FechaRegistro { get; set; }
             public bool Disabled { get; set; }
             public List<string> IdRoles { get; set; }
             public bool? EsEscuela { get; set; }
@@ -112,7 +114,7 @@ namespace SMT.Models
                 usuario.ApellidoMaterno = ApellidoMaterno;
                 usuario.ApellidoPaterno = ApellidoPaterno;
                 usuario.EmailConfirmed = true;
-
+                
                 if (IdRoles != null) {
                     usuario.Roles.Clear();
                     foreach (string rol in IdRoles) {
@@ -184,18 +186,20 @@ namespace SMT.Models
         }
         public static string getVigencia(string id)
         {
-            string vigencia = "";
+           
             using (DB.SMTDevEntities db = new DB.SMTDevEntities())
             {
-                vigencia = db.Credencial.Where(a=>a.IDUsuarioPaga==id).Select(a=> a.FechaVigencia ).ToString();
-    
-
+                var vigencia = db.Credencial.Where(i => i.IDUsuarioPaga == id).Select(i => i.FechaVigencia).FirstOrDefault();
+                return vigencia.ToString("dd/MM/yyyy");
             }
-            return vigencia;
+
+           
         }
 
-        public static ResultPaginado<UsuarioResult> buscar(FiltroUsuario filtro) {
-            using (ApplicationDbContext db = new ApplicationDbContext()) {
+        public static ResultPaginado<UsuarioResult> buscar(FiltroUsuario filtro)
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
                 IQueryable<ApplicationUser> query = db.Users;
 
                 if (!string.IsNullOrEmpty(filtro.Nombre))
@@ -210,26 +214,29 @@ namespace SMT.Models
                 if (!string.IsNullOrEmpty(filtro.Roles))
                     query = query.Where(i => i.Roles.Any(a => a.RoleId == filtro.Roles));
 
-                return new ResultPaginado<UsuarioResult>() {
-                    data = query.OrderBy(i => i.Nombre)
+                return new ResultPaginado<UsuarioResult>()
+                {
+                    data = query.OrderBy(i => i.FechaRegistro)
                                 .Skip((filtro.page - 1) * filtro.pageSize)
                                 .Take(filtro.pageSize)
                                 .ToList()
-                                .Select(i => new UsuarioResult() {
+                                .Select(i => new UsuarioResult()
+                                {
                                     Id = i.Id,
                                     Username = i.UserName,
                                     Nombre = string.Format("{1} {2} {0}", i.Nombre, i.ApellidoPaterno, i.ApellidoMaterno),
                                     Email = i.Email,
-                                    vigencia = getVigencia(i.Id),
                                     Roles = i.Roles != null ? string.Join(", ", getRolesForUser(i.Id)) : "",
                                     Disabled = i.Disabled != null ? i.Disabled.Value : false,
-                                    EsEscuela = i.EsEscuela
-                                })
+                                    EsEscuela = i.EsEscuela,
+                                    vigencia = i.FechaRegistro != null ? i.FechaRegistro.Value.ToString("dd/MM/yyyy"):"",
+            })
                                 .ToList(),
                     total = query.Count()
                 };
             }
         }
+
 
         public static async Task quitarRolesByName(string userid, List<string> roles) {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();

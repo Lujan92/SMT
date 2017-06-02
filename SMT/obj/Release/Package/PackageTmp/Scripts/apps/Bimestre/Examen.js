@@ -1,5 +1,4 @@
-﻿var acumulador=1;
-var Examen = new function () {
+﻿var Examen = new function () {
     var _a = this;
 
     var tdsCaptura = '',
@@ -72,6 +71,7 @@ var Examen = new function () {
                 },
                 success: function (data) {
                     success(data);
+               
                 }
             });
 
@@ -79,7 +79,7 @@ var Examen = new function () {
     }
 
     this.generar = function (selector, examen, focus, autoOrdenar) {
-
+       
         var elementosExamen = $(selector).find('tbody');
         var regAnterior = undefined;
         if (autoOrdenar == true)
@@ -104,6 +104,7 @@ var Examen = new function () {
 
             tema.Alumnos.map(function (al) {
                 elementosExamen.find('[data-alumno-id="' + al.IDAlumno + '"][data-alumno-tema="' + tema.IDTema + '"] input').val(al.Calificacion);
+
             });
 
             $(elementosExamen).find('[title]').tooltip();
@@ -420,13 +421,12 @@ var Examen = new function () {
                                     $('#modalConfirm .modal-footer button').attr('disabled', false).find('span').remove();
                                 },
                                 success: function (response) {
+
                                     if (response.result == true) {
-
-                                        _a.generar(selector, response.data, true, true);
+                                        //_a.generar estara comentado hasta que se haya guardado examen en base de datos
+                                        // _a.generar(selector, response.data, true, true);
                                         ConfirmDialog.hide();
-
                                         Examen.desplegarResultados(_grupo, '#tabla-examen');
-
                                     }
                                     else {
                                         AlertError(response.message, 'Examen');
@@ -480,6 +480,7 @@ var Examen = new function () {
 
                     for (var m in data[0]) {
                         form.find('[name="' + m + '"]').val(data[0][m]);
+
                     }
 
                     data.map(function (e) {
@@ -600,58 +601,53 @@ var Examen = new function () {
             pregunta.find('[name$="' + m + '"]').val(data[m]);
         }
 
-
         pregunta.find('select[name$="TipoTema"]').change(function () {
-            if ($(this).val() == 'Multiple') {
-                $('#frmExamen').find('label#pregunta').show();
-                $('#frmExamen').find('textarea#tApregunta').show();
-            } else {
-                $('#frmExamen').find('label#pregunta').hide();
-                $('#frmExamen').find('textarea#tApregunta').hide();
-            }
-            if ($(this).val() == 'Laguna') {
-                $('#frmExamen').find('label#pregunta').show();
-                $('#frmExamen').find('textarea#tApregunta').show();
-            } else {
-                $('#frmExamen').find('label#pregunta').hide();
-                $('#frmExamen').find('textarea#tApregunta').hide();
-            }
-            if ($(this).val() == 'Abierta') {
-                $('#frmExamen').find('label#pregunta').show();
-                $('#frmExamen').find('textarea#tApregunta').show();
-            } else {
-                $('#frmExamen').find('label#pregunta').hide();
-                $('#frmExamen').find('textarea#tApregunta').hide();
-            }
-            if ($(this).val() == 'Columnas') {
-
-                $('#frmExamen').find('label#pregunta').hide();
-                $('#frmExamen').find('textarea#tApregunta').hide();
-            } else {
-                $('#frmExamen').find('label#pregunta').show();
-                $('#frmExamen').find('textarea#tApregunta').show();
-            }
             $(this).parents('[data-pregunta]').find('[data-respuesta]').addClass('hide');
             var activo = $(this).parents('[data-pregunta]').find('[data-respuesta*="' + $(this).val() + '"]');
             activo.removeClass('hide');
             if ($(this).val() == 'Multiple' && activo.find('textarea').val() == '') {
                 activo.find('textarea').val('a) ');
             }
-            if ($(this).val() == 'Columnas' && activo.find('textarea').val() == '') {
-
-                $('#frmExamen').find('textarea#col1').val("a)");
-                $('#frmExamen').find('textarea#col2').val("1)");
-
-            }
         }).change();
 
         if (data.UrlArchivo != null) {
             pregunta.find('input:file').after('<img src="' + data.UrlArchivo + '" class="img-thumbnail" >');
         }
+       
+        return pregunta;
+    }
+    var generarExamenes = function (data) {
+
+        //var template = $('[data-template="examen"]').html();
+        //if (data != undefined) {
+        //    template = template.format(data);
+        //}
+
+        //var pregunta = $(template);
+
+        //for (var m in data) {
+        //    pregunta.find('[name$="' + m + '"]').val(data[m]);
+
+        //}
+
+        //pregunta.find('select[name$="TipoTema"]').change(function () {
+        //    $(this).parents('[data-examen]').find('[data-respuesta]').addClass('hide');
+        //    var activo = $(this).parents('[data-examen]').find('[data-respuesta*="' + $(this).val() + '"]');
+        //    activo.removeClass('hide');
+        //    if ($(this).val() == 'Multiple' && activo.find('textarea').val() == '') {
+        //        activo.find('textarea').val('a) ');
+        //    }
+        //}).change();
+
+        //if (data.UrlArchivo != null) {
+        //    pregunta.find('input:file').after('<img src="' + data.UrlArchivo + '" class="img-thumbnail" >');
+        //}
+        //console.log(pregunta);
+        var template = $('#exa').html();
+        var pregunta = "<br>" + $('#exa').html();
 
         return pregunta;
     }
-
     var generarFormData = function (form) {
         var formData = new FormData();
 
@@ -675,7 +671,13 @@ var Examen = new function () {
             });
         });
     }
-
+    var ajustarIndexExamen = function () {
+        $('#frmExamen').find('[data-examen]').each(function (i, k) {
+            $(this).find('[name]').each(function () {
+                this.name = 'ExamenTema[' + i + ']' + this.name.substring(this.name.indexOf('.'), this.name.length);
+            });
+        });
+    }
     // Cambiar el estado inmediatamente al seleccionar opcion
     $('body:not(.visualizando)').delegate('[data-alumno-id][data-alumno-tema] input', 'change', function () {
 
@@ -691,6 +693,7 @@ var Examen = new function () {
     });
 
     $('body:not(.visualizando)').delegate('[data-examen-id] [data-option="eliminar"]', 'click', function () {
+
         var tr = $(this).parents('[data-examen-id]');
         _a.eliminar(tr.parents('table'), tr.attr('data-examen-id'));
     });
@@ -722,12 +725,97 @@ var Examen = new function () {
 
         $.validator.unobtrusive.parse($('#frmExamen'));
     });
+    // Agregar examenes
+    var total = 0;
+    $('body:not(.visualizando)').delegate('[data-option="examen"]', 'click', function () {
 
-    $('body:not(.visualizando)').delegate('[name$="Nombre"]', 'keyup', function () {
+        total = $('[data-examen]').length + total;
+        var total2 = $('form [name$="Instrucciones"]:not([disabled])').length;
+        var totalPregunta = $('form [data-pregunta]').length;
 
-        $(this).parents('[data-pregunta=""]').find('span.nombre').html(this.value);
+
+        var html =
+        '<div data-examen="' + total + '" class="panel panel-default resaltar">' +
+            '<div class="panel-heading"  role="tab" id="heading' + total + '">' +
+                    '<h4 class="panel-title">' +
+                    '<a data-toggle="collapse" data-parent="#accordion2" href="#collapseInnerTwo' + total + '"' +
+                     '<span class="nombrePregunta' + total + '">pregunta </span></a>' +
+                     '<a href="#' + total + '" id="Aeliminar">' +
+                     '<span id="' + total + '" data-id="facturaCancelacion" data-option="eliminar-preguntaExamen" class="pull-right fa fa-trash"></span>' +
+                    ' </a></h4></div>' +
+    '<div id="collapseInnerTwo' + total + '" class="panel-collapse collapse">' +
+        '<div class="panel-body">' +
+            '<input type="hidden" name="ExamenTema' + total + '.IDTema" />' +
+        '<input type="hidden" name="ExamenTema' + total + '.Archivo" />' +
+        //    '<div class="form-group">' +
+        //'<label>Tema / Subtema</label>' +
+        //        '<input type="text" name="ExamenTema' + total + '.nombrePregunta" maxlength="50" minlength="3" required class="form-control" />' +
+        //    '</div>' +
+        //    '<div class="form-group">' +
+        //'<label>Tipo de pregunta</label>' +
+        //        '<select name="ExamenTema' + total + '.TipoTema" class="form-control">' +
+        //'<option value="Sin personalizar">Sin personalizar</option>' +
+        //'           <option value="Multiple">Multiple</option>' +
+        //'           <option value="Columnas">Columnas</option>' +
+        //'           <option value="Laguna">Laguna</option>' +
+        //'           <option value="Abierta">Abierta</option>' +
+        //'       </select>' +
+        //'   </div>' +
+        // '   <div class="form-group">' +
+        //'      <label>Instrucciones</label>' +
+        //'       <label class="pull-right">' +
+        //'           Sin instrucciones' +
+        //'           <input data-no-instrucciones="ExamenTema' + total + '.Instrucciones" type="checkbox" />' +
+        //'       </label>' +
+        //'       <input type="text" name="ExamenTema' + total + '.Instrucciones" class="form-control" />' +
+        //'   </div>' +
+        '   <div class="form-group">' +
+        '       <label id="pregunta">Pregunta</label>' +
+        '       <textarea id="tApregunta" name="ExamenTema' + total + '.Pregunta" minlength="3" required class="form-control"></textarea>' +
+        '   </div>' +
+        '    <div data-respuesta="Multiple,Laguna" class="hide">' +
+        '       <div class="form-group">' +
+        '           <textarea name="ExamenTema' + total + '.Respuesta" class="form-control"></textarea>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div data-respuesta="Columnas" class="hide row">' +
+        '       <div class="form-group col-lg-6">' +
+        '           <label>Columna 1</label>' +
+        '           <textarea id="col1" name="ExamenTema' + total + '.Respuesta1" class="form-control"></textarea>' +
+        '       </div>' +
+        '       <div class="form-group col-lg-6">' +
+        '           <label>Columna 2</label>' +
+        '           <textarea id="col2" name="ExamenTema' + total + '.Respuesta2" class="form-control"></textarea>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div data-respuesta="Abierta" class="hide">' +
+        '       <label>Archivo</label>' +
+        '       <input type="file" name="ExamenTema' + total + '.file" />' +
+        '   </div>' +
+        //'   <div class="form-group">' +
+        //'       <label>Reactivos</label>' +
+        //'       <input type="number" name="ExamenTema' + total + '.Reactivos" max="100" min="0" required class="form-control" />' +
+        //'   </div>' +
+        '   </div>' +
+        '   </div>' +
+        '   </div>' +
+        '   </div>' +
+        '</div></div>';
+        var variable = totalPregunta - 1;
+        var idVariable = "prueba" + variable;
+
+        $("#" + String(idVariable) + "").append(html);
+
     });
+    //$('body:not(.visualizando)').delegate('[name$="Nombre"]', 'keyup', function () {
 
+    //    $(this).parents('[data-pregunta=""]').find('span.nombre').html(this.value);
+    //});
+
+    $('body:not(.visualizando)').delegate('[name$="nombrePregunta"]', 'keyup', function () {
+
+        $(this).parents('[data-pregunta=""]').find('span.nombrePregunta').html(this.value);
+    });
     $('body:not(.visualizando)').delegate('#frmExamen [data-option="eliminar-pregunta"]', 'click', function () {
         var pregunta = $(this).parents('[data-pregunta]');
 
@@ -744,6 +832,33 @@ var Examen = new function () {
                 ajustarIndex();
             }
         });
+
+    });
+    $('body:not(.visualizando)').delegate('#frmExamen #Aeliminar', 'click', function () {
+        //se obtiene el valor href que esta en el icono y de una vez se le quita el # 
+        var href = $(this).attr('href').replace('#', '');
+        //pregunta obtiene el atributo data-examen que posee el total en este caso el total es el que obtenemos de href
+        var pregunta = $(this).parents('[data-examen="' + href + '"]');
+
+        $.confirm({
+            title: 'Eliminar pregunta',
+            content: '¿Esta seguro de eliminar esta pregunta?',
+            confirmButton: 'Si',
+            confirmButtonClass: 'btn-danger',
+            cancelButton: 'No',
+            icon: 'fa fa-question-circle',
+            animation: 'scale',
+            confirm: function () {
+                pregunta.remove();
+            }
+        });
+
+
+    });
+
+    $('#Aeliminar').click(function (e) {
+        alert('df');
+        var href = $(this).attr('href');
 
     });
 
@@ -777,55 +892,34 @@ $('body:not(.visualizando)').delegate('#frmExamen textarea', 'keypress', functio
         var ultimaLinea = texts[texts.length - 1];
         var sinEspacios = ultimaLinea.trim();
 
-
         if (reg.test(sinEspacios)) {
 
             var matches = reg.exec(sinEspacios);
-
-
             if (matches == null) matches = reg.exec(sinEspacios); // Nose porque la primera vez da null y la segunda ya da bien el resultado...
+            var valor = /\d/.test(matches[1]) ? matches[1] + 1 : matches[1].charCodeAt(0);
+            var tipo = matches[2];
 
-
-            if (!isNaN(matches[1])) {
-
-
-                acumulador = acumulador + 1;
-                var resultado = acumulador + ")";
-
-
-
-
-
-            } else {
-                var valor = matches[1].charCodeAt(0);
-
-                //matches[1] siempre es el primer numero y matches[2] siempre es el )
-                var tipo = matches[2];
-                var resultado = String.fromCharCode(valor + 1) + tipo;
-            }
-
+            var resultado = String.fromCharCode(valor + 1) + tipo;
 
             // Ahora detectar espacios
             var espacios = /\s+?_+/;
             if (espacios.test(ultimaLinea)) {
                 var match = espacios.exec(ultimaLinea);
-
                 if (match == null) match = espacios.exec(ultimaLinea);
                 resultado += match[0];
-
             }
-
 
             $(this).val($(this).val() + '\n' + resultado + ' ');
             return false;
-
         }
 
-    } acumulador = 1;
+    }
 });
 
 var cargarComponenteUpload = function (select) {
+    alert('ohh!!');
     $(select).addClass('dropzone').dropzone({
+
         url: '/Home',
         maxFiles: 1,
         acceptedFiles: 'image/jpg, image/jpeg, image/png',

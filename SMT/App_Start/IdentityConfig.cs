@@ -58,7 +58,7 @@ namespace SMT
             {
                 RequiredLength = 6
             };
-
+          
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(3);
